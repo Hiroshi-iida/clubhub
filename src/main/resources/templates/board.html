@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>検索結果</title>
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/board.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="wrapper">
+		<header>
+			<nav>
+				<img src="../static/img/logo.png" th:src="@{/img/logo.png}"
+					class="logo" alt="ロゴ画像"></img>
+				<ul>
+					<li>エリア</li>
+					<li>カテゴリー</li>
+					<li>使い方</li>
+					<li>コンタクト</li>
+					<li>利用者の声</li>
+					<li class="login">ログイン</li>
+					<li class="entry">新規登録</li>
+				</ul>
+			</nav>
+		</header>
+
+		<div class="search" th:each="sdata:${sdatalist}"
+			th:if="${sdata.area == '奈良'}">
+			<!-- 		<div class="search" th:each="pdata:${pdatalist}">  -->
+
+			<img src="../static/img/図5.svg" th:src="@{/img/図5.svg}"></img>
+			<p>≫</p>
+			<p th:text="${sdata.area}"></p>
+			<p>≫</p>
+			<p>運動部</p>
+			<p>≫</p>
+			<p>バレーボール</p>
+
+		</div>
+
+		<div class="result">
+			<h2>
+				検索結果:<strong>999</strong>件（1～10件を表示）
+			</h2>
+			<p class="sort">新着順 ▼</p>
+		</div>
+
+		<section class="post" th:each="sdata:${sdatalist}">
+		<div th:each="pdata:${pdatalist}" th:if="${sdata.Id == pdata.Id-2}">
+<!-- 			<p th:text="${sdata.Id}"></p> -->
+<!-- 			<p th:text="${pdata.Id}"></p> -->
+			<div class="post1">
+				<img src="../static/img/team.jpg" th:src="@{/img/team.jpg}"></img>
+				<div class="post2">
+					<ul>
+						<li class="area" th:text="${sdata.area}">エリ ア</li>
+						<li th:text="${sdata.category}">カテゴリー</li>
+						<li th:text="${pdata.type}">特徴</li>
+					</ul>
+					<h2 th:text="${sdata.schoolName}">奈良県立鹿高校</h2>
+					<h3 th:text="${pdata.title}">「全国大会出場目指しています！<br> 経験者のコーチを募集しています。」</h3>
+				</div>
+			</div>
+			<div class="post3">
+				<h3>メッセージ</h3>
+				<p th:text="${pdata.content}">前回の大会では県内ベスト４でした。優秀な生徒が集まっていますが、昨年監督していた先生が定年退職されて、生徒が求めるような高い指導が出来ていません。今年こそは全国大会出場を目指しています。一緒に指導して頂ける方を募集しています。よろしくお願いします。</p>
+				<div class="button1">
+					<a class="button" href="">詳しく見る</a>
+				</div>
+			</div>
+		</div>
+		</section>
+
+		<a class="return" href="">トップに戻る</a>
+	</div>
+</body>
+</html>
+
+<!-- package clubHub; -->
+
+<!-- import java.util.ArrayList; -->
+<!-- import java.util.List; -->
+<!-- import javax.annotation.PostConstruct; -->
+<!-- import org.springframework.beans.factory.annotation.Autowired; -->
+<!-- import org.springframework.stereotype.Controller; -->
+<!-- import org.springframework.web.bind.annotation.RequestMapping; -->
+<!-- import org.springframework.web.servlet.ModelAndView; -->
+<!-- import clubHub.repositories.PostDataRepository; -->
+<!-- import clubHub.repositories.SchoolDataRepository; -->
+<!-- import clubHub.repositories.CoachDataRepository; -->
+<!-- //import org.springframework.beans.factory.annotation.Autowired; -->
+<!-- //import org.springframework.stereotype.Controller; -->
+<!-- //import org.springframework.web.bind.annotation.RequestMapping; -->
+<!-- //import org.springframework.web.servlet.ModelAndView; -->
+<!-- import org.springframework.transaction.annotation.Transactional; -->
+<!-- import org.springframework.web.bind.annotation.ModelAttribute; -->
+<!-- import org.springframework.web.bind.annotation.RequestMethod; -->
+<!-- import org.springframework.validation.BindingResult; -->
+<!-- import org.springframework.validation.annotation.Validated; -->
+
+<!-- @Controller -->
+<!-- public class clubController { -->
+<!-- 	@Autowired -->
+<!-- 	SchoolDataRepository schoolrepository; -->
+<!-- 	@Autowired -->
+<!-- 	PostDataRepository postrepository; -->
+<!-- //	@Autowired -->
+<!-- //	CoachDataRepository coachrepository; -->
+
+<!-- 	@RequestMapping(value = "/", method = RequestMethod.GET) -->
+<!-- 	public ModelAndView index(@ModelAttribute("formModel") -->
+<!-- 	PostData postdata, -->
+<!-- 	SchoolData schooldata,  -->
+<!-- 	ModelAndView mav) { -->
+<!-- 		mav.setViewName("index"); -->
+<!-- 		mav.addObject("msg", "this is sample content."); -->
+<!-- 		List<SchoolData> slist = schoolrepository.findAll(); -->
+<!-- 		List<PostData> plist = postrepository.findAll(); -->
+<!-- //		for (PostData p : plist) { -->
+<!-- //			String schoolName = slist.get(p.getSchoolId()).getSchoolName(); -->
+<!-- //			p.setSchoolName(schoolName); -->
+<!-- //		} -->
+<!-- 		mav.addObject("sdatalist", slist); -->
+<!-- 		mav.addObject("pdatalist", plist); -->
+<!-- 		return mav; -->
+<!-- 	} -->
+
+<!-- //	@RequestMapping(value = "/", method = RequestMethod.POST) -->
+<!-- //	@Transactional(readOnly = false) -->
+<!-- //	public ModelAndView form(@ModelAttribute("formModel")  -->
+<!-- //			@Validated PostData postdata, -->
+<!-- ////			@Validated SchoolData schooldata, -->
+<!-- //			BindingResult result, -->
+<!-- //			ModelAndView mov) { -->
+<!-- //		ModelAndView res = null; -->
+<!-- //		if (!result.hasErrors()) { -->
+<!-- //			postrepository.saveAndFlush(postdata); -->
+<!-- //			Iterable<PostData> list = postrepository.findAll(); -->
+<!-- //			mov.addObject("pdatalist", list); -->
+<!-- //			res = new ModelAndView("redirect:/"); -->
+<!-- //		} else { -->
+<!-- //			mov.setViewName("index"); -->
+<!-- //			mov.addObject("msg", "sorry"); -->
+<!-- //			Iterable<PostData> plist = postrepository.findAll(); -->
+<!-- //			mov.addObject("pdatalist", plist); -->
+<!-- //			res = mov; -->
+<!-- //		} -->
+<!-- //		if (!result.hasErrors()) { -->
+<!-- //			schoolrepository.saveAndFlush(schooldata); -->
+<!-- //			Iterable<SchoolData> list = schoolrepository.findAll(); -->
+<!-- //			mov.addObject("datalist", list); -->
+<!-- //			res = new ModelAndView("redirect:/"); -->
+<!-- //		} else { -->
+<!-- //			mov.setViewName("index"); -->
+<!-- //			mov.addObject("msg", "sorry"); -->
+<!-- //			Iterable<SchoolData> slist = schoolrepository.findAll(); -->
+<!-- //			mov.addObject("sdatalist", slist); -->
+<!-- //			res = mov; -->
+<!-- //		} -->
+<!-- //		return res; -->
+<!-- //	} -->
+
+<!-- 	@PostConstruct -->
+<!-- 	public void init() { -->
+<!-- 		SchoolData s1 = new SchoolData(); -->
+<!-- 		s1.setArea("奈良"); -->
+<!-- 		s1.setSchoolName("奈良県立鹿高校"); -->
+<!-- 		s1.setCategory("高校"); -->
+<!-- 		s1.setLastName("なら"); -->
+<!-- 		s1.setFirstName("しかまる"); -->
+<!-- 		s1.setMail("l@l"); -->
+<!-- 		s1.setPassword("0000"); -->
+<!-- 		s1.setAddress("奈良町"); -->
+<!-- 		s1.setTel("000-0000"); -->
+<!-- 		schoolrepository.saveAndFlush(s1);	 -->
+		
+<!-- 		SchoolData s2 = new SchoolData(); -->
+<!-- 		s2.setArea("大阪"); -->
+<!-- 		s2.setSchoolName("大阪府立くいだおれ中学校"); -->
+<!-- 		s2.setCategory("中学校"); -->
+<!-- 		s2.setLastName("おおさか"); -->
+<!-- 		s2.setFirstName("たこ"); -->
+<!-- 		s2.setMail("l@l"); -->
+<!-- 		s2.setPassword("0000"); -->
+<!-- 		s2.setAddress("大阪町"); -->
+<!-- 		s2.setTel("000-0000"); -->
+<!-- 		schoolrepository.saveAndFlush(s2);	 -->
+
+<!-- 		PostData p1 = new PostData(); -->
+<!-- 		p1.setTitle("全国大会出場目指しています！経験者のコーチを募集しています。"); -->
+<!-- 		p1.setType("バレーボール"); -->
+<!-- 		p1.setCategory("運動部"); -->
+<!-- 		p1.setCategoryDetails("女子バレー"); -->
+<!-- 		p1.setContent( -->
+<!-- 				"前回の大会では県内ベスト４でした。優秀な生徒が集まっていますが、昨年監督していた先生が定年退職されて、生徒が求めるような高い指導が出来ていません。今年こそは全国大会出場を目指しています。一緒に指導して頂ける方を募集しています。よろしくお願いします。"); -->
+<!-- //		p1.setSchoolId(1); -->
+<!-- 		p1.setReword(false); -->
+<!-- 		p1.setRewordDetails("お給料はお支払いできませんが、交通費・スポーツドリンクは支給させていただきます。"); -->
+<!-- 		p1.setWant("abc"); -->
+<!-- 		p1.setWantDate("abc"); -->
+<!-- 		p1.setSituation("abc"); -->
+<!-- 		p1.setOtherText("expe"); -->
+<!-- 		postrepository.saveAndFlush(p1); -->
+		
+<!-- 		PostData p2 = new PostData(); -->
+<!-- 		p2.setTitle("試合で1勝したい"); -->
+<!-- 		p2.setType("吹奏楽"); -->
+<!-- 		p2.setCategory("文化部"); -->
+<!-- 		p2.setCategoryDetails("ラッパ"); -->
+<!-- 		p2.setContent( -->
+<!-- 				"初心者ばかりです。よろしくお願いします。"); -->
+<!-- //		p2.setSchoolId(1); -->
+<!-- 		p2.setReword(false); -->
+<!-- 		p2.setRewordDetails("なしです"); -->
+<!-- 		p2.setWant("abc"); -->
+<!-- 		p2.setWantDate("abc"); -->
+<!-- 		p2.setSituation("abc"); -->
+<!-- 		p2.setOtherText("expe"); -->
+<!-- 		postrepository.saveAndFlush(p2); -->
+
+
+<!-- 	} -->
+
+<!-- } -->

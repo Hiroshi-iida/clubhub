@@ -1,0 +1,153 @@
+html{
+  background-color: #f2f2f2;
+}
+body{
+  font-family: 'Noto Serif JP', serif;
+  color:#525050;
+}
+.wrapper{
+  max-width: 960px;
+  margin: 0 auto;
+}
+nav{
+  margin:0 auto;
+  width:100%;
+  display:flex;
+  border-bottom: 1px solid #5a5a5a;
+}
+nav ul{
+  display:flex;
+  margin: auto 30px auto auto;
+}
+nav li{
+  padding:10px;
+}
+.logo{
+  width:150px;
+  margin:10px;
+}
+.login{
+  color:#f2f2f2;
+  background-color:#a83f52;
+  font-weight:bold;
+  border-radius:8px;
+  margin:0 8px;
+}
+.entry{
+  color:#f2f2f2;
+  background-color:#2c85b6;
+  border-radius:8px;
+  font-weight: bold;
+}
+
+.search{
+  display:flex;
+  border-bottom: 1px solid #5a5a5a;
+  padding: 10px;
+}
+.search img{
+  width:40px;
+  margin:0 30px
+}
+.search p{
+  margin:auto 10px;
+  font-weight:bold;
+}
+.result{
+  display: flex;
+  margin:30px auto;
+  width:700px;
+}
+.result h2{
+  font-size:18px
+}
+.result strong{
+  font-size: 2em;
+  color:#48abab;
+  margin:0 10px;
+}
+.sort{
+  background-color:#fff;
+  border:1px solid #5a5a5a;
+  border-radius: 8px;
+  width:100px;
+  line-height:2em;
+  text-align: center;
+  margin-left:auto;
+}
+.post{
+  border:1px solid #5a5a5a;
+  border-radius: 8px;
+  background-color:#fff;;
+  width:700px;
+  margin:100px auto 150px;
+  letter-spacing: 2px;
+  line-height: 1.5em;
+  padding:20px;
+}
+.post1{
+  display:flex;
+  margin:30px;
+}
+.post1 img{
+  width:250px;
+  height:140.6px;
+  object-position:center;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.post1 ul{
+  display:flex;
+  margin: 0 30px;
+}
+.post1 li{
+  list-style: none;
+  background-color: #48abab;
+  color:#fff;
+  font-size:12px;
+  width:80px;
+  line-height: 20px;
+  border-radius: 20px;
+  text-align: center;
+  padding:0 5px;
+  margin:10px;
+  letter-spacing: 1px;
+}
+.post2 .area{
+  background-color:#a83f52;
+}
+.post2 h2{
+  font-size: 24px;
+}
+.post2 h2, .post2 h3{
+  margin:10px 40px;
+  margin-right:0;
+}
+.post3{
+  margin:0 30px;
+}
+.post3 h3{
+  font-size: 18px;
+  margin:10px;
+}
+.post p{
+  margin:10px;
+}
+.button{
+  background-color: #7a7a7a;
+  color:#fff;
+  width:200px;
+  height: 60px;
+  font-weight: bold;
+  border:none;
+  border-radius: 20px;
+  padding:5px 30px;
+}
+.button1{
+  text-align:center;
+  margin:30px auto;
+}
+.return{
+  display: block;
+  text-align: right;
+}

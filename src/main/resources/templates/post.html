@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>clubHub|部活動登録</title>
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/post.css}" rel="stylesheet" type="text/css">
+<style>
+.err {
+	color: red;
+}
+</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header>
+			<img class="logo" src="img/logo.png" alt="ロゴ">
+		</header>
+
+		<h1 class="pageTitle">募集する部活動を登録する</h1>
+		<form method="post" action="/" th:object="${formModel}">
+		<input type="hidden" name="schoolId" value=1 >
+			<ul>
+				<div class="content">
+					<label>
+						<div class="content1">
+							<li>カテゴリー</li> <select name="category" id="category"
+								onchange="createMenu(this.value)">
+								<option disabled selected>カテゴリー</option>
+								<option value="sports">運動部</option>
+								<option value="art">文化部</option>
+							</select> <select name="type" id="type" disabled>
+								<option disabled selected>部活動を選択</option>
+							</select>
+							<div class="other">
+								その他/詳細:<input type="text" name="categoryDetails"
+									th:value="*{categoryDetails}" placeholder="Ex:硬式テニス">
+							</div>
+						</div>
+					</label>
+				</div>
+
+				<div class="content">
+					<label>
+						<div class="content1 title" placeholder="タイトル">
+							<li>タイトル</li>
+							<div class="content2">
+								<input type="text" name="title" th:value="*{title}">
+								<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+									th:errorclass="err"></div>
+								<p>Ex:バレーボール経験のある教師がいなくて困ってます！</p>
+							</div>
+						</div>
+				</div>
+				</label>
+
+				<div class="content">
+					<label>
+						<div class="content1">
+							<li>内容</li>
+							<div class="content2">
+								<textarea name="content" th:value="*{content}" cols="50"
+									rows="5"></textarea>
+								<div th:if="${#fields.hasErrors('content')}"
+									th:errors="*{content}" th:errorclass="err"></div>
+								<p>Ex:経験者がいなくて、生徒にきちんと教えてあげられないので、 経験者の方を募集しています。
+									月に数回だけでも来てもらえると生徒も喜びます。</p>
+							</div>
+						</div>
+				</div>
+				</label>
+
+				<div class="content">
+					<label>
+						<div class="content1">
+
+							<li>報酬の有無</li>
+							<div class="content3">
+								<div class="content2">
+									<label> <input type="radio" name="reword"
+										th:value="true" id="yes"> 有
+									</label> <label> <input type="radio" name="reword"
+										th:value="false" id="no" checked> 無
+									</label>
+								</div>
+								<label>
+									<p class="other">その他/詳細</p> <input type="text"
+									name="rewordDetails" th:value="*{rewordDetails}">
+								</label>
+							</div>
+						</div>
+				</div>
+				</label>
+
+				<div class="content">
+					<label>
+						<div class="content1">
+							<li>求める内容</li>
+							<div class="content2">
+								<textarea name="want" th:value="*{want}" id="experience"
+									cols="50" rows="5" placeholder=""></textarea>
+								<p>
+									Ex:3年以上の競技経験の方。<br> Ex:全国大会出場経験のある方。 など
+								</p>
+							</div>
+						</div>
+				</div>
+				</label>
+
+				<div class="content">
+					<label>
+						<div class="content1">
+							<li>募集している日時</li>
+							<div class="content2">
+								<textarea name="wantDate" th:value="*{wantDate}" id="wantDate"
+									cols="50" rows="5"></textarea>
+								<p>
+									Ex:平日は月水〇時～〇時に土日は変則で体育館が使えます。来れるタイミングで来てください。<br>
+									Ex:コンスタントに土日どちらか必ず来れる方。 など
+								</p>
+							</div>
+						</div>
+				</div>
+				</label>
+
+				<div class="content">
+					<label>
+						<div class="content1">
+							<li>部活動の状況</li>
+							<div class="content2">
+								<textarea name="situation" th:value="*{situation}"
+									id="experience" cols="50" rows="5"></textarea>
+								<p>
+									Ex:部員数○人 顧問は一人いますがルールもわからないので管理しているだけになってます。<br>
+									Ex:前回大会県ベスト4で次回は全国大会出場を目指しています。 など
+								</p>
+							</div>
+						</div>
+				</div>
+				</label>
+
+				<div class="content">
+					<label>
+						<div class="content1">
+							<li>その他</li>
+							<div class="content2">
+								<textarea name="otherText" th:value="*{otherText}"
+									id="otherText" cols="50" rows="5"></textarea>
+								<p>その他、メッセージや希望などあればご記入ください。</p>
+							</div>
+						</div>
+				</div>
+				</label>
+
+				<div class="content">
+					<div class="content1">
+						<li>写真</li>
+						<div class="content2">
+							<input class="photoup" type="file" name="photo" id="photo">
+							<p>※集合写真や練習風景など差し支えなければ添付ください。</p>
+
+						</div>
+					</div>
+				</div>
+			</ul>
+			<div class="button1">
+				<input class="button" type="submit" value="内容確認に進む">
+			</div>
+
+		</form>
+
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>担当者名[姓]</th>
+				<th>担当者名[名]</th>
+				<th>職業</th>
+				<th>メールアドレス</th>
+			</tr>
+			<tr th:each="obj : ${datalist}">
+				<td th:text="${obj.id}"></td>
+				<td th:text="${obj.title}"></td>
+				<td th:text="${obj.content}"></td>
+				<td th:text="${obj.categoryDetails}"></td>
+				<td th:text="${obj.reword}"></td>
+				<td th:text="${obj.rewordDetails}"></td>
+				<td th:text="${obj.want}"></td>
+				<td th:text="${obj.situation}"></td>
+				<td th:text="${obj.wantDate}"></td>
+				<td th:text="${obj.category}"></td>
+				<td th:text="${obj.type}"></td>
+
+
+				</div>
+</body>
+
+</html>
+<script th:src="@{/js/post.js}"></script>
