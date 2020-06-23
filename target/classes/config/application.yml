@@ -1,6 +1,0 @@
-spring:
-datasource:
-url: jdbc:postgresql://${ec2-18-214-211-47.compute-1.amazonaws.com}/${d7c4362685mklq}?sslmode=require
-username: lciqegjhstdbil
-password: 170cb41dfb0ed1512dc2b5f935e5f0f94f9cd7b9a9320a383e0ce49b6bd19115
-driverClassName: org.postgresql.Driver

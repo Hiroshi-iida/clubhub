@@ -44,7 +44,7 @@
 									<option value="大学">大学</option>
 									<option value="専門学校">専門学校</option>
 									<option value="その他">その他</option>
-									<option value="*{category}" th:text="*{category}" selected>その他</option>
+									<option th:value="*{category}" th:text="*{category}" selected>その他</option>
 								</select>
 								<div th:if="${#fields.hasErrors('category')}"
 									th:errors="*{category}" th:errorclass="err"></div>

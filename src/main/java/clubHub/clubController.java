@@ -161,7 +161,6 @@ public class clubController {
 		return mav;
 	}
 
-	
 	@RequestMapping(value = "/coach", method = RequestMethod.GET)
 	public ModelAndView coach(@ModelAttribute("formModel") CoachData coachdata, ModelAndView mav) {
 		mav.setViewName("coach");
