@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会員登録|clubHub</title>
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/select.css}" rel="stylesheet" type="text/css">
+<style>.err {color: red;}</style>
+<style th:include="header :: head_style"></style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header th:include="header :: frag_header"></header>
+
+		<div class="search">
+			<p>会員登録：下記からお選びください</p>
+		</div>
+		<a th:href="@{school}"><p class="select">＜ 学校 ＞</p></a>
+		<a th:href="@{coach}"><p class="select coach">＜ コーチ ＞</p></a>
+	</div>
+</body>
+</html>

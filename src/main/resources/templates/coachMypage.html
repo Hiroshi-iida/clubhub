@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>clubHub|マイページ</title>
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/coachmypage.css}" rel="stylesheet" type="text/css">
+<style th:include="header :: head_style"></style>
+<style>
+.err {
+	color: red;
+}
+</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header th:include="header :: frag_header"></header>
+		<main class="main">
+
+			<h1 class="pageTitle">◆マイページ</h1>
+			<p th:if="${error}" th:text="${error}"></p>
+			<div th:if="${cdatalist}" th:object="${cdatalist}">
+				<ul>
+					<div class="content1">
+						<li class="list">ID</li>
+						<p th:text="*{id}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">姓</li>
+						<p th:text="*{lastName}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">名前</li>
+						<p th:text="*{firstName}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">ご職業</li>
+						<p th:text="*{job}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">メールアドレス</li>
+						<p th:text="*{mail}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">パスワード</li>
+						<p th:text="*{password}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">エリア</li>
+						<p th:text="*{area}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">住所</li>
+						<p th:text="*{address}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">電話番号</li>
+						<p th:text="*{tel}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">経験や実績</li>
+						<p th:text="*{experience}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">メッセージ</li>
+						<p th:text="*{message}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">写真</li>
+						<p></p>
+					</div>
+
+				</ul>
+
+			<div class="search">
+				<p th:if="${msg}" th:text="${msg}"></p>
+			</div>
+			<div class="button2">
+				<a class="button" th:href="@{/logout}">ログアウト</a>
+				<a class="button" th:href="@{/edit/coach/{id}(id=${cdatalist.id})}">登録情報の修正</a>
+			</div>
+			
+			</div>
+		</main>
+	</div>
+</body>
+</html>

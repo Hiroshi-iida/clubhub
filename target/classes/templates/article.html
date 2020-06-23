@@ -6,27 +6,14 @@
 <title>部活紹介|clubHub</title>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/article.css}" rel="stylesheet" type="text/css">
+<style th:include="header :: head_style"></style>
 </head>
 
 <body>
 	<div class="wrapper">
-		<header>
-			<nav>
-				<img src="../static/img/logo.png" th:src="@{/img/logo.png}"
-					class="logo" alt="ロゴ画像"></img>
-				<ul>
-					<li>エリア</li>
-					<li>カテゴリー</li>
-					<li>使い方</li>
-					<li>コンタクト</li>
-					<li>利用者の声</li>
-					<li class="login">ログイン</li>
-					<li class="entry">新規登録</li>
-				</ul>
-			</nav>
-		</header>
+		<header th:include="header :: frag_header"></header>
 
-		<div class="search" th:object="${sdatalist}">
+		<div class="search" th:object="${pdatalist}">
 			<img src="../static/img/図5.svg" th:src="@{/img/図5.svg}"></img>
 			<p>≫</p>
 			<p th:text="*{area}">奈良県</p>
@@ -42,11 +29,11 @@
 			<div class="post1">
 				<div class="post2">
 					<ul>
-						<li class="area" th:text="${sdatalist.area}" >エリア</li>
+						<li class="area" th:text="${pdatalist.area}" >エリア</li>
 						<li th:text="${pdatalist.category}">カテゴリー</li>
 						<li th:text="${pdatalist.categoryDetails}">特徴</li>
 					</ul>
-					<h2 th:text="${sdatalist.schoolName}">奈良県立鹿高校</h2>
+					<h2 th:text="${pdatalist.schoolName}">奈良県立鹿高校</h2>
 					<h3 th:text="${pdatalist.title}">
 						「全国大会出場目指しています！経験者のコーチを募集しています。」
 					</h3>

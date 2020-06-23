@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class PhotoData {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	@NotNull
 	private long id;

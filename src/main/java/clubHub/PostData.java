@@ -6,8 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import javax.validation.constraints.NotNull;
+//import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class PostData {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	@NotNull
 	private int id;
@@ -59,24 +59,6 @@ public class PostData {
 	@Column(nullable = true)
 	private String otherText;		//その他
 	
-//	@Column(nullable = false)
-//	private int schoolId;		//SchoolDataのデータベースのIDと紐づけ
-//
-//	private String schoolName;		//
-//	
-//	public int getSchoolId() {
-//		return schoolId;
-//	}
-//	public void setSchoolId(int schoolId) {
-//		this.schoolId = schoolId;
-//	}
-//	
-//	public String getSchoolName() {
-//		return schoolName;
-//	}
-//	public void setSchoolName(String schoolName) {
-//		this.schoolName = schoolName;
-//	}
 
 	public int getId() {
 		return id;
@@ -164,6 +146,99 @@ public class PostData {
 	}
 	
 	
+	//=============ここまではpost用　ここからschooldata用=================//
+	
+	@Column(nullable = true)
+	private int schoolId;
+	
+	@Column(nullable = true)
+	private String schoolName;
+	
+	@Column(nullable = true)
+	private String schoolCategory;
+	
+	@Column(nullable = true)
+	private String lastName;
+	
+	@Column(nullable = true)
+	private String firstName;
+	
+	@Column(nullable = true)
+	private String mail;
+	
+	@Column(nullable = true)
+	private String password;
+	
+	@Column(nullable = true)
+	private String area;
+	
+	@Column(nullable = true)
+	private String address;
+	
+	@Column(nullable = true)
+	private String tel;
 
+	
+	public int getSchoolId() {
+		return schoolId;
+	}
+	public void setSchoolId(int schoolId) {
+		this.schoolId = schoolId;
+	}
+	public String getSchoolName() {
+		return schoolName;
+	}
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
+	}
+	public String getSchoolCategory() {
+		return schoolCategory;
+	}
+	public void setSchoolCategory(String schoolCategory) {
+		this.schoolCategory = schoolCategory;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getMail() {
+		return mail;
+	}
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	
 	
 }

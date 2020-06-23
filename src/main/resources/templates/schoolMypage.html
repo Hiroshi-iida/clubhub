@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>clubHub|マイページ</title>
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/school.css}" rel="stylesheet" type="text/css">
+<style th:include="header :: head_style"></style>
+<style>
+.err {
+	color: red;
+}
+</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header th:include="header :: frag_header"></header>
+		<main class="main">
+
+			<h1 class="pageTitle">◆マイページ</h1>
+			<p th:if="${error}" th:text="${error}"></p>
+
+			<!--       if文でコーチ情報がなければ表示とか　あればスクール情報表示 -->
+			<div th:if="${sdatalist}" th:object="${sdatalist}">
+				<ul>
+					<div class="content1">
+						<li class="list">ID</li>
+						<p th:text="*{id}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">学校名</li>
+						<p th:text="*{schoolName}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">学校区分</li>
+						<p th:text="*{category}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">担当者名[姓]</li>
+						<p th:text="*{lastName}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">担当者名[名]</li>
+						<p th:text="*{firstName}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">メールアドレス</li>
+						<p th:text="*{mail}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">パスワード</li>
+						<p th:text="*{password}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">エリア</li>
+						<p th:text="*{area}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">住所</li>
+						<p th:text="*{address}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">電話番号</li>
+						<p th:text="*{tel}"></p>
+					</div>
+					<div class="content1">
+						<li class="list">写真</li>
+						<p></p>
+					</div>
+
+				</ul>
+			</div>
+
+			<div class="search">
+				<p th:if="${msg}" th:text="${msg}"></p>
+			</div>
+			<div class="button">
+				<a th:href="@{/logout}">ログアウト</a>
+			</div>
+			<div class="button">
+				<a th:href="@{/update}">登録情報の修正</a>
+			</div>
+		</main>
+	</div>
+</body>
+</html>

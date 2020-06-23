@@ -1,177 +1,192 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>clubHub|学校登録</title>
-
- <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
- <link th:href="@{/css/school.css}" rel="stylesheet" type="text/css">
- <style>
-	.err{color:red;}
- </style>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0,minimum-scale=1.0">
+<title>clubHub|トップページ</title>
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/index.css}" rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
-
 <body>
-  <div class="wrapper">
-    <header>
- <img src="../static/img/logo.png" th:src="@{/img/logo.png}" class="logo" alt="ロゴ画像"></img> 
-    </header>
 
-    <h1 class="pageTitle">◆会員登録＜学校用＞</h1>
-    <form method="post" action="/" th:object="${formModel}">
+	<div class="head">
+		<img class="topimage" src="img/main.jpeg" alt="">
+		<div class="top">
+			<header class="header">
+				<nav>
+					<img class="logo" src="img/logo.png" alt="ロゴ画像">
+					<ul>
+						<div class="nav">
+							<li>エリア</li>
+							<li>カテゴリー</li>
+							<li>使い方</li>
+							<li>コンタクト</li>
+							<li>利用者の声</li>
+						</div>
+						<a th:unless="${AcountName}" th:href="@{/login}"><li
+							class="login">ログイン</li></a>
+						<a th:unless="${AcountName}" th:href="@{/select}"><li
+							class="entry">新規登録</li></a>
+							
+						<div th:if="${cdata}" th:object="${cdata}">
+						<a th:href="@{/mypage/coach/{id}(id=${cdata.id}-1)}">
+						<li th:if="${AcountName}" th:text="${AcountName}+' 様'"
+							class="login"></li>
+						</div>
+						<div th:if="${sdata}" th:object="${sdata}">						
+						<a th:href="@{/mypage/school/{id}(id=${sdata.id}-1)}">
+						<li th:if="${AcountName}" th:text="${AcountName}+' 様'"
+							class="login"></li>
+						</a>
+						</div>
+					</ul>
+				</nav>
 
-    <ul>
-      <div class="content"><label>
-          <div class="content1">
-            <li class="list">学校名</li>
-            
-            <input type="text" name="schoolName" th:value="*{schoolName}" th:errorclass="err" placeholder="〇〇県立△高校">
-            <div th:if="${#fields.hasErrors('schoolName')}" th:errors="*{schoolName}" th:errorclass="err"></div>
-          </div>
-        </label></div>
-      <div class="content"><label>
-          <div class="content1">
-            <li>区分</li>
-            <select name="category" th:value="*{category}" >
-              <option value="">選択してください</option>
-              <option value="小学校">小学校</option>
-              <option value="中学校">中学校</option>
-              <option value="高校">高校</option>
-              <option value="大学">大学</option>
-              <option value="専門学校">専門学校</option>
-              <option value="その他">その他</option>
-            </select>
-            <div th:if="${#fields.hasErrors('category')}" th:errors="*{category}" th:errorclass="err"></div>
-          </div>
-      </div></label>
-      <div><label>
-      <div class="content1">
-        <li class="list">担当者[姓]</li>
-        
-        <input type="text" name="lastName" th:value="*{lastName}"  placeholder="倶楽部">
-        <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="err"></div>
-      </div>
-      </label></div>
-      <div><label>
-      <div class="content1">
-        <li class="list">担当者[名]</li>
-        <input type="text" name="firstName" th:value="*{firstName}" placeholder="太郎">
-              <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="err"></div>
-      </div>
-      </label></div>
-      <div class="content"><label>
-          <div class="content1" placeholder="メールアドレス">
-            <li>メールアドレス</li>
-            <input type="text" name="mail" th:value="*{mail}" >
-	        <div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}" th:errorclass="err"></div>
-          </div>
-      </div></label>
+				<h1>部活動と外部コーチをつなぐ</h1>
+				<p>
+					部活動の顧問が不足して困っている。<br> 学生時代打ち込んだ経験を活かして今の子どもたちに教えたい！<br>
+					土日など休みの日を地域に貢献したい！
+				</p>
 
-      <div class="content"><label>
-          <div class="content1">
-            <li>パスワード</li>
-            <input type="password" name="password" th:value="*{password}">
-            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="err"></div>
-          </div>
-      </div></label>
+				<div class="select">
+					<input type="text" placeholder="フリーワード"> <select name="job">
+						<option value="">エリアを選ぶ</option>
+						<option value="小学校">小学校</option>
+						<option value="中学校">中学校</option>
+						<option value="高校">高校</option>
+						<option value="大学">大学</option>
+						<option value="専門学校">専門学校</option>
+						<option value="その他">その他</option>
+					</select> <select name="job">
+						<option value="">カテゴリーを選ぶ</option>
+						<option value="小学校">小学校</option>
+						<option value="中学校">中学校</option>
+						<option value="高校">高校</option>
+						<option value="大学">大学</option>
+						<option value="専門学校">専門学校</option>
+						<option value="その他">その他</option>
+					</select> <input class="search" type="submit" value="検索する">
+				</div>
+			</header>
+		</div>
+	</div>
+	<div class="wrapper">
+		<section class="new">
+			<h2 class="subtitle">新着情報</h2>
+			<div class="new1">
+				<div class="school">
+					<div class="content">
+						<h3>奈良県立鹿高校</h3>
+						<img src="img/team.jpg" alt="">
+						<p>「全国大会出場目指しています！経験者のコーチを募集して指しています！経験者のコーチを募集しています。」「全国大会出場目指しています！経験者のコーチを募集して指しています！経験者のコーチを募集しています。」</p>
+						<div class="button1">
+							<a class="button" href="">詳しく見る</a>
+						</div>
+					</div>
+				</div>
+				<div class="school">
+					<div class="content">
+						<h3>奈良県立鹿高校</h3>
+						<img src="img/team.jpg" alt="">
+						<p>「全国大会出場目指しています！経験者のコーチを募集して指しています！経験者のコーチを募集しています。」「全国大会出場目指しています！経験者のコーチを募集して指しています！経験者のコーチを募集しています。」</p>
+						<div class="button1">
+							<a class="button" href="">詳しく見る</a>
+						</div>
+					</div>
+				</div>
 
-      <div class="content"><label>
-          <div class="content1">
-            <li>エリア</li>
-            <select name="area" th:value="*{area}">
-              <option value="">選択してください</option>
-              <option value="北海道">北海道</option>
-              <option value="青森県">青森県</option>
-              <option value="岩手県">岩手県</option>
-              <option value="宮城県">宮城県</option>
-              <option value="秋田県">秋田県</option>
-              <option value="山形県">山形県</option>
-              <option value="福島県">福島県</option>
-              <option value="茨城県">茨城県</option>
-              <option value="栃木県">栃木県</option>
-              <option value="群馬県">群馬県</option>
-              <option value="埼玉県">埼玉県</option>
-              <option value="千葉県">千葉県</option>
-              <option value="東京都" selected>東京都</option>
-              <option value="神奈川県">神奈川県</option>
-              <option value="新潟県">新潟県</option>
-              <option value="富山県">富山県</option>
-              <option value="石川県">石川県</option>
-              <option value="福井県">福井県</option>
-              <option value="山梨県">山梨県</option>
-              <option value="長野県">長野県</option>
-              <option value="岐阜県">岐阜県</option>
-              <option value="静岡県">静岡県</option>
-              <option value="愛知県">愛知県</option>
-              <option value="三重県">三重県</option>
-              <option value="滋賀県">滋賀県</option>
-              <option value="京都府">京都府</option>
-              <option value="大阪府">大阪府</option>
-              <option value="兵庫県">兵庫県</option>
-              <option value="奈良県">奈良県</option>
-              <option value="和歌山県">和歌山県</option>
-              <option value="鳥取県">鳥取県</option>
-              <option value="島根県">島根県</option>
-              <option value="岡山県">岡山県</option>
-              <option value="広島県">広島県</option>
-              <option value="山口県">山口県</option>
-              <option value="徳島県">徳島県</option>
-              <option value="香川県">香川県</option>
-              <option value="愛媛県">愛媛県</option>
-              <option value="高知県">高知県</option>
-              <option value="福岡県">福岡県</option>
-              <option value="佐賀県">佐賀県</option>
-              <option value="長崎県">長崎県</option>
-              <option value="熊本県">熊本県</option>
-              <option value="大分県">大分県</option>
-              <option value="宮崎県">宮崎県</option>
-              <option value="鹿児島県">鹿児島県</option>
-              <option value="沖縄県">沖縄県</option>
-            </select>
-            <div th:if="${#fields.hasErrors('area')}" th:errors="*{area}" th:errorclass="err"></div>
-          </div>
-      </div></label>
 
-      <div class="content"><label>
-          <div class="content1">
-            <li>学校住所</li>
-            <input type="text" name="address" th:value="*{address}" placeholder="都道府県名より先をご記入ください">
-            <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" th:errorclass="err"></div>
-          </div>
-      </div></label>
+			</div>
 
-      <div class="content"><label>
-          <div class="content1" placeholder="携帯/固定電話どちらでも可">
-            <li>電話番号</li>
-            <input type="tel" th:value="*{tel}" name="tel">
-            <div th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}" th:errorclass="err"></div>
-          </div>
-      </div></label>
-    </ul>
-    <div class="button1">
-      <input class="button" type="submit" value="内容確認に進む">
-    </div>
-          </form>
-     
-  <table>
-	 	<tr><th>ID</th><th>区分</th><th>学校名</th><th>担当者名[姓]</th><th>担当者名[名]</th>
-	 	<th>メールアドレス</th><th>エリア</th><th>住所</th><th>電話番号</th><th>パスワード</th>
-	 	</tr>
-	 	<tr th:each="obj : ${sdatalist}">
-	 		<td th:text="${obj.id}"></td>
-	 		<td th:text="${obj.category}"></td>
-	 		<td th:text="${obj.schoolName}"></td>
-	 		<td th:text="${obj.lastName}"></td>
-	 		<td th:text="${obj.firstName}"></td>
-	 		<td th:text="${obj.mail}"></td>
-	 		<td th:text="${obj.area}"></td>
-	 		<td th:text="${obj.address}"></td>
-	 		<td th:text="${obj.tel}"></td>
-	 		<td th:text="${obj.password}"></td>
-	 	</tr>
- 	</table>
-  </div>
+		</section>
+		<section class="about">
+			<h2 class="subtitle">clubHubについて</h2>
+			<p>
+				部活動の顧問不足に悩む学校と<br> 競技経験者をつなぐ無料サービスです。
+			</p>
+			<div class="contents">
+				<div class="about1">
+					<div class="icon">
+						<p>コーチ</p>
+						<img src="img/図1.svg" alt="">
+					</div>
+					<ul>
+						<li>地域に恩返しや社会貢献ができて充実感を得る</li>
+						<li>自分の好きな競技やスキルに携われる</li>
+						<li>教えることで自らも学びを得る</li>
+					</ul>
+				</div>
+
+				<div class="about1">
+					<div class="icon">
+						<p>部活顧問</p>
+						<img src="img/図2.svg" alt="">
+					</div>
+					<ul>
+						<li>部活動で拘束されていた時間から解放される</li>
+						<li>授業準備の時間が出来るため授業の質が高まる</li>
+						<li>プライベートも充実して心に余裕ができる</li>
+					</ul>
+				</div>
+			</div>
+			<div class="contents">
+				<div class="about1">
+					<div class="icon">
+						<p>生徒</p>
+						<img src="img/図3.svg" alt="">
+					</div>
+					<ul>
+						<li>経験者から指導を受けられる</li>
+						<li>社会人の話を聞けることで視野が広がる</li>
+						<li>教師以外の大人に相談事が出来る</li>
+					</ul>
+				</div>
+
+				<div class="about1">
+					<div class="icon">
+						<p>学校</p>
+						<img id="pen" src="img/図4.svg" alt="">
+					</div>
+					<ul>
+						<li>教師の労働環境の改善する。</li>
+						<li>部活動も授業も質が高まり、生徒のパフォーマンス向上する。</li>
+						<li>費用は基本的にかからない。</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<section class="method">
+			<h2 class="subtitle">clubHub利用の流れ</h2>
+			<ol>
+				<div class="method1">
+					<li>1</li>
+					<p class="method2">興味を持った部活動にメールで応募をする</p>
+				</div>
+				<div class="method1">
+					<li>2</li>
+					<p class="method2">メールでやりとりをして「面談日」を決める</p>
+				</div>
+				<div class="method1">
+					<li>3</li>
+					<p class="method2">面談でお互い納得すればスタート！</p>
+				</div>
+			</ol>
+		</section>
+		<footer>
+			<div class="footer">
+				<div class="contact">
+					<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+				</div>
+				<p>©clubHub</p>
+				<p>利用規約</p>
+				<p>プライバシーポリシー</p>
+			</div>
+		</footer>
 </body>
-
 </html>

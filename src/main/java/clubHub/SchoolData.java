@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class SchoolData {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	@NotNull
 	private int id;
@@ -58,7 +58,6 @@ public class SchoolData {
 	@Column(nullable = false)
 	@NotEmpty(message="空白NG")
 	private String tel;
-
 	
 	public int getId() {
 		return id;

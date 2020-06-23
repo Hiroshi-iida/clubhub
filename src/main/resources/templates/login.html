@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ログイン|clubHub</title>
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/login.css}" rel="stylesheet" type="text/css">
+<style th:include="header :: head_style"></style>
+<style>
+.err {
+	color: red;
+}
+</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header th:include="header :: frag_header"></header>
+
+		<div class="search">
+			<p 　th:unless="${AcountName}">ログイン</p>
+			<p th:if="${AcountName}" th:text="${AcountName}+'でログインされています'"></p>
+			<p th:if="${msg}" th:text="${msg}"></p>
+		</div>
+		<form method="post" action="/login" th:object="${formModel}">
+			<div class="content">
+				<label>
+					<div class="content1" placeholder="メールアドレス">
+						<li>メールアドレス</li> <input type="text" name="mail" th:value="*{mail}">
+						<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
+							th:errorclass="err"></div>
+					</div>
+			</div>
+			</label>
+
+			<div class="content">
+				<label>
+					<div class="content1">
+						<li>パスワード</li> <input type="password" name="password"
+							th:value="*{password}">
+						<div th:if="${#fields.hasErrors('password')}"
+							th:errors="*{password}" th:errorclass="err"></div>
+					</div>
+			</div>
+			</label>
+			<div class="button1">
+				<input class="button" type="submit" value="ログイン">
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

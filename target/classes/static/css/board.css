@@ -105,8 +105,8 @@ nav li{
   background-color: #48abab;
   color:#fff;
   font-size:12px;
-  width:80px;
-  line-height: 20px;
+  min-width:60px;
+  line-height: 2em;
   border-radius: 20px;
   text-align: center;
   padding:0 5px;

@@ -5,12 +5,6 @@ body{
   max-width: 960px;
   margin: 0 auto;
 }
-.logo{
-  width:150px;
-}
-header{
-  border-bottom: 1px solid #5a5a5a;
-}
 .content{
   margin-bottom: 20px;
 }
@@ -36,9 +30,7 @@ header{
 .other{
   padding: 0 10px;
 }
-
-
-li{
+.main li{
   border-left: 5px solid #a83f52;
   margin:10px 20px;
   width:250px;

@@ -1,0 +1,43 @@
+html{
+  background-color: #f2f2f2;
+}
+body{
+  font-family: 'Noto Serif JP', serif;
+  color:#525050;
+}
+.wrapper{
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.search{
+  border-bottom: 1px solid #5a5a5a;
+  padding: 20px;
+  text-align: center;
+  font-weight:bold;
+  font-size:24px;
+  margin-bottom: 150px;
+  margin-top: 50px;
+}
+
+.select{
+  text-align: center;
+  width:25vw;
+  line-height:8vw;
+  margin: 8vw auto;
+  font-size:3vw;
+  border:1px solid #525050;
+  border-radius:20px;
+  background-color: #48abab;
+  color:#f2f2f2;
+}
+.select.coach{
+  background-color: #a83f52;
+
+}
+.select a:link{
+  color:#f2f2f2;
+}
+a:hover , .select:hover{
+  opacity: 0.7;
+}
