@@ -39,6 +39,7 @@ public class CoachData {
 
 	@Column(nullable = false)
 	@Pass
+	@NotEmpty
 	private String password;
 
 	@Column(nullable = false)

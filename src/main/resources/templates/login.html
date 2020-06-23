@@ -19,8 +19,8 @@
 		<header th:include="header :: frag_header"></header>
 
 		<div class="search">
-			<p 　th:unless="${AcountName}">ログイン</p>
-			<p th:if="${AcountName}" th:text="${AcountName}+'でログインされています'"></p>
+			<p 　th:unless="${AccountName}">ログイン</p>
+			<p th:if="${AccountName}" th:text="${AccountName}+'でログインされています'"></p>
 			<p th:if="${msg}" th:text="${msg}"></p>
 		</div>
 		<form method="post" action="/login" th:object="${formModel}">

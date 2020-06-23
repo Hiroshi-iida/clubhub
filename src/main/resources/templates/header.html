@@ -9,10 +9,14 @@
 <title>ログイン|clubHub</title>
 
 <style th:fragment="head_style">
-body{
-  font-family: 'Noto Serif JP', serif;
-  color:#525050;
+body {
+	font-family: 'Noto Serif JP', serif;
+	color: #525050;
 }
+nav a {
+	color: #525050;
+}
+
 nav {
 	margin: 0 auto;
 	width: 100%;
@@ -71,7 +75,6 @@ nav ul {
 .login:hover, .entry:hover {
 	opacity: 0.7;
 }
-
 </style>
 </head>
 
@@ -84,28 +87,30 @@ nav ul {
 			</a>
 			<ul>
 				<div class="nav">
-					<li>エリア</li>
-					<li>カテゴリー</li>
+					<a th:href="@{/board}"><li>部活動を探す</li></a>
 					<li>使い方</li>
 					<li>コンタクト</li>
 					<li>利用者の声</li>
 				</div>
-				<a th:unless="${AcountName}" th:href="@{/login}"><li
+				<a th:unless="${AccountName}" th:href="@{/login}"><li
 					class="login">ログイン</li></a>
-				<a th:unless="${AcountName}" th:href="@{/select}"><li
+				<a th:unless="${AccountName}" th:href="@{/select}"><li
 					class="entry">新規登録</li></a>
 
 				<div th:if="${cdata}" th:object="${cdata}">
-					<a th:href="@{/mypage/coach/{id}(id=${cdata.id}-1)}">
-						<li th:if="${AcountName}" th:text="${AcountName}+' 様'"
-						class="login"></li>
-				</div>
-				<div th:if="${sdata}" th:object="${sdata}">
-					<a th:href="@{/mypage/school/{id}(id=${sdata.id}-1)}">
-						<li th:if="${AcountName}" th:text="${AcountName}+' 様'"
+					<a th:href="@{/mypage/coach/{id}(id=${cdata.id})}">
+						<li th:if="${AccountName}" th:text="${AccountName}+' 様'"
 						class="login"></li>
 					</a>
 				</div>
+
+				<div th:if="${sdata}" th:object="${sdata}">
+					<a th:href="@{/mypage/school/{id}(id=${sdata.id})}">
+						<li th:if="${AccountName}" th:text="${AccountName}+' 様'"
+						class="login"></li>
+					</a>
+				</div>
+
 			</ul>
 		</nav>
 	</header>

@@ -43,13 +43,8 @@ public class clubController {
 			ModelAndView mav) {
 		mav.setViewName("index");
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			mav.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			mav.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
-		}
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
@@ -58,13 +53,8 @@ public class clubController {
 			ModelAndView mav) {
 		mav.setViewName("login");
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			mav.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			mav.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
-		}
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
@@ -81,6 +71,7 @@ public class clubController {
 					mov.addObject("msg", "ログインしました");
 					mov.setViewName("result");
 					session.setAttribute("sessionAccountName", schoolList.get(i).getSchoolName()); // セッションにスクールネーム
+					session.setAttribute("sessionSdata", schoolList.get(i)); // 以下のsessionはpostのために全保存
 					session.setAttribute("sessionSid", schoolList.get(i).getId()); // 以下のsessionはpostのために全保存
 					session.setAttribute("sessionSschoolName", schoolList.get(i).getSchoolName());
 					session.setAttribute("sessionSlastname", schoolList.get(i).getLastName());
@@ -91,7 +82,7 @@ public class clubController {
 					session.setAttribute("sessionSaddress", schoolList.get(i).getAddress());
 					session.setAttribute("sessionStel", schoolList.get(i).getTel());
 					mov.addObject("AccountName", session.getAttribute("sessionAccountName"));
-					mov.addObject("sdata", schoolList.get((int) session.getAttribute("sessionSid")));
+					mov.addObject("sdata", session.getAttribute("sessionSdata"));
 					res = mov;
 					break;
 				} else { // メールアドレスは一致してるけど、パスが違う時
@@ -100,47 +91,35 @@ public class clubController {
 					res = mov;
 					break;
 				}
-			} else { // メールアドレス不一致
-				mov.addObject("msg", "メールアドレスが存在しません");
-				mov.setViewName("login");
-				res = mov;
 			}
-
 		}
-		for (int i = 0; i < coachList.size(); i++) {
-			if (coachdata.getMail().equals(coachList.get(i).getMail())) { // コーチメールアドレス一致確認
-				if (coachdata.getPassword().equals(coachList.get(i).getPassword())) { // パス確認
-					session.setAttribute("sessionAccountName", coachList.get(i).getLastName()); // セッションにスクールネーム保存
-					session.setAttribute("sessionCid", coachList.get(i).getId());
-					mov.addObject("AccountName", session.getAttribute("sessionAccountName"));
-					mov.addObject("msg", "ログインしました");
-					mov.setViewName("result");
-					if (session.getAttribute("sessionCid") != null) {
-						List<CoachData> clist = coachrepository.findAll();
-						mov.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-					} else if (session.getAttribute("sessionSid") != null) {
-						List<SchoolData> slist = schoolrepository.findAll();
-						mov.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
+
+		if (res == null) { // スクールデータで照合されなかった場合、コーチデータと照合
+
+			for (int i = 0; i < coachList.size(); i++) {
+				if (coachdata.getMail().equals(coachList.get(i).getMail())) { // コーチメールアドレス一致確認
+					if (coachdata.getPassword().equals(coachList.get(i).getPassword())) { // パス確認
+						session.setAttribute("sessionAccountName", coachList.get(i).getLastName()); // セッションにスクールネーム保存
+						session.setAttribute("sessionCid", coachList.get(i).getId());
+						session.setAttribute("sessionCdata", coachList.get(i));
+						mov.addObject("AccountName", session.getAttribute("sessionAccountName"));
+						mov.addObject("cdata", session.getAttribute("sessionCdata"));
+						mov.addObject("msg", "ログインしました");
+						mov.setViewName("result");
+						res = mov;
+						break;
+					} else {
+						mov.addObject("msg", "パスワードが違います。");
+						mov.setViewName("login");
+						res = mov;
+						break;
 					}
-					res = null;
-					res = mov;
-					break;
 				} else {
-					mov.addObject("msg", "パスワードが違います。");
+					mov.addObject("msg", "メールアドレスが存在しません");
 					mov.setViewName("login");
-					res = null;
 					res = mov;
-					break;
 				}
 			}
-
-			else {
-				mov.addObject("msg", "メールアドレスが存在しません");
-				mov.setViewName("login");
-				res = null;
-				res = mov;
-			}
-
 		}
 		return res;
 	}
@@ -149,13 +128,8 @@ public class clubController {
 	public ModelAndView select(ModelAndView mav) {
 		mav.setViewName("select");
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			mav.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			mav.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
-		}
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
@@ -163,13 +137,8 @@ public class clubController {
 	public ModelAndView result(ModelAndView mav) {
 		mav.setViewName("result");
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			mav.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			mav.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
-		}
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
@@ -184,19 +153,15 @@ public class clubController {
 	@RequestMapping("/board")
 	public ModelAndView board(ModelAndView mav) {
 		mav.setViewName("board");
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 		Iterable<PostData> plist = postrepository.findAll();
 		mav.addObject("pdatalist", plist);
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			mav.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			mav.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
-		}
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
+	
 	@RequestMapping(value = "/coach", method = RequestMethod.GET)
 	public ModelAndView coach(@ModelAttribute("formModel") CoachData coachdata, ModelAndView mav) {
 		mav.setViewName("coach");
@@ -204,13 +169,8 @@ public class clubController {
 		Iterable<CoachData> clist = coachrepository.findAll();
 		mav.addObject("cdatalist", clist);
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clists = coachrepository.findAll();
-			mav.addObject("cdata", clists.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slists = schoolrepository.findAll();
-			mav.addObject("sdata", slists.get((int) session.getAttribute("sessionSid")));
-		}
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
@@ -230,13 +190,7 @@ public class clubController {
 		}
 
 		res.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			res.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			res.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
-		}
+		res.addObject("cdata", session.getAttribute("sessionCdata"));
 		return res;
 	}
 
@@ -244,16 +198,11 @@ public class clubController {
 	public ModelAndView school(@ModelAttribute("formModel") SchoolData schooldata, ModelAndView mav) {
 		mav.setViewName("school");
 		mav.addObject("formModel", schooldata);
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 		Iterable<SchoolData> slist = schoolrepository.findAll();
 		mav.addObject("sdatalist", slist);
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			mav.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slists = schoolrepository.findAll();
-			mav.addObject("sdata", slists.get((int) session.getAttribute("sessionSid")));
-		}
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
@@ -281,35 +230,28 @@ public class clubController {
 			mav.setViewName("school");
 			Iterable<SchoolData> slist = schoolrepository.findAll();
 			mav.addObject("sdatalist", slist);
+			mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+			mav.addObject("sdata", session.getAttribute("sessionSdata"));
+			mav.addObject("cdata", session.getAttribute("sessionCdata"));
 			res = mav;
 		}
 
 		res.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			res.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			res.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
-		}
+		res.addObject("sdata", session.getAttribute("sessionSdata"));
+		res.addObject("cdata", session.getAttribute("sessionCdata"));
 		return res;
 	}
 
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
 	public ModelAndView post(@ModelAttribute("formModel") PostData postdata, ModelAndView mav) {
 		mav.setViewName("post");
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 		mav.addObject("formModel", postdata);
 		mav.addObject("sessionSid", session.getAttribute("sessionSid"));
 		Iterable<PostData> plist = postrepository.findAll();
 		mav.addObject("pdatalist", plist);
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			mav.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			mav.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
-		}
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
@@ -318,6 +260,9 @@ public class clubController {
 	public ModelAndView post(@ModelAttribute("formModel") @Validated PostData postdata, BindingResult result,
 			ModelAndView mav) {
 		ModelAndView res = null;
+		res.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		res.addObject("sdata", session.getAttribute("sessionSdata"));
+		res.addObject("cdata", session.getAttribute("sessionCdata"));
 		if (!result.hasErrors()) {
 			postrepository.saveAndFlush(postdata);
 
@@ -340,13 +285,6 @@ public class clubController {
 			mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 			res = mav;
 		}
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			res.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			res.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
-		}
 		return res;
 	}
 
@@ -356,13 +294,9 @@ public class clubController {
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 		List<PostData> plist = postrepository.findAll();
 		mav.addObject("pdatalist", plist.get(Id));
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			mav.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			mav.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
-		}
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
@@ -378,13 +312,50 @@ public class clubController {
 				mav.addObject("error", "ログイン情報とURLが一致しません");
 			}
 		}
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		return mav;
+	}
+
+	@RequestMapping(value = "/edit/coach/{Id}", method = RequestMethod.GET)
+	public ModelAndView coachedit(@ModelAttribute("formModel") CoachData coachdata, @PathVariable int Id,
+			ModelAndView mav) {
+		mav.setViewName("coachedit");
+		List<CoachData> clist = coachrepository.findAll();
 		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clists = coachrepository.findAll();
-			mav.addObject("cdata", clists.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			mav.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
+			if ((int) session.getAttribute("sessionCid") == Id) {
+				mav.addObject("formModel", clist.get(Id - 1));
+			} else {
+				mav.addObject("error", "ログイン情報とURLが一致しません");
+			}
+		} else {
+			mav.addObject("error", "ログイン情報とURLが一致しません");
 		}
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		mav.addObject("path","/edit/coach/"+Id);
+		return mav;
+	}
+
+	@RequestMapping(value = "/edit/coach/{Id}", method = RequestMethod.POST)
+	@Transactional(readOnly = false)
+	public ModelAndView coachedit(@ModelAttribute("formModel")
+		@Validated CoachData coachdata,
+		BindingResult result, ModelAndView mav) {
+		List<CoachData> clist = coachrepository.findAll();
+		if (!result.hasErrors()) {
+			coachrepository.saveAndFlush(coachdata);
+			mav.setViewName("result");
+			mav.addObject("msg", "修正が完了しました");
+		} else {
+			mav.setViewName("coachedit");
+			mav.addObject("formModel", coachdata);
+			mav.addObject("path","/edit/coach/"+coachdata.getId());
+		}
+		
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
@@ -400,45 +371,57 @@ public class clubController {
 				mav.addObject("error", "ログイン情報とURLが一致しません");
 			}
 		}
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clist = coachrepository.findAll();
-			mav.addObject("cdata", clist.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slists = schoolrepository.findAll();
-			mav.addObject("sdata", slists.get((int) session.getAttribute("sessionSid")));
-		}
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
 
-	@RequestMapping(value = "/edit/coach/{Id}", method = RequestMethod.GET)
-	public ModelAndView coachedit(@ModelAttribute("formModel") CoachData coachdata, @PathVariable int Id,
+	@RequestMapping(value = "/edit/school/{Id}", method = RequestMethod.GET)
+	public ModelAndView schooledit(@ModelAttribute("formModel") SchoolData schooldata, @PathVariable int Id,
 			ModelAndView mav) {
-		mav.setViewName("coachedit");
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		List<CoachData> clist = coachrepository.findAll();
-		if (session.getAttribute("sessionCid") != null) {
-			if ((int) session.getAttribute("sessionCid") == Id) {
-				mav.addObject("formModel", clist.get(Id - 1));
+		mav.setViewName("schooledit");
+		List<SchoolData> slist = schoolrepository.findAll();
+		if (session.getAttribute("sessionSid") != null) {
+			if ((int) session.getAttribute("sessionSid") == Id) {
+				mav.addObject("formModel", slist.get(Id - 1));
 			} else {
 				mav.addObject("error", "ログイン情報とURLが一致しません");
 			}
 		} else {
 			mav.addObject("error", "ログイン情報とURLが一致しません");
 		}
-		if (session.getAttribute("sessionCid") != null) {
-			List<CoachData> clists = coachrepository.findAll();
-			mav.addObject("cdata", clists.get((int) session.getAttribute("sessionCid")));
-		} else if (session.getAttribute("sessionSid") != null) {
-			List<SchoolData> slist = schoolrepository.findAll();
-			mav.addObject("sdata", slist.get((int) session.getAttribute("sessionSid")));
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("path","/edit/school/"+Id);
+		return mav;
+	}
+
+	@RequestMapping(value = "/edit/school/{Id}", method = RequestMethod.POST)
+	@Transactional(readOnly = false)
+	public ModelAndView schooledit(@ModelAttribute("formModel")
+		@Validated SchoolData schooldata,
+		BindingResult result, ModelAndView mav) {
+		List<SchoolData> slist = schoolrepository.findAll();
+		if (!result.hasErrors()) {
+			schoolrepository.saveAndFlush(schooldata);
+			mav.setViewName("result");
+			mav.addObject("msg", "修正が完了しました");
+		} else {
+			mav.setViewName("schooledit");
+			mav.addObject("formModel", schooldata);
+			mav.addObject("path","/edit/school/"+schooldata.getId());
 		}
+		
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
 		return mav;
 	}
 
 	@PostConstruct
 	public void init() {
 		SchoolData s1 = new SchoolData();
-		s1.setArea("奈良");
+		s1.setArea("奈良県");
 		s1.setSchoolName("奈良県立鹿高校");
 		s1.setCategory("高校");
 		s1.setLastName("なら");
@@ -450,7 +433,7 @@ public class clubController {
 		schoolrepository.saveAndFlush(s1);
 
 		SchoolData s2 = new SchoolData();
-		s2.setArea("大阪");
+		s2.setArea("大阪府");
 		s2.setSchoolName("大阪府立くいだおれ中学校");
 		s2.setCategory("中学校");
 		s2.setLastName("おおさか");
@@ -467,7 +450,7 @@ public class clubController {
 		c1.setJob("公務員");
 		c1.setMail("yama@da");
 		c1.setPassword("0000");
-		c1.setArea("奈良");
+		c1.setArea("奈良県");
 		c1.setAddress("鹿町");
 		c1.setTel("00");
 		c1.setExperience("バレーボール10年");
@@ -480,7 +463,7 @@ public class clubController {
 		c2.setJob("会社員");
 		c2.setMail("suzu@ki");
 		c2.setPassword("1111");
-		c2.setArea("大阪");
+		c2.setArea("大阪府");
 		c2.setAddress("たこ町");
 		c2.setTel("11");
 		c2.setExperience("吹奏楽3年");

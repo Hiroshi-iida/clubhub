@@ -26,6 +26,10 @@ nav{
   position: absolute;
   left: 0;
 }
+.nav a{
+	color:#fff;
+}
+
 nav ul{
   display:flex;
   color: #fff;

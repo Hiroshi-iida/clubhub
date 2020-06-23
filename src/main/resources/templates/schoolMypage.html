@@ -77,11 +77,9 @@
 			<div class="search">
 				<p th:if="${msg}" th:text="${msg}"></p>
 			</div>
-			<div class="button">
-				<a th:href="@{/logout}">ログアウト</a>
-			</div>
-			<div class="button">
-				<a th:href="@{/update}">登録情報の修正</a>
+			<div class="button2">
+				<a class="button" th:href="@{/logout}">ログアウト</a> <a class="button"
+					th:href="@{/edit/school/{id}(id=${sdatalist.id})}">登録情報の修正</a>
 			</div>
 		</main>
 	</div>

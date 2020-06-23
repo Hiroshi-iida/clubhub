@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>clubHub|コーチ登録</title>
+<title>clubHub|アカウント修正＜コーチ用＞</title>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/coach.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
@@ -15,9 +15,10 @@
 		<header th:include="header :: frag_header"></header>
 		<main class="main">
 		
-		<h1 class="pageTitle">◆会員登録＜コーチ用＞</h1>
+		<h1 class="pageTitle">◆会員登録修正＜コーチ用＞</h1>
 		<p th:if="${error}" th:text="${error}"></p>
-		<form method="post" action="/coach" th:object="${formModel}">
+<!-- 				<a th:href="@{/mypage/coach/{id}(id=${cdata.id})}"> -->
+		<form method="post" th:action="${path}" th:object="${formModel}">
 			<input th:unless="${error}" type="hidden" name="id" th:value="*{id}">
 			<ul>
 				<div class="content">
@@ -54,6 +55,7 @@
 								<option value="パート・アルバイト">パート・アルバイト</option>
 								<option value="学生">学生</option>
 								<option value="その他">その他</option>
+								<option th:value="*{job}" th:text="*{job}" selected></option>
 							</select>
 							<div th:if="${#fields.hasErrors('job')}" th:errors="*{job}"
 								th:errorclass="err"></div>
@@ -100,7 +102,7 @@
 								<option value="群馬県">群馬県</option>
 								<option value="埼玉県">埼玉県</option>
 								<option value="千葉県">千葉県</option>
-								<option value="東京都" selected>東京都</option>
+								<option value="東京都">東京都</option>
 								<option value="神奈川県">神奈川県</option>
 								<option value="新潟県">新潟県</option>
 								<option value="富山県">富山県</option>
@@ -135,6 +137,8 @@
 								<option value="宮崎県">宮崎県</option>
 								<option value="鹿児島県">鹿児島県</option>
 								<option value="沖縄県">沖縄県</option>
+								<option th:value="*{area}" th:text="*{area}" selected></option>
+								
 							</select>
 							<div th:if="${#fields.hasErrors('area')}" th:errors="*{area}"
 								th:errorclass="err"></div>
@@ -167,7 +171,7 @@
 					<label>
 						<div class="content1">
 							<li>経験や実績</li>
-							<textarea name="experience" th:value="*{experience}"
+							<textarea name="experience" th:text="*{experience}"
 								id="experience" cols="50" rows="5"
 								placeholder="競技の経験歴や大会出場の実績などをご記入ください"></textarea>
 							<div th:if="${#fields.hasErrors('experience')}"
@@ -180,7 +184,7 @@
 					<label>
 						<div class="content1">
 							<li>メッセージ</li>
-							<textarea name="message" th:value="*{message}" id="message"
+							<textarea name="message" th:text="*{message}" id="message"
 								cols="50" rows="5" placeholder="フリースペースです。プロフィールに記載されます。"></textarea>
 							<div th:if="${#fields.hasErrors('message')}"
 								th:errors="*{message}" th:errorclass="err"></div>
@@ -194,7 +198,7 @@
 					</div>
 				</div>
 			</ul>
-				<input class="button" type="submit" value="内容確認に進む">
+				<input class="button" type="submit" value="修正する">
 		</form>
 
 		</main>
