@@ -14,7 +14,7 @@
 
 		<div class="search">
 
-			<img src="../static/img/図5.svg" th:src="@{/img/図5.svg}"></img>
+			<img th:src="@{/img/図5.svg}"></img>
 			<p>≫</p>
 
 			<p>≫</p>
@@ -34,7 +34,7 @@
 		<div th:each="pdata:${pdatalist}">
 		<section class="post">
 			<div class="post1">
-				<img src="../static/img/team.jpg" th:src="@{/img/team.jpg}"></img>
+				<img th:src="@{/img/team.jpg}"></img>
 				<div class="post2">
 					<ul>
 						<li class="area" th:text="${pdata.area}">エリ ア</li>

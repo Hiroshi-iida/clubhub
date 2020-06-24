@@ -16,11 +16,11 @@
 <body>
 
 	<div class="head">
-		<img class="topimage" src="img/main.jpeg" alt="">
+		<img class="topimage" th:src="@{img/main.jpeg}" alt="">
 		<div class="top">
 			<header class="header">
 				<nav>
-					<img class="logo" src="img/logo.png" alt="ロゴ画像">
+					<img class="logo" th:src="@{img/logo.png}" alt="ロゴ画像">
 					<ul>
 						<div class="nav">
 							<a th:href="@{/board}"><li>部活動を探す</li></a>
@@ -179,9 +179,6 @@
 		</section>
 		<footer>
 			<div class="footer">
-				<div class="contact">
-					<i class="fa fa-star"></i> <i class="fa fa-star"></i>
-				</div>
 				<p>©clubHub</p>
 				<p>利用規約</p>
 				<p>プライバシーポリシー</p>

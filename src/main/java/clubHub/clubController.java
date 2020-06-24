@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import clubHub.repositories.PostDataRepository;
 import clubHub.repositories.SchoolDataRepository;
 import clubHub.repositories.CoachDataRepository;
+import clubHub.repositories.ChatDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
+import java.util.Date;
+import java.util.ArrayList.*;
+import java.util.HashSet;
 
 @Controller
 @SpringBootApplication
@@ -37,14 +41,22 @@ public class clubController {
 	PostDataRepository postrepository;
 	@Autowired
 	CoachDataRepository coachrepository;
+	@Autowired
+	ChatDataRepository chatrepository;
+
+	public ModelAndView required(ModelAndView mav) {
+		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		mav.addObject("sdata", session.getAttribute("sessionSdata"));
+		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		return mav;
+		// header用に必ず送るsession
+	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView index(@ModelAttribute("formModel") CoachData coachdata, SchoolData schooldata,
 			ModelAndView mav) {
 		mav.setViewName("index");
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		required(mav);
 		return mav;
 	}
 
@@ -52,9 +64,7 @@ public class clubController {
 	public ModelAndView login(@ModelAttribute("formModel") CoachData coachdata, SchoolData schooldata,
 			ModelAndView mav) {
 		mav.setViewName("login");
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		required(mav);
 		return mav;
 	}
 
@@ -127,18 +137,14 @@ public class clubController {
 	@RequestMapping("/select")
 	public ModelAndView select(ModelAndView mav) {
 		mav.setViewName("select");
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		required(mav);
 		return mav;
 	}
 
 	@RequestMapping("/result")
 	public ModelAndView result(ModelAndView mav) {
 		mav.setViewName("result");
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		required(mav);
 		return mav;
 	}
 
@@ -155,9 +161,7 @@ public class clubController {
 		mav.setViewName("board");
 		Iterable<PostData> plist = postrepository.findAll();
 		mav.addObject("pdatalist", plist);
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		required(mav);
 		return mav;
 	}
 
@@ -167,9 +171,7 @@ public class clubController {
 		mav.addObject("formModel", coachdata);
 		Iterable<CoachData> clist = coachrepository.findAll();
 		mav.addObject("cdatalist", clist);
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		required(mav);
 		return mav;
 	}
 
@@ -293,9 +295,34 @@ public class clubController {
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 		List<PostData> plist = postrepository.findAll();
 		mav.addObject("pdatalist", plist.get(Id));
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		required(mav);
+		return mav;
+	}
+
+	// 学校側が開くチャット
+	@RequestMapping("/chat/school/{sid}/coach/{cid}")
+	public ModelAndView chat(@PathVariable("sid") int sid, @PathVariable("cid") int cid, ModelAndView mav) {
+		mav.setViewName("chat");
+		required(mav);
+		if (session.getAttribute("sessionSid") != null) {
+			if ((int) session.getAttribute("sessionSid") == sid) { // sessionとURLが一致しているか
+				List<SchoolData> slist = schoolrepository.findAll();
+				List<CoachData> clist = coachrepository.findAll();
+				List<ChatData> chlist = chatrepository.findAll();
+				List<ChatData> printchat = new ArrayList();
+
+				for (int Sid = 0; Sid < chlist.size(); Sid++) { // 下の１はあとでコーチIDとして変数に
+					if (sid == chlist.get(Sid).getSchoolId() && chlist.get(Sid).getCoachId() == cid) { // ログインしている人のチャット呼出
+						printchat.add(chlist.get(Sid));
+					}
+					mav.addObject("receivechat", printchat);
+					mav.addObject("sdatalist", slist.get(sid - 1));
+					mav.addObject("cdatalist", clist.get(cid - 1));
+				}
+			} else {
+				mav.addObject("error", "ログイン情報とURLが一致しません");
+			}
+		}
 		return mav;
 	}
 
@@ -311,9 +338,7 @@ public class clubController {
 				mav.addObject("error", "ログイン情報とURLが一致しません");
 			}
 		}
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		required(mav);
 		return mav;
 	}
 
@@ -333,15 +358,14 @@ public class clubController {
 		}
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 		mav.addObject("cdata", session.getAttribute("sessionCdata"));
-		mav.addObject("path","/edit/coach/"+Id);
+		mav.addObject("path", "/edit/coach/" + Id);
 		return mav;
 	}
 
 	@RequestMapping(value = "/edit/coach/{Id}", method = RequestMethod.POST)
 	@Transactional(readOnly = false)
-	public ModelAndView coachedit(@ModelAttribute("formModel")
-		@Validated CoachData coachdata,
-		BindingResult result, ModelAndView mav) {
+	public ModelAndView coachedit(@ModelAttribute("formModel") @Validated CoachData coachdata, BindingResult result,
+			ModelAndView mav) {
 		List<CoachData> clist = coachrepository.findAll();
 		if (!result.hasErrors()) {
 			coachrepository.saveAndFlush(coachdata);
@@ -350,9 +374,9 @@ public class clubController {
 		} else {
 			mav.setViewName("coachedit");
 			mav.addObject("formModel", coachdata);
-			mav.addObject("path","/edit/coach/"+coachdata.getId());
+			mav.addObject("path", "/edit/coach/" + coachdata.getId());
 		}
-		
+
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
@@ -361,7 +385,7 @@ public class clubController {
 	@RequestMapping("/mypage/school/{Id}")
 	public ModelAndView schoolMypage(@PathVariable int Id, ModelAndView mav) {
 		mav.setViewName("schoolMypage");
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+		required(mav);
 		List<SchoolData> slist = schoolrepository.findAll();
 		if (session.getAttribute("sessionSid") != null) {
 			if ((int) session.getAttribute("sessionSid") == Id) {
@@ -370,9 +394,41 @@ public class clubController {
 				mav.addObject("error", "ログイン情報とURLが一致しません");
 			}
 		}
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+		return mav;
+	}
+
+	@RequestMapping("/mailbox/school/{Id}")
+	public ModelAndView schoolMailbox(@PathVariable int Id, ModelAndView mav) {
+		mav.setViewName("mailbox");
+		required(mav);
+		List<SchoolData> slist = schoolrepository.findAll();
+		List<CoachData> clist = coachrepository.findAll();
+		List<ChatData> chlist = chatrepository.findAll();
+		if (session.getAttribute("sessionSid") != null) {
+			if ((int) session.getAttribute("sessionSid") == Id) { // 他人のメールボックスを見るのを阻止
+				List<ChatData> hozonA = new ArrayList<ChatData>();
+//				mav.addObject("sdatalist", slist.get(Id - 1));
+				for (int i = 0; i < chlist.size(); i++) {
+					if (Id == chlist.get(i).getSchoolId()) { // schoolID一致のID(チャットデータベースの行)全保存
+						hozonA.add(chlist.get(i)); // schoolID一致チャットデータベース全保存
+					}
+				}
+				List<ChatData> chatprint = new ArrayList();
+				List<Integer> cidhozonB = new ArrayList<Integer>();
+				HashSet hs = new HashSet();
+				for (int i = 0; i < hozonA.size(); i++) { // ここでは一旦コーチIDだけのリスト作成　hozonBに。
+					if(hs.add(hozonA.get(i).getCoachId())) {
+						chatprint.add(hozonA.get(i));
+					}
+				}
+				// List<Integer> cidhozonB = new ArrayList<Integer>(new HashSet<>(cidhozonA));
+				// // coachID重複削除
+				mav.addObject("chatlist", chatprint);
+			} else {
+				mav.addObject("error", "ログイン情報とURLが一致しません");
+			}
+			mav.addObject("error", "ログインしてください");
+		}
 		return mav;
 	}
 
@@ -392,15 +448,14 @@ public class clubController {
 		}
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("path","/edit/school/"+Id);
+		mav.addObject("path", "/edit/school/" + Id);
 		return mav;
 	}
 
 	@RequestMapping(value = "/edit/school/{Id}", method = RequestMethod.POST)
 	@Transactional(readOnly = false)
-	public ModelAndView schooledit(@ModelAttribute("formModel")
-		@Validated SchoolData schooldata,
-		BindingResult result, ModelAndView mav) {
+	public ModelAndView schooledit(@ModelAttribute("formModel") @Validated SchoolData schooldata, BindingResult result,
+			ModelAndView mav) {
 		List<SchoolData> slist = schoolrepository.findAll();
 		if (!result.hasErrors()) {
 			schoolrepository.saveAndFlush(schooldata);
@@ -409,9 +464,9 @@ public class clubController {
 		} else {
 			mav.setViewName("schooledit");
 			mav.addObject("formModel", schooldata);
-			mav.addObject("path","/edit/school/"+schooldata.getId());
+			mav.addObject("path", "/edit/school/" + schooldata.getId());
 		}
-		
+
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 		mav.addObject("sdata", session.getAttribute("sessionSdata"));
 		return mav;
@@ -468,6 +523,19 @@ public class clubController {
 		c2.setExperience("吹奏楽3年");
 		c2.setMessage("金管楽器教えるのが得意です！");
 		coachrepository.saveAndFlush(c2);
+		
+		CoachData c3 = new CoachData();
+		c3.setLastName("佐藤");
+		c3.setFirstName("一郎");
+		c3.setJob("経営者");
+		c3.setMail("sa@to");
+		c3.setPassword("2222");
+		c3.setArea("京都府");
+		c3.setAddress("金閣村");
+		c3.setTel("22");
+		c3.setExperience("野球部15年");
+		c3.setMessage("監督経験あり！");
+		coachrepository.saveAndFlush(c3);
 
 		PostData p1 = new PostData();
 		p1.setArea("奈良");
@@ -517,6 +585,54 @@ public class clubController {
 		p2.setOtherText("よろしくお願いします！");
 		p2.setSchoolId(1);
 		postrepository.saveAndFlush(p2);
+
+		ChatData ch1 = new ChatData();
+		ch1.setSender(true);
+		ch1.setMessage("鹿高校さんこんにちは！");
+		ch1.setSchoolId(1);// 鹿高校
+		ch1.setCoachId(1);// 山田
+		ch1.setDate(new Date());
+		chatrepository.saveAndFlush(ch1);
+
+		ChatData ch2 = new ChatData();
+		ch2.setSender(false);
+		ch2.setMessage("山田さんこんばんは！！");
+		ch2.setSchoolId(1);// 鹿高校
+		ch2.setCoachId(1);// 山田
+		ch2.setDate(new Date());
+		chatrepository.saveAndFlush(ch2);
+
+		ChatData ch3 = new ChatData();
+		ch3.setSender(true);
+		ch3.setMessage("くいだおれ中学さんこんにちは！");
+		ch3.setSchoolId(2);// くいだおれ中
+		ch3.setCoachId(1);// 山田
+		ch3.setDate(new Date());
+		chatrepository.saveAndFlush(ch3);
+
+		ChatData ch4 = new ChatData();
+		ch4.setSender(false);
+		ch4.setMessage("おめでとう！");
+		ch4.setSchoolId(1);// 鹿高校
+		ch4.setCoachId(2);// 鈴木
+		ch4.setDate(new Date());
+		chatrepository.saveAndFlush(ch4);
+		
+		ChatData ch5 = new ChatData();
+		ch5.setSender(true);
+		ch5.setMessage("すごい！");
+		ch5.setSchoolId(1);// 鹿
+		ch5.setCoachId(3);// ？？
+		ch5.setDate(new Date());
+		chatrepository.saveAndFlush(ch5);
+		
+		ChatData ch6 = new ChatData();
+		ch6.setSender(false);
+		ch6.setMessage("よくやった！");
+		ch6.setSchoolId(1);// 鹿高校
+		ch6.setCoachId(2);// 鈴木
+		ch6.setDate(new Date());
+		chatrepository.saveAndFlush(ch6);
 	}
 
 }

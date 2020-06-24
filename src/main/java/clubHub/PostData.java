@@ -20,8 +20,6 @@ public class PostData {
 	@NotNull
 	private int id;
 	
-
-	
 	@Column(nullable = false)
 	@NotEmpty(message="空白NG")
 	private String category;	//カテゴリー（運動or文化）

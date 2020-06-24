@@ -14,7 +14,7 @@
 		<header th:include="header :: frag_header"></header>
 
 		<div class="search" th:object="${pdatalist}">
-			<img src="../static/img/図5.svg" th:src="@{/img/図5.svg}"></img>
+			<img th:src="@{/img/図5.svg}"></img>
 			<p>≫</p>
 			<p th:text="*{area}">奈良県</p>
 			<p>≫</p>
@@ -29,15 +29,14 @@
 			<div class="post1">
 				<div class="post2">
 					<ul>
-						<li class="area" th:text="${pdatalist.area}" >エリア</li>
+						<li class="area" th:text="${pdatalist.area}">エリア</li>
 						<li th:text="${pdatalist.category}">カテゴリー</li>
 						<li th:text="${pdatalist.categoryDetails}">特徴</li>
 					</ul>
 					<h2 th:text="${pdatalist.schoolName}">奈良県立鹿高校</h2>
 					<h3 th:text="${pdatalist.title}">
-						「全国大会出場目指しています！経験者のコーチを募集しています。」
-					</h3>
-					<img src="../static/img/team.jpg" th:src="@{/img/team.jpg}"></img>
+						「全国大会出場目指しています！経験者のコーチを募集しています。」</h3>
+					<img th:src="@{/img/team.jpg}"></img>
 				</div>
 			</div>
 		</section>
@@ -102,20 +101,17 @@
 					</div>
 				</div>
 			</div>
-	</div>
+		</section>
 
-	<div class="chat1">
-		<textarea name="" id="" cols="30" rows="10"
-			placeholder="気になることがあればコメントで聞いてみましょう！"></textarea>
-		<p>相手のことを考え丁寧なコメントを心がけましょう。</p>
+		<div class="chat1">
+			<textarea name="" id="" cols="30" rows="10"
+				placeholder="気になることがあればコメントで聞いてみましょう！"></textarea>
+			<p>相手のことを考え丁寧なコメントを心がけましょう。</p>
 
-		<div class="button1">
-			<input class="button" type="submit" value="コメントする">
+			<div class="button1">
+				<input class="button" type="submit" value="コメントする">
+			</div>
 		</div>
-	</div>
-	</section>
-
-	<a class="return" href="">トップに戻る</a>
 	</div>
 </body>
 
