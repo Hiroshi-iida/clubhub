@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 import clubHub.repositories.PostDataRepository;
 import clubHub.repositories.SchoolDataRepository;
 import clubHub.repositories.CoachDataRepository;
@@ -300,8 +301,9 @@ public class clubController {
 	}
 
 	// 学校側が開くチャット
-	@RequestMapping("/chat/school/{sid}/coach/{cid}")
-	public ModelAndView chat(@PathVariable("sid") int sid, @PathVariable("cid") int cid, ModelAndView mav) {
+	@RequestMapping(value = "/chat/school/{sid}/coach/{cid}", method = RequestMethod.GET)
+	public ModelAndView chat(@PathVariable("sid") int sid, @PathVariable("cid") int cid,
+			@ModelAttribute("formModel") ChatData chatdata, ModelAndView mav) {
 		mav.setViewName("chat");
 		required(mav);
 		if (session.getAttribute("sessionSid") != null) {
@@ -309,7 +311,7 @@ public class clubController {
 				List<SchoolData> slist = schoolrepository.findAll();
 				List<CoachData> clist = coachrepository.findAll();
 				List<ChatData> chlist = chatrepository.findAll();
-				List<ChatData> printchat = new ArrayList();
+				List<ChatData> printchat = new ArrayList<>();
 
 				for (int Sid = 0; Sid < chlist.size(); Sid++) { // 下の１はあとでコーチIDとして変数に
 					if (sid == chlist.get(Sid).getSchoolId() && chlist.get(Sid).getCoachId() == cid) { // ログインしている人のチャット呼出
@@ -318,11 +320,29 @@ public class clubController {
 					mav.addObject("receivechat", printchat);
 					mav.addObject("sdatalist", slist.get(sid - 1));
 					mav.addObject("cdatalist", clist.get(cid - 1));
+					mav.addObject("sid", sid);
+					mav.addObject("cid", cid);
 				}
 			} else {
 				mav.addObject("error", "ログイン情報とURLが一致しません");
 			}
 		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/chat/school/{sid}/coach/{cid}", method = RequestMethod.POST)
+	public ModelAndView chat(
+			@PathVariable("sid") int sid, @PathVariable("cid") int cid,
+			@RequestParam(value = "message", required = true) String message, ModelAndView mav) {
+		required(mav);
+		ChatData ch = new ChatData();
+		ch.setMessage(message);
+		ch.setCoachId(cid);
+		ch.setSchoolId(sid);
+		ch.setSender(false);
+		ch.setDate(new Date());
+		chatrepository.saveAndFlush(ch);
+		mav.setViewName("redirect:/chat/school/"+sid+"/coach/"+cid);
 		return mav;
 	}
 
@@ -414,19 +434,19 @@ public class clubController {
 					}
 				}
 				List<ChatData> chatprint = new ArrayList();
-				List<Integer> cidhozonB = new ArrayList<Integer>();
 				HashSet hs = new HashSet();
-				for (int i = 0; i < hozonA.size(); i++) { // ここでは一旦コーチIDだけのリスト作成　hozonBに。
-					if(hs.add(hozonA.get(i).getCoachId())) {
+				for (int i = hozonA.size()-1; i >= 0; i--) { // ここでは一旦コーチIDだけのリスト作成 hozonAに。
+					if (hs.add(hozonA.get(i).getCoachId())) { // hashにaddされることがtrueになるっぽい?
 						chatprint.add(hozonA.get(i));
 					}
 				}
-				// List<Integer> cidhozonB = new ArrayList<Integer>(new HashSet<>(cidhozonA));
-				// // coachID重複削除
+				mav.addObject("coachlist", clist);
 				mav.addObject("chatlist", chatprint);
+				mav.addObject("path", "/chat/school/" + Id);
 			} else {
 				mav.addObject("error", "ログイン情報とURLが一致しません");
 			}
+		} else {
 			mav.addObject("error", "ログインしてください");
 		}
 		return mav;
@@ -523,7 +543,7 @@ public class clubController {
 		c2.setExperience("吹奏楽3年");
 		c2.setMessage("金管楽器教えるのが得意です！");
 		coachrepository.saveAndFlush(c2);
-		
+
 		CoachData c3 = new CoachData();
 		c3.setLastName("佐藤");
 		c3.setFirstName("一郎");
@@ -609,6 +629,14 @@ public class clubController {
 		ch3.setCoachId(1);// 山田
 		ch3.setDate(new Date());
 		chatrepository.saveAndFlush(ch3);
+		
+//		ChatData ch33 = new ChatData();
+//		ch33.setSender(true);
+//		ch33.setMessage("くいだおれ中学さんこんにちは！");
+//		ch33.setSchoolId(2);// くいだおれ中
+//		ch33.setCoachId(1);// 山田
+//		ch33.setDate(new Date());
+//		chatrepository.saveAndFlush(ch33);
 
 		ChatData ch4 = new ChatData();
 		ch4.setSender(false);
@@ -617,7 +645,7 @@ public class clubController {
 		ch4.setCoachId(2);// 鈴木
 		ch4.setDate(new Date());
 		chatrepository.saveAndFlush(ch4);
-		
+
 		ChatData ch5 = new ChatData();
 		ch5.setSender(true);
 		ch5.setMessage("すごい！");
@@ -625,7 +653,7 @@ public class clubController {
 		ch5.setCoachId(3);// ？？
 		ch5.setDate(new Date());
 		chatrepository.saveAndFlush(ch5);
-		
+
 		ChatData ch6 = new ChatData();
 		ch6.setSender(false);
 		ch6.setMessage("よくやった！");

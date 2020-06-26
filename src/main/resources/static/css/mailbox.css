@@ -24,4 +24,20 @@ body {
 }
 .receive{
 	display:flex;
+	margin-left:100px;
+}
+.receive1{
+	margin: auto 30px;
+}
+.receive1 p{
+	padding:5px;
+}
+.receive2{
+	margin:30px;
+	padding:30px;
+	border-bottom: 1px dashed #5a5a5a;
+}
+.border{
+	border-bottom: 1px dashed #5a5a5a;
+	margin:30px;
 }
