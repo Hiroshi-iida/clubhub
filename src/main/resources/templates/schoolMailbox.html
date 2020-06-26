@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>チャット|clubHub</title>
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/mailbox.css}" rel="stylesheet" type="text/css">
+<style th:include="header :: head_style"></style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header th:include="header :: frag_header"></header>
+
+
+		
+		<p class="title">message box</p>
+		<span th:text="${error}"></span>
+
+		<p class="border"></p>	
+		<div class="receive2" th:each="chat:${chatlist}">
+			<a th:href="|${path}/coach/${chat.coachId}|">
+				<div class="receive">
+					<img th:src="@{/img/図1.png}">
+					<div class="receive1" th:object="${coachlist.get(__${chat.coachId}-1__)}">
+						<p th:text="*{lastName} +' さん'">コーチ名</p>
+						<p th:text="${chat.message}"></p>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+
+</body>
+
+</html>

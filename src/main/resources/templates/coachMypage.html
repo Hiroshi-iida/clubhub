@@ -79,8 +79,10 @@
 				<p th:if="${msg}" th:text="${msg}"></p>
 			</div>
 			<div class="button2">
-				<a class="button" th:href="@{/logout}">ログアウト</a>
+				<a class="button" th:href="@{/mailbox/coach/{id}(id=${cdatalist.id})}">メールボックス</a>
 				<a class="button" th:href="@{/edit/coach/{id}(id=${cdatalist.id})}">登録情報の修正</a>
+				<a class="button" th:href="@{/logout}">ログアウト</a>
+						
 			</div>
 			
 			</div>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>チャット|clubHub</title>
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/chat.css}" rel="stylesheet" type="text/css">
+<style th:include="header :: head_style"></style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header th:include="header :: frag_header"></header>
+		<a th:href="@{/mailbox/coach/{id}(id=${cid})}">
+			<p class="title">message box <span>に戻る</span></p>
+		</a>
+		<span th:text="${error}"></span>
+
+
+		<section th:each="chat : ${receivechat}">
+
+			<div class="chats" th:unless="${chat.sender}">
+				<p th:text="${sdatalist.schoolName} + 'さん'" class="userName">ユーザ名ユーザ名ユーザ名</p>
+				<div class="container">
+					<div class="user">
+						<img th:src="@{/img/図1.png}" alt="">
+					</div>
+					<div class="comment">
+						<p th:text="${chat.message}">投稿内容が入ります。</p>
+						<p th:text="${#dates.format(chat.date ,'yyyy/MM/dd HH:mm')}">2020/12/31 00:00:00</p>
+					</div>
+				</div>
+			</div>
+
+			<div th:if="${chat.sender}" class="mychat">
+				<p class="userName" th:text="${cdatalist.lastName}">投稿者</p>
+				<div class="container">
+					<div class="user">
+						<img th:src="@{/img/図1.png}" alt="">
+					</div>
+					<div class="comment">
+						<p th:text="${chat.message}">投稿内容が入ります。</p>
+						<p th:text="${#dates.format(chat.date ,'yyyy/MM/dd HH:mm')}">
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="chat1">
+			<form method="post" th:action="|/chat/coach/${cid}/school/${sid}|">
+			<textarea name="message" th:value="${message}" id="message" cols="30" rows="10"
+				placeholder="気になることがあればコメントで聞いてみましょう！"></textarea>
+			<p>相手のことを考え丁寧なコメントを心がけましょう。</p>
+
+				<input class="button" type="submit" value="コメントする">
+			</form>
+		</div>
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+package clubHub.repositories;
+
+import clubHub.PhotoData;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+
+public interface PhotoDataRepository extends JpaRepository<PhotoData, Long>{
+
+}

@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table
@@ -19,9 +17,39 @@ public class PhotoData {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	@NotNull
-	private long id;
+	private int id;
 	
 	@Column(nullable = false)
-	@NotEmpty(message="空白NG")
-	private String lastName;
+	private byte[] image;
+//	
+//	@Column
+//	private String image;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+//
+//	public String getImage() {
+//		return image;
+//	}
+//
+//	public void setImage(String image) {
+//		this.image = image;
+//	}
+		
+	public byte[] getImage() {
+		return image;
+	}
+	
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+	
+
+	
+	
 }

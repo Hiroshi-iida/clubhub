@@ -15,7 +15,7 @@
 		<main class="main">
 		
 		<h1 class="pageTitle">◆会員登録＜コーチ用＞</h1>
-		<form method="post" action="/coach" th:object="${formModel}">
+		<form method="post" action="/coach" enctype="multipart/form-data" th:object="${formModel}">
 
 			<ul>
 				<div class="content">
@@ -188,7 +188,8 @@
 
 				<div class="content">
 					<div class="content1">
-						<li>写真</li> <input class="photoup" type="file" name="photo">
+						<li>写真</li>
+						<input class="photoup" type="file" name="coachphoto" >
 					</div>
 				</div>
 			</ul>
@@ -224,7 +225,16 @@
 				<td th:text="${obj.experience}"></td>
 				<td th:text="${obj.message}"></td>
 				<td th:text="${obj.password}"></td>
+<!-- 				<td th:text="${obj.coachphoto}"></td> -->
 			</tr>
+			
+<!-- 			<ul> -->
+<!-- 				<li th:each="file : ${files}"> -->
+<!-- 					<a th:href="${file}" th:text="${file}"></a> -->
+<!-- 				</li> -->
+<!-- 			</ul> -->
+				
+				
 		</table>
 		</main>
 

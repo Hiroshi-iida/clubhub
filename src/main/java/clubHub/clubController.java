@@ -3,8 +3,10 @@ package clubHub;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import java.io.IOException;
+import java.io.InputStream;
 import javax.annotation.PostConstruct;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
@@ -15,35 +17,60 @@ import clubHub.repositories.PostDataRepository;
 import clubHub.repositories.SchoolDataRepository;
 import clubHub.repositories.CoachDataRepository;
 import clubHub.repositories.ChatDataRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
-import java.util.Date;
-import java.util.ArrayList.*;
 import java.util.HashSet;
+import javax.servlet.http.HttpSession;
+import java.util.Date;
+import clubHub.repositories.PhotoDataRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
+import javax.websocket.server.PathParam;
+import java.util.ArrayList.*;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.Serializable;
+import javax.xml.crypto.Data;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+//import com.sun.xml.internal.messaging.saaj.util.Base64;
+//import com.sun.org.apache.xml.internal.security.utils.Base64;
+//import java.util.prefs.Base64;
+//import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+//import org.apache.tomcat.util.codec.binary.Base64;
+//import java.util.Base64;
 
 @Controller
 @SpringBootApplication
 public class clubController {
 	@Autowired
-	SchoolDataRepository schoolrepository;
-	@Autowired
 	HttpSession session;
+	@Autowired
+	SchoolDataRepository schoolrepository;
 	@Autowired
 	PostDataRepository postrepository;
 	@Autowired
 	CoachDataRepository coachrepository;
 	@Autowired
 	ChatDataRepository chatrepository;
+	@Autowired
+	PhotoDataRepository photorepository;
 
 	public ModelAndView required(ModelAndView mav) {
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
@@ -51,6 +78,45 @@ public class clubController {
 		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 		// header用に必ず送るsession
+	}
+
+	@RequestMapping(value = "/demo", method = RequestMethod.GET)
+	public ModelAndView demo(ModelAndView mav) {
+		mav.setViewName("demo");
+		Iterable<PhotoData> list = photorepository.findAll();
+		mav.addObject("photodata",list);
+		return mav;
+	}
+
+	@RequestMapping(value = "/demo", method = RequestMethod.POST)
+	@Transactional(readOnly = false)
+	public ModelAndView demo(@RequestParam MultipartFile uploadfile, ModelAndView mav) throws Exception {
+
+		StringBuffer data = new StringBuffer();
+		InputStream is = uploadfile.getInputStream();
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		byte[] indata = new byte[10240 * 16];
+		int siz;
+		while ((siz = is.read(indata, 0, indata.length)) > 0) {
+			os.write(indata, 0, siz);
+		}
+		
+		// 画像データをbase64エンコードする
+		String base64 = new String(Base64.encodeBase64(os.toByteArray()), "ASCII");
+//		PhotoData ph = new PhotoData();
+//		ph.setImage(os.toByteArray());
+//		photorepository.saveAndFlush(ph);
+
+
+		mav.addObject("image",base64);
+		// 画像タイプはJPEG固定
+	        data.append("data:image/jpeg;base64,");
+	        data.append(base64);
+	        mav.addObject("base64data", data.toString());
+
+	        mav.setViewName("demo");
+		return mav;
+
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -178,7 +244,8 @@ public class clubController {
 
 	@RequestMapping(value = "/coach", method = RequestMethod.POST)
 	@Transactional(readOnly = false)
-	public ModelAndView coach(@ModelAttribute("formModel") @Validated CoachData coachdata, BindingResult result,
+	public ModelAndView coach(@ModelAttribute("formModel") 
+	@Validated CoachData coachdata, BindingResult result,
 			ModelAndView mav) {
 		ModelAndView res = null;
 		if (!result.hasErrors()) {
@@ -300,11 +367,10 @@ public class clubController {
 		return mav;
 	}
 
-	// 学校側が開くチャット
 	@RequestMapping(value = "/chat/school/{sid}/coach/{cid}", method = RequestMethod.GET)
-	public ModelAndView chat(@PathVariable("sid") int sid, @PathVariable("cid") int cid,
+	public ModelAndView schoolChat(@PathVariable("sid") int sid, @PathVariable("cid") int cid,
 			@ModelAttribute("formModel") ChatData chatdata, ModelAndView mav) {
-		mav.setViewName("chat");
+		mav.setViewName("schoolChat");
 		required(mav);
 		if (session.getAttribute("sessionSid") != null) {
 			if ((int) session.getAttribute("sessionSid") == sid) { // sessionとURLが一致しているか
@@ -331,8 +397,7 @@ public class clubController {
 	}
 
 	@RequestMapping(value = "/chat/school/{sid}/coach/{cid}", method = RequestMethod.POST)
-	public ModelAndView chat(
-			@PathVariable("sid") int sid, @PathVariable("cid") int cid,
+	public ModelAndView schoolChat(@PathVariable("sid") int sid, @PathVariable("cid") int cid,
 			@RequestParam(value = "message", required = true) String message, ModelAndView mav) {
 		required(mav);
 		ChatData ch = new ChatData();
@@ -342,7 +407,51 @@ public class clubController {
 		ch.setSender(false);
 		ch.setDate(new Date());
 		chatrepository.saveAndFlush(ch);
-		mav.setViewName("redirect:/chat/school/"+sid+"/coach/"+cid);
+		mav.setViewName("redirect:/chat/school/" + sid + "/coach/" + cid);
+		return mav;
+	}
+
+	@RequestMapping(value = "/chat/coach/{cid}/school/{sid}", method = RequestMethod.GET)
+	public ModelAndView coachChat(@PathVariable("cid") int cid, @PathVariable("sid") int sid,
+			@ModelAttribute("formModel") ChatData chatdata, ModelAndView mav) {
+		mav.setViewName("coachChat");
+		required(mav);
+		if (session.getAttribute("sessionCid") != null) {
+			if ((int) session.getAttribute("sessionCid") == cid) { // sessionとURLが一致しているか
+				List<SchoolData> slist = schoolrepository.findAll();
+				List<CoachData> clist = coachrepository.findAll();
+				List<ChatData> chlist = chatrepository.findAll();
+				List<ChatData> printchat = new ArrayList<>();
+
+				for (int Cid = 0; Cid < chlist.size(); Cid++) { // 下の１はあとでコーチIDとして変数に
+					if (cid == chlist.get(Cid).getCoachId() && chlist.get(Cid).getSchoolId() == sid) { // ログインしている人のチャット呼出
+						printchat.add(chlist.get(Cid));
+					}
+					mav.addObject("receivechat", printchat);
+					mav.addObject("cdatalist", clist.get(cid - 1));
+					mav.addObject("sdatalist", slist.get(sid - 1));
+					mav.addObject("sid", sid);
+					mav.addObject("cid", cid);
+				}
+			} else {
+				mav.addObject("error", "ログイン情報とURLが一致しません");
+			}
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/chat/coach/{cid}/school/{sid}", method = RequestMethod.POST)
+	public ModelAndView coachChat(@PathVariable("cid") int cid, @PathVariable("sid") int sid,
+			@RequestParam(value = "message", required = true) String message, ModelAndView mav) {
+		required(mav);
+		ChatData ch = new ChatData();
+		ch.setMessage(message);
+		ch.setCoachId(cid);
+		ch.setSchoolId(sid);
+		ch.setSender(true);
+		ch.setDate(new Date());
+		chatrepository.saveAndFlush(ch);
+		mav.setViewName("redirect:/chat/coach/" + cid + "/school/" + sid);
 		return mav;
 	}
 
@@ -359,6 +468,41 @@ public class clubController {
 			}
 		}
 		required(mav);
+		return mav;
+	}
+
+	@RequestMapping("/mailbox/coach/{Id}")
+	public ModelAndView coachMailbox(@PathVariable int Id, ModelAndView mav) {
+		mav.setViewName("coachMailbox");
+		required(mav);
+		List<SchoolData> slist = schoolrepository.findAll();
+		List<CoachData> clist = coachrepository.findAll();
+		List<ChatData> chlist = chatrepository.findAll();
+		if (session.getAttribute("sessionCid") != null) {
+			if ((int) session.getAttribute("sessionCid") == Id) { // 他人のメールボックスを見るのを阻止
+				List<ChatData> hozonA = new ArrayList<ChatData>();
+//				mav.addObject("sdatalist", slist.get(Id - 1));
+				for (int i = 0; i < chlist.size(); i++) {
+					if (Id == chlist.get(i).getCoachId()) { // schoolID一致のID(チャットデータベースの行)全保存
+						hozonA.add(chlist.get(i)); // schoolID一致チャットデータベース全保存
+					}
+				}
+				List<ChatData> chatprint = new ArrayList();
+				HashSet hs = new HashSet();
+				for (int i = hozonA.size() - 1; i >= 0; i--) { // ここでは一旦コーチIDだけのリスト作成 hozonAに。
+					if (hs.add(hozonA.get(i).getSchoolId())) { // hashにaddされることがtrueになるっぽい?
+						chatprint.add(hozonA.get(i));
+					}
+				}
+				mav.addObject("schoollist", slist);
+				mav.addObject("chatlist", chatprint);
+				mav.addObject("path", "/chat/coach/" + Id);
+			} else {
+				mav.addObject("error", "ログイン情報とURLが一致しません");
+			}
+		} else {
+			mav.addObject("error", "ログインしてください");
+		}
 		return mav;
 	}
 
@@ -419,7 +563,7 @@ public class clubController {
 
 	@RequestMapping("/mailbox/school/{Id}")
 	public ModelAndView schoolMailbox(@PathVariable int Id, ModelAndView mav) {
-		mav.setViewName("mailbox");
+		mav.setViewName("schoolMailbox");
 		required(mav);
 		List<SchoolData> slist = schoolrepository.findAll();
 		List<CoachData> clist = coachrepository.findAll();
@@ -435,7 +579,7 @@ public class clubController {
 				}
 				List<ChatData> chatprint = new ArrayList();
 				HashSet hs = new HashSet();
-				for (int i = hozonA.size()-1; i >= 0; i--) { // ここでは一旦コーチIDだけのリスト作成 hozonAに。
+				for (int i = hozonA.size() - 1; i >= 0; i--) { // ここでは一旦コーチIDだけのリスト作成 hozonAに。
 					if (hs.add(hozonA.get(i).getCoachId())) { // hashにaddされることがtrueになるっぽい?
 						chatprint.add(hozonA.get(i));
 					}
@@ -629,7 +773,7 @@ public class clubController {
 		ch3.setCoachId(1);// 山田
 		ch3.setDate(new Date());
 		chatrepository.saveAndFlush(ch3);
-		
+
 //		ChatData ch33 = new ChatData();
 //		ch33.setSender(true);
 //		ch33.setMessage("くいだおれ中学さんこんにちは！");
