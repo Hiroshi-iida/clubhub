@@ -61,6 +61,17 @@ public class CoachData {
 	@Column(nullable = true)
 	private String message;
 
+	@Column(length=100000)
+	private String image;
+	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
 	public int getId() {
 		return id;
 	}

@@ -1,5 +1,7 @@
 package clubHub;
 
+import java.io.ByteArrayOutputStream;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,12 +20,6 @@ public class PhotoData {
 	@Column
 	@NotNull
 	private int id;
-	
-	@Column(nullable = false)
-	private byte[] image;
-//	
-//	@Column
-//	private String image;
 
 	public int getId() {
 		return id;
@@ -32,24 +28,17 @@ public class PhotoData {
 	public void setId(int id) {
 		this.id = id;
 	}
-//
-//	public String getImage() {
-//		return image;
-//	}
-//
-//	public void setImage(String image) {
-//		this.image = image;
-//	}
-		
-	public byte[] getImage() {
+
+	@Column(length=100000)
+	private String image;
+	
+	public String getImage() {
 		return image;
 	}
-	
-	public void setImage(byte[] image) {
+
+	public void setImage(String image) {
 		this.image = image;
 	}
-	
-
 	
 	
 }

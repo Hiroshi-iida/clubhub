@@ -33,6 +33,7 @@
 			
 			<div th:if="${photodata}" th:each="img : ${photodata}">
 				<p th:text="${img.id}"></p>
+				<p th:text="${img.image}"></p>
 			</div>
 
 			<img th:if="${base64data}" th:src="${base64data}" />

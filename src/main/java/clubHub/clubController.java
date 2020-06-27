@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +19,7 @@ import clubHub.repositories.PostDataRepository;
 import clubHub.repositories.SchoolDataRepository;
 import clubHub.repositories.CoachDataRepository;
 import clubHub.repositories.ChatDataRepository;
+import clubHub.repositories.PhotoDataRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,12 +29,11 @@ import org.springframework.validation.annotation.Validated;
 import java.util.HashSet;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import clubHub.repositories.PhotoDataRepository;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.multipart.MultipartFile;
 import javax.websocket.server.PathParam;
 import java.util.ArrayList.*;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,12 +51,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-//import com.sun.xml.internal.messaging.saaj.util.Base64;
-//import com.sun.org.apache.xml.internal.security.utils.Base64;
-//import java.util.prefs.Base64;
-//import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-//import org.apache.tomcat.util.codec.binary.Base64;
-//import java.util.Base64;
+import java.awt.image.BufferedImage;
+import org.springframework.core.io.Resource;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics;
+import javax.imageio.stream.ImageOutputStream;
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Locale;
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
+import javax.imageio.stream.ImageOutputStream;
 
 @Controller
 @SpringBootApplication
@@ -83,8 +96,8 @@ public class clubController {
 	@RequestMapping(value = "/demo", method = RequestMethod.GET)
 	public ModelAndView demo(ModelAndView mav) {
 		mav.setViewName("demo");
-		Iterable<PhotoData> list = photorepository.findAll();
-		mav.addObject("photodata",list);
+		List<PhotoData> list = photorepository.findAll();
+		mav.addObject("photodata", list);
 		return mav;
 	}
 
@@ -92,29 +105,64 @@ public class clubController {
 	@Transactional(readOnly = false)
 	public ModelAndView demo(@RequestParam MultipartFile uploadfile, ModelAndView mav) throws Exception {
 
+		final int MAX_LENGTH = 300; // サイズの横or縦幅の最大値
+		InputStream image = uploadfile.getInputStream(); // 受け取ったMultipartfileを変換して受け取る
+
+		BufferedImage images = ImageIO.read(image); // 受け取った画像の縦横サイズを受け取る
+		double width = images.getWidth();
+		double height = images.getHeight();
+		double ratio = 0; // 比率
+
+		// 縮尺がずれないように
+		if (width > height) {
+			ratio = MAX_LENGTH / width;
+			width = MAX_LENGTH;
+			height *= ratio;
+		} else {
+			ratio = MAX_LENGTH / height;
+			height = MAX_LENGTH;
+			width *= ratio;
+		}
+		int wid = (int) width;
+		int hei = (int) height;
+
+		// 縮小処理
+		BufferedImage img = new BufferedImage(wid, hei, BufferedImage.TYPE_3BYTE_BGR);
+		img.createGraphics().drawImage(images.getScaledInstance(wid, hei, Image.SCALE_AREA_AVERAGING), 0, 0, wid, hei,
+				null);
+
+		// 一度byte配列へ変換
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(img, "jpg", baos);
+		baos.flush();
+		byte[] imageInByte = baos.toByteArray();
+		baos.close();
+
+		// byte配列をInputStreamに変換
+		InputStream in = new ByteArrayInputStream(imageInByte);
+
+		// 画像データをbase64エンコードの準備
 		StringBuffer data = new StringBuffer();
-		InputStream is = uploadfile.getInputStream();
+		InputStream is = in;
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		byte[] indata = new byte[10240 * 16];
 		int siz;
 		while ((siz = is.read(indata, 0, indata.length)) > 0) {
 			os.write(indata, 0, siz);
 		}
-		
 		// 画像データをbase64エンコードする
 		String base64 = new String(Base64.encodeBase64(os.toByteArray()), "ASCII");
-//		PhotoData ph = new PhotoData();
-//		ph.setImage(os.toByteArray());
-//		photorepository.saveAndFlush(ph);
 
-
-		mav.addObject("image",base64);
+		mav.addObject("image", base64);
 		// 画像タイプはJPEG固定
-	        data.append("data:image/jpeg;base64,");
-	        data.append(base64);
-	        mav.addObject("base64data", data.toString());
+		data.append("data:image/jpeg;base64,");
+		data.append(base64);
+		mav.addObject("base64data", data.toString());
 
-	        mav.setViewName("demo");
+		PhotoData ph = new PhotoData();
+		ph.setImage(base64);
+		photorepository.saveAndFlush(ph);
+		mav.setViewName("demo");
 		return mav;
 
 	}
@@ -244,11 +292,27 @@ public class clubController {
 
 	@RequestMapping(value = "/coach", method = RequestMethod.POST)
 	@Transactional(readOnly = false)
-	public ModelAndView coach(@ModelAttribute("formModel") 
-	@Validated CoachData coachdata, BindingResult result,
+	public ModelAndView coach(@ModelAttribute("formModel") @Validated CoachData coachdata, BindingResult result,
+			@RequestParam MultipartFile uploadfile,
 			ModelAndView mav) {
 		ModelAndView res = null;
 		if (!result.hasErrors()) {
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			coachrepository.saveAndFlush(coachdata);
 			res = new ModelAndView("redirect:/coach");
 		} else {
@@ -805,6 +869,10 @@ public class clubController {
 		ch6.setCoachId(2);// 鈴木
 		ch6.setDate(new Date());
 		chatrepository.saveAndFlush(ch6);
+
+		PhotoData ph1 = new PhotoData();
+//		ph1.setId(1);
+		photorepository.saveAndFlush(ph1);
 	}
 
 }
