@@ -194,10 +194,13 @@
 
 				<div class="content">
 					<div class="content1">
-						<li>写真</li> <input class="photoup" type="file" name="photo">
+						<li>写真</li>
+						<input type="file" name="uploadfile" id="photo" th:value="*{image}">
+						<img th:if="${base64data}" th:src="${base64data}" />
 					</div>
 				</div>
 			</ul>
+				<input type="hidden" name="image" th:value="*{image}">
 				<input class="button" type="submit" value="修正する">
 		</form>
 

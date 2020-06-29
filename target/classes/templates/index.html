@@ -37,6 +37,7 @@
 							<a th:href="@{/mypage/coach/{id}(id=${cdata.id})}">
 								<li th:if="${AccountName}" th:text="${AccountName}+' 様'"
 								class="login"></li>
+							</a>
 						</div>
 						<div th:if="${sdata}" th:object="${sdata}">
 							<a th:href="@{/mypage/school/{id}(id=${sdata.id})}">
@@ -46,7 +47,6 @@
 						</div>
 					</ul>
 				</nav>
-
 				<h1>部活動と外部コーチをつなぐ</h1>
 				<p>
 					部活動の顧問が不足して困っている。<br> 学生時代打ち込んだ経験を活かして今の子どもたちに教えたい！<br>
@@ -99,8 +99,6 @@
 						</div>
 					</div>
 				</div>
-
-
 			</div>
 
 		</section>
