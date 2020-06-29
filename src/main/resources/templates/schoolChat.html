@@ -25,8 +25,7 @@
 				<p th:text="${cdatalist.lastName} + 'さん'" class="userName">ユーザ名ユーザ名ユーザ名</p>
 				<div class="container">
 					<div class="user">
-						<img th:if="${base64data}" th:src="${base64data}" />
-						<img th:unless="${base64data}" th:src="@{/img/図1.png}" alt="">
+						<img th:src="@{/img/図1.png}" alt="">
 					</div>
 					<div class="comment">
 						<p th:text="${chat.message}">投稿内容が入ります。</p>
