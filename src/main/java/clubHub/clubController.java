@@ -84,8 +84,8 @@ public class clubController {
 	ChatDataRepository chatrepository;
 	@Autowired
 	PhotoDataRepository photorepository;
-//	@Autowired
-//	Mail mail;
+	@Autowired
+	Mail mail;
 //	@Autowired
 //	Mail2 mails;
 
@@ -517,7 +517,7 @@ public class clubController {
 		ch.setSender(true);
 		ch.setDate(new Date());
 		chatrepository.saveAndFlush(ch);
-//		mail.send("test", "content");
+		mail.send("test", "content");
 //		mails.send("test2", "content2");
 		
 		mav.setViewName("redirect:/chat/coach/" + cid + "/school/" + sid);
