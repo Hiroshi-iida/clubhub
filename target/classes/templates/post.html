@@ -16,7 +16,7 @@
 	color: red;
 	font-size: 2vw;
 	text-align: center;
-	margin:20px;
+	margin: 20px;
 }
 </style>
 </head>
@@ -26,8 +26,10 @@
 		<header th:include="header :: frag_header"></header>
 		<main class="main">
 			<p th:unless="${sessionSid}" class="error">学校アカウントの新規登録orログインをしてください</p>
-			<h1 th:if="${sessionSid}" class="pageTitle">募集する部活動を登録する</h1>
-			<form method="post" action="/post" th:object="${formModel}">
+			<h1 th:if="${sessionSid}" class="pageTitle">◆募集する部活動を登録する</h1>
+
+			<form method="post" action="/post" enctype="multipart/form-data"
+				th:object="${formModel}">
 				<ul>
 					<div class="content">
 						<label>
@@ -164,7 +166,7 @@
 						<div class="content1">
 							<li>写真</li>
 							<div class="content2">
-								<input class="photoup" type="file" name="photo" id="photo">
+								<input type="file" name="uploadfile">
 								<p>※集合写真や練習風景など差し支えなければ添付ください。</p>
 
 							</div>
@@ -172,7 +174,7 @@
 					</div>
 				</ul>
 				<div th:if="${sessionSid}" class="button1">
-					<input class="button" type="submit" value="内容確認に進む">
+					<input class="button" type="submit" value="登録する">
 				</div>
 
 			</form>

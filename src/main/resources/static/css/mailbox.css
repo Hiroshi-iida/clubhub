@@ -37,6 +37,10 @@ body {
 	padding:30px;
 	border-bottom: 1px dashed #5a5a5a;
 }
+.receive img{
+	width:100px;
+	heith:auto;
+}
 .border{
 	border-bottom: 1px dashed #5a5a5a;
 	margin:30px;

@@ -7,111 +7,86 @@
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/article.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
+<style>
+.guide{
+	color:red;
+	margin: 50px;
+	text-align:center;
+	font-size:24px;
+}
+</style>
 </head>
 
 <body>
 	<div class="wrapper">
 		<header th:include="header :: frag_header"></header>
+		<div th:object="${pdatalist}">
 
-		<div class="search" th:object="${pdatalist}">
-			<img th:src="@{/img/図5.svg}"></img>
-			<p>≫</p>
-			<p th:text="*{area}">奈良県</p>
-			<p>≫</p>
-			<p>運動部</p>
-			<p>≫</p>
-			<p>バレーボール</p>
-			<p>≫</p>
-			<p th:text="*{schoolName}"></p>
+			<div class="search">
+				<img th:src="@{/img/図5.svg}"></img>
+				<p>≫</p>
+				<p th:text="*{area}">エリア</p>
+				<p>≫</p>
+				<p th:text="*{category}">部活</p>
+				<p>≫</p>
+				<p th:text="*{type}">部</p>
+				<p>≫</p>
+				<p th:text="*{schoolName}"></p>
+			</div>
+
+			<section class="post">
+				<div class="post1">
+					<div class="post2">
+						<ul>
+							<li class="area" th:text="*{area}">エリア</li>
+							<li th:text="*{category}">カテゴリー</li>
+							<li th:text="*{categoryDetails}">特徴</li>
+						</ul>
+						<h2 th:text="*{schoolName}">奈良県立鹿高校</h2>
+						<h3 th:text="*{title}">「全国大会出場目指しています！経験者のコーチを募集しています。」</h3>
+						<img th:if=*{image} th:src="|data:image/jpeg;base64,*{image}|">
+						<img th:unless="*{image}" th:src="@{/img/noimage.jpg}"></img>
+					</div>
+				</div>
+			</section>
+			<section class="content">
+				<ul>
+					<!-- 				<li>メッセージ</li>
+				<p th:text=></p>
+ -->
+					<li>報酬について</li>
+					<p th:unless="*{reword}">報酬：有り</p>
+					<p th:if="*{reword}">報酬：無し</p>
+					<p th:if="*{rewordDetails}" 　th:text="|コメント ： *{rewordDetails}|"></p>
+
+					<li>求める条件</li>
+					<p th:if="*{want}" th:text="*{want}"></p>
+
+					<li>時間について</li>
+					<p th:if="*{wantDate}" th:text="*{wantDate}"></p>
+
+					<li>部活の状況</li>
+					<p th:if="*{situation}" th:text="*{situation}"></p>
+
+					<li>住所</li>
+					<p th:if="*{address}" th:text="*{address}"></p>
+
+					<li>その他</li>
+					<p th:if="*{otherText}" th:text="*{otherText}"></p>
+				</ul>
+				<h2 class="guide" th:unless="${cdata}" th:text="コーチとしてログイン（登録）すればメッセージが送れます"></h2>
+			</section>
+
 		</div>
-
-		<section class="post">
-			<div class="post1">
-				<div class="post2">
-					<ul>
-						<li class="area" th:text="${pdatalist.area}">エリア</li>
-						<li th:text="${pdatalist.category}">カテゴリー</li>
-						<li th:text="${pdatalist.categoryDetails}">特徴</li>
-					</ul>
-					<h2 th:text="${pdatalist.schoolName}">奈良県立鹿高校</h2>
-					<h3 th:text="${pdatalist.title}">
-						「全国大会出場目指しています！経験者のコーチを募集しています。」</h3>
-					<img th:src="@{/img/team.jpg}"></img>
-				</div>
-			</div>
-		</section>
-		<section class="content">
-			<ul>
-				<li>メッセージ</li>
-				<p>前回の大会では県内ベスト４でした。優秀な生徒が集まっていますが、昨年監督していた先生が定年退職されて、生徒が求めるような高い指導が出来ていません。今年こそは全国大会出場を目指しています。一緒に指導して頂ける方を募集しています。
-					特にレシーブが課題かと思ってます。ご連絡お待ちしています！</p>
-
-				<li>報酬について</li>
-				<p>報酬：無し</p>
-				<p>コメント：お給料はお支払いできませんが、交通費・スポーツドリンクは支給させていただきます。</p>
-
-				<li>求める条件</li>
-				<p>できれば全国大会出場などの実績のある方だと望ましいですが、その他熱い気持ちがあれば是非一度練習にいらしてください。</p>
-
-				<li>時間について</li>
-				<p>
-					平日 16:00-19:00（水曜のみ外練）<br> 土日 他の部活との兼ね合いで不規則です。<br>
-					曜日の指定はないですが、最低でも週1回程度来ていただけると助かります。
-				</p>
-
-				<li>部活の状況</li>
-				<p>部員数12人 マネージャー2人います。</p>
-
-				<li>住所</li>
-				<p>奈良県奈良市奈良町鹿町１－１</p>
-
-				<li>その他</li>
-				<p>男子バレー部もコーチ募集しています。</p>
-
-			</ul>
-			<div class="button1">
-				<input class="button" type="submit" value="メールで応募する">
-			</div>
-		</section>
-
-		<section class="chats">
-
-			<div class="chat">
-				<p class="userName">ユーザ名ユーザ名ユーザ名</p>
-				<div class="container">
-					<div class="user">
-						<img src="img/図1.png" alt="">
-					</div>
-					<div class="comment">
-						<p>投稿内容が入ります。</p>
-						<p>2020/12/31 00:00:00</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="mychat">
-				<p class="userName">投稿者</p>
-				<div class="container">
-					<div class="user">
-						<img src="img/図1.png" alt="">
-					</div>
-					<div class="comment">
-						<p>投稿内容が入ります。</p>
-						<p>2020/12/31 00:00:00</p>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<div class="chat1">
-			<textarea name="" id="" cols="30" rows="10"
-				placeholder="気になることがあればコメントで聞いてみましょう！"></textarea>
+		
+		<form method="post" th:action="|/chat/coach/${cdata.getId()}/school/${pdatalist.schoolId+1}|">
+			<textarea name="message" th:value="${message}" id="message" cols="30"
+				rows="10" placeholder="気になることがあればコメントで聞いてみましょう！"></textarea>
 			<p>相手のことを考え丁寧なコメントを心がけましょう。</p>
+			<p>送信すると個別チャットに移行します</p>
+			<input class="button" type="submit" value="コメントを送る">
+		</form>
 
-			<div class="button1">
-				<input class="button" type="submit" value="コメントする">
-			</div>
-		</div>
 	</div>
 </body>
 

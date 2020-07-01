@@ -39,13 +39,14 @@ public class PostData {
 	@NotEmpty(message="空白NG")
 	private String content;		//内容
 	
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private boolean reword;		//報酬の有無
 	
 	@Column(nullable = true)
 	private String rewordDetails;		//報酬詳細
 	
-	@Column(nullable = true)
+	@Column(nullable = false)
+	@NotEmpty(message="空白NG")
 	private String want;		//求める内容
 	
 	@Column(nullable = true)
@@ -56,6 +57,39 @@ public class PostData {
 	
 	@Column(nullable = true)
 	private String otherText;		//その他
+	
+	@Column(length=100000)
+	private String image;
+	
+	@Column(nullable = true)
+	private int schoolId;
+	
+	@Column(nullable = true)
+	private String schoolName;
+	
+	@Column(nullable = true)
+	private String schoolCategory;
+	
+	@Column(nullable = true)
+	private String lastName;
+	
+	@Column(nullable = true)
+	private String firstName;
+	
+	@Column(nullable = true)
+	private String mail;
+	
+	@Column(nullable = true)
+	private String password;
+	
+	@Column(nullable = true)
+	private String area;
+	
+	@Column(nullable = true)
+	private String address;
+	
+	@Column(nullable = true)
+	private String tel;
 	
 
 	public int getId() {
@@ -143,38 +177,17 @@ public class PostData {
 		this.otherText = otherText;
 	}
 	
-	
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+		
 	//=============ここまではpost用　ここからschooldata用=================//
 	
-	@Column(nullable = true)
-	private int schoolId;
+
 	
-	@Column(nullable = true)
-	private String schoolName;
-	
-	@Column(nullable = true)
-	private String schoolCategory;
-	
-	@Column(nullable = true)
-	private String lastName;
-	
-	@Column(nullable = true)
-	private String firstName;
-	
-	@Column(nullable = true)
-	private String mail;
-	
-	@Column(nullable = true)
-	private String password;
-	
-	@Column(nullable = true)
-	private String area;
-	
-	@Column(nullable = true)
-	private String address;
-	
-	@Column(nullable = true)
-	private String tel;
 
 	
 	public int getSchoolId() {

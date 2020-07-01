@@ -176,6 +176,7 @@ public class clubController {
 					session.setAttribute("sessionAccountName", schoolList.get(i).getSchoolName()); // セッションにスクールネーム
 					session.setAttribute("sessionSdata", schoolList.get(i)); // 以下のsessionはpostのために全保存
 					session.setAttribute("sessionSid", schoolList.get(i).getId()); // 以下のsessionはpostのために全保存
+					session.setAttribute("sessionScategory", schoolList.get(i).getCategory());
 					session.setAttribute("sessionSschoolName", schoolList.get(i).getSchoolName());
 					session.setAttribute("sessionSlastname", schoolList.get(i).getLastName());
 					session.setAttribute("sessionSfirstName", schoolList.get(i).getFirstName());
@@ -310,10 +311,9 @@ public class clubController {
 	@Transactional(readOnly = false)
 	public ModelAndView school(@ModelAttribute("formModel") @Validated SchoolData schooldata, BindingResult result,
 			@RequestParam("uploadfile") MultipartFile file,
-			ModelAndView mav)throws Exception {
+			ModelAndView mav) throws Exception{
 		ModelAndView res = null;
 		if (!result.hasErrors()) {
-			schoolrepository.saveAndFlush(schooldata);
 			session.setAttribute("sessionSdata", schooldata);
 			session.setAttribute("AccountName", schooldata.getSchoolName());
 			session.setAttribute("sessionSid", schooldata.getId());
@@ -325,9 +325,13 @@ public class clubController {
 			session.setAttribute("sessionSarea", schooldata.getArea());
 			session.setAttribute("sessionSaddress", schooldata.getAddress());
 			session.setAttribute("sessionStel", schooldata.getTel());
+			session.setAttribute("sessionScategory", schooldata.getCategory());
 			
-			String image = imageConversion(file,150);
-			schooldata.setImage(image);
+			schoolrepository.saveAndFlush(schooldata);
+			if(file != null) {
+				String image = imageConversion(file,150);
+				schooldata.setImage(image);				
+			}
 			
 			res = new ModelAndView("redirect:/school");
 
@@ -335,15 +339,9 @@ public class clubController {
 			mav.setViewName("school");
 			Iterable<SchoolData> slist = schoolrepository.findAll();
 			mav.addObject("sdatalist", slist);
-			mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-			mav.addObject("sdata", session.getAttribute("sessionSdata"));
-			mav.addObject("cdata", session.getAttribute("sessionCdata"));
 			res = mav;
 		}
-
-		res.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		res.addObject("sdata", session.getAttribute("sessionSdata"));
-		res.addObject("cdata", session.getAttribute("sessionCdata"));
+		required(res);
 		return res;
 	}
 
@@ -363,16 +361,14 @@ public class clubController {
 	@RequestMapping(value = "/post", method = RequestMethod.POST)
 	@Transactional(readOnly = false)
 	public ModelAndView post(@ModelAttribute("formModel") @Validated PostData postdata, BindingResult result,
-			ModelAndView mav) {
+			@RequestParam("uploadfile") MultipartFile file,
+			ModelAndView mav)throws Exception{
 		ModelAndView res = null;
-		res.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		res.addObject("sdata", session.getAttribute("sessionSdata"));
-		res.addObject("cdata", session.getAttribute("sessionCdata"));
+	
 		if (!result.hasErrors()) {
-			postrepository.saveAndFlush(postdata);
-
-			postdata.setSchoolId((int) session.getAttribute("sessionSid"));
+			postdata.setSchoolId((int)session.getAttribute("sessionSid"));
 			postdata.setSchoolName(session.getAttribute("sessionSschoolName").toString());
+			postdata.setSchoolCategory(session.getAttribute("sessionScategory").toString());
 			postdata.setLastName(session.getAttribute("sessionSlastname").toString());
 			postdata.setFirstName(session.getAttribute("sessionSfirstName").toString());
 			postdata.setMail(session.getAttribute("sessionSmail").toString());
@@ -380,16 +376,22 @@ public class clubController {
 			postdata.setArea(session.getAttribute("sessionSarea").toString());
 			postdata.setAddress(session.getAttribute("sessionSaddress").toString());
 			postdata.setTel(session.getAttribute("sessionStel").toString());
-			res = new ModelAndView("redirect:/post");
-			res.addObject("AccountName", session.getAttribute("sessionAccountName"));
 
+			String image = imageConversion(file,400);
+			if(image.length() > 10) {		// 添付なしのfileがnullにならないっぽい							
+				postdata.setImage(image);													
+			}	
+			postrepository.saveAndFlush(postdata);
+			res = new ModelAndView("redirect:/post");
 		} else {
 			mav.setViewName("post");
 			Iterable<PostData> plist = postrepository.findAll();
 			mav.addObject("pdatalist", plist);
 			mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
+			mav.addObject("sessionSid", session.getAttribute("sessionSid"));
 			res = mav;
 		}
+		required(res);
 		return res;
 	}
 
@@ -817,6 +819,7 @@ public class clubController {
 		p1.setSituation("部員数12人 マネージャー2人います。");
 		p1.setOtherText("男子バレー部もコーチ募集しています。");
 		p1.setSchoolId(0);
+		p1.setImage("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");
 		postrepository.saveAndFlush(p1);
 
 		PostData p2 = new PostData();

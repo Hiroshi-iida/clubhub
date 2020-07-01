@@ -34,22 +34,23 @@
 		<div th:each="pdata:${pdatalist}">
 		<section class="post">
 			<div class="post1">
-				<img th:src="@{/img/team.jpg}"></img>
+				<img th:unless="${pdata.image}" th:src="@{/img/noimage.jpg}"></img>
+				<img th:if=${pdata.image} th:src="|data:image/jpeg;base64,${pdata.image}|">
 				<div class="post2">
 					<ul>
 						<li class="area" th:text="${pdata.area}">エリ ア</li>
 						<li th:text="${pdata.category}">カテゴリー</li>
 						<li th:text="${pdata.type}">特徴</li>
 					</ul>
-					<h2 th:text="${pdata.schoolName}">奈良県立鹿高校</h2>
-					<h3 th:text="${pdata.title}">「全国大会出場目指しています！<br> 経験者のコーチを募集しています。」</h3>
+					<h2 th:text="${pdata.schoolName}">学校名</h2>
+					<h3 th:text="${pdata.title}">タイトル</h3>
 				</div>
 			</div>
 			<div class="post3">
 				<h3>メッセージ</h3>
-				<p th:text="${pdata.content}">前回の大会では県内ベスト４でした。優秀な生徒が集まっていますが、昨年監督していた先生が定年退職されて、生徒が求めるような高い指導が出来ていません。今年こそは全国大会出場を目指しています。一緒に指導して頂ける方を募集しています。よろしくお願いします。</p>
+				<p th:text="${pdata.content}">内容</p>
 				<div class="button1">
-					<a class="button" th:href="@{/article/{id}(id=${pdata.schoolId})}">詳しく見る</a>
+					<a class="button" th:href="@{/article/{id}(id=${pdata.id-1})}">詳しく見る</a>
 				</div>
 			</div>
 		</section>

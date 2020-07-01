@@ -21,7 +21,7 @@
 		<header th:include="header :: frag_header"></header>
 		<main>
 			<h1 class="pageTitle">◆会員登録＜学校用＞</h1>
-			<form method="post" action="/school" th:object="${formModel}">
+			<form method="post" enctype="multipart/form-data" action="/school" th:object="${formModel}">
 
 				<ul>
 					<div class="content">
