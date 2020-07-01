@@ -244,7 +244,7 @@ public class clubController {
 
 	@RequestMapping("/logout")
 	public ModelAndView logout(ModelAndView mav) {
-//		mav.setViewName("redirect:/relogout");
+		mav.setViewName("logout");
 		session.invalidate(); // クリア
 		mav = new ModelAndView("logout");
 		mav.addObject("msg","ログアウトされました");
