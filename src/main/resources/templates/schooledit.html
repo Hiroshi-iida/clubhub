@@ -19,7 +19,7 @@
 		<header th:include="header :: frag_header"></header>
 		<main>
 			<h1 class="pageTitle">◆会員登録修正＜学校用＞</h1>
-			<form method="post" th:action="${path}" th:object="${formModel}">
+			<form method="post" th:action="${path}" enctype="multipart/form-data" th:object="${formModel}">
 
 				<ul>
 					<div class="content">
@@ -173,9 +173,17 @@
 							</div>
 					</div>
 					</label>
+					<div class="content">
+						<div class="content1">
+							<li>写真</li>
+						<input type="file" name="uploadfile" id="photo">
+						<input type="hidden" name="image" th:value="${formModel.image}">
+						<img th:if="${base64data}" th:src="${base64data}" />
+						</div>
+					</div>
 				</ul>
 				<div class="button1">
-					<input class="button" type="submit" value="内容確認に進む">
+				 <input	class="button" type="submit" value="内容確認に進む">
 				</div>
 			</form>
 

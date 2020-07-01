@@ -15,16 +15,17 @@
 		<header th:include="header :: frag_header"></header>
 
 
-		
+
 		<p class="title">message box</p>
 		<span th:text="${error}"></span>
 
-		<p class="border"></p>	
+		<p class="border"></p>
 		<div class="receive2" th:each="chat:${chatlist}">
 			<a th:href="|${path}/coach/${chat.coachId}|">
-				<div class="receive">
-					<img th:src="@{/img/図1.png}">
-					<div class="receive1" th:object="${coachlist.get(__${chat.coachId}-1__)}">
+				<div class="receive" th:object="${coachlist.get(__${chat.coachId}-1__)}">
+					<img th:unless=*{image} th:src="@{/img/図1.png}">
+					<img th:if=*{image} th:src="|data:image/jpeg;base64,*{image}|">
+					<div class="receive1">
 						<p th:text="*{lastName} +' さん'">コーチ名</p>
 						<p th:text="${chat.message}"></p>
 					</div>

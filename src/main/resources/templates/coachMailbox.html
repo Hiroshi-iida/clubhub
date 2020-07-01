@@ -22,9 +22,10 @@
 		<p class="border"></p>	
 		<div class="receive2" th:each="chat:${chatlist}">
 			<a th:href="|${path}/school/${chat.schoolId}|">
-				<div class="receive">
-					<img th:src="@{/img/図1.png}">
-					<div class="receive1" th:object="${schoollist.get(__${chat.schoolId}-1__)}">
+				<div class="receive" th:object="${schoollist.get(__${chat.schoolId}-1__)}">
+					<img th:unless=*{image} th:src="@{/img/図1.png}">
+					<img th:if=*{image} th:src="|data:image/jpeg;base64,*{image}|">
+					<div class="receive1">
 						<p th:text="*{schoolName} +' さん'">学校名</p>
 						<p th:text="${chat.message}"></p>
 					</div>

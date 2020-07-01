@@ -14,31 +14,35 @@
 	<div class="wrapper">
 		<header th:include="header :: frag_header"></header>
 		<a th:href="@{/mailbox/coach/{id}(id=${cid})}">
-			<p class="title">message box <span>に戻る</span></p>
-		</a>
-		<span th:text="${error}"></span>
+			<p class="title">
+				message box <span>に戻る</span>
+			</p>
+		</a> <span th:text="${error}"></span>
 
 
 		<section th:each="chat : ${receivechat}">
 
 			<div class="chats" th:unless="${chat.sender}">
-				<p th:text="${sdatalist.schoolName} + 'さん'" class="userName">ユーザ名ユーザ名ユーザ名</p>
+				<p th:text="${sdatalist.schoolName} + 'さん'" class="userName">学校名</p>
 				<div class="container">
 					<div class="user">
-						<img th:src="@{/img/図1.png}" alt="">
+						<img th:unless=${sdatalist.image} th:src="@{/img/図1.png}">
+						<img th:if=${sdatalist.image} th:src="|data:image/jpeg;base64,${sdatalist.image}|">
 					</div>
 					<div class="comment">
 						<p th:text="${chat.message}">投稿内容が入ります。</p>
-						<p th:text="${#dates.format(chat.date ,'yyyy/MM/dd HH:mm')}">2020/12/31 00:00:00</p>
+						<p th:text="${#dates.format(chat.date ,'yyyy/MM/dd HH:mm')}">2020/12/31
+							00:00:00</p>
 					</div>
 				</div>
 			</div>
 
 			<div th:if="${chat.sender}" class="mychat">
-				<p class="userName" th:text="${cdatalist.lastName}">投稿者</p>
+				<p class="userName" th:text="${cdatalist.lastName}">投稿者（コーチ）</p>
 				<div class="container">
 					<div class="user">
-						<img th:src="@{/img/図1.png}" alt="">
+						<img th:unless="${base64data}" th:src="@{/img/図1.png}" alt="">
+						<img th:if="${base64data}" th:src="${base64data}" />
 					</div>
 					<div class="comment">
 						<p th:text="${chat.message}">投稿内容が入ります。</p>
@@ -50,9 +54,9 @@
 
 		<div class="chat1">
 			<form method="post" th:action="|/chat/coach/${cid}/school/${sid}|">
-			<textarea name="message" th:value="${message}" id="message" cols="30" rows="10"
-				placeholder="気になることがあればコメントで聞いてみましょう！"></textarea>
-			<p>相手のことを考え丁寧なコメントを心がけましょう。</p>
+				<textarea name="message" th:value="${message}" id="message"
+					cols="30" rows="10" placeholder="気になることがあればコメントで聞いてみましょう！"></textarea>
+				<p>相手のことを考え丁寧なコメントを心がけましょう。</p>
 
 				<input class="button" type="submit" value="コメントする">
 			</form>

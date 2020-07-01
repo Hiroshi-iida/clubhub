@@ -59,6 +59,9 @@ public class SchoolData {
 	@NotEmpty(message="空白NG")
 	private String tel;
 	
+	@Column(length=100000)
+	private String image;
+	
 	public int getId() {
 		return id;
 	}
@@ -121,19 +124,14 @@ public class SchoolData {
 	public void setPassword(String password) {
 		this.password= password;
 	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
 	
 
 	
 }
-//ダミーデータ
-//SchoolData s1 = new SchoolData();
-//s1.setArea("奈良");
-//s1.setSchoolName("奈良県立鹿高校");
-//s1.setCategory("高校");
-//s1.setLastName("奈良");
-//s1.setFirstName("奈良県立鹿高校");
-//s1.setMail("l@l");
-//s1.setPassword("0000");
-//s1.setAddress("奈良県立鹿高校");
-//s1.setTel("000-0000");
-//schoolrepository.saveAndFlush(s1);
