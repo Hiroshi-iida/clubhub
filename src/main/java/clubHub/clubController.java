@@ -47,7 +47,7 @@ public class clubController {
 	ChatDataRepository chatrepository;
 	@Autowired
 	PhotoDataRepository photorepository;
-	
+
 
 	public ModelAndView required(ModelAndView mav) {
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
