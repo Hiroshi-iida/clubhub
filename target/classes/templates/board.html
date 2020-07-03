@@ -13,9 +13,12 @@
 		<header th:include="header :: frag_header"></header>
 
 		<div class="search">
-
+		
+		<a th:href="@{/board}">
 			<img th:src="@{/img/図5.svg}"></img>
+			</a>
 			<p th:if="${area}" th:text="'≫        '+${area}"></p>
+			<p th:if="${category}" th:text="'≫        '+${category}"></p>
 			<p th:if="${type}" th:text="'≫        '+${type}"></p>
 
 		</div>
@@ -86,8 +89,8 @@
 					</select>
 					<select name="category" onchange="createMenu(this.value)">
 						<option disabled selected>カテゴリー</option>
-						<option value="sports">運動部</option>
-						<option value="art">文化部</option>
+						<option value="運動部">運動部</option>
+						<option value="文化部">文化部</option>
 					</select>
 					<select name="type" id="type" disabled>
 						<option th:if="${type}" th:value="${type}" th:text="${type}"></option>
@@ -98,13 +101,11 @@
 				</form>
 			</div>
 
-
 			<div th:each="pdata:${pdatalist}">
 				<section class="post">
 					<div class="post1">
-						<img th:unless="${pdata.image}" th:src="@{/img/noimage.jpg}"></img>
-						<img th:if=${pdata.image}
-							th:src="|data:image/jpeg;base64,${pdata.image}|">
+						<img th:unless="${pdata.image}" th:src="@{/img/noimage.jpg}">
+						<img th:if="${pdata.image}" th:src="|data:image/jpeg;base64,${pdata.image}|">
 						<div class="post2">
 							<ul>
 								<li class="area" th:text="${pdata.area}">エリ ア</li>
