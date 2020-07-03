@@ -1,7 +1,5 @@
 package clubHub;
 
-import java.awt.Image;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +9,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table
@@ -64,6 +61,28 @@ public class CoachData {
 	@Column(length=100000)
 	private String image;
 	
+	@Column
+	private boolean authentication;	//メール認証
+	
+	public boolean isAuthentication() {
+		return authentication;
+	}
+
+	public void setAuthentication(boolean authentication) {
+		this.authentication = authentication;
+	}
+	@Column
+	private String uuid;
+	
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
 	public String getImage() {
 		return image;
 	}

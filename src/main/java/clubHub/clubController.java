@@ -1,40 +1,21 @@
 package clubHub;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.io.InputStream;
-import javax.annotation.PostConstruct;
-import javax.imageio.ImageIO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.bind.annotation.RequestParam;
-import clubHub.repositories.PostDataRepository;
-import clubHub.repositories.SchoolDataRepository;
-import clubHub.repositories.CoachDataRepository;
-import clubHub.repositories.ChatDataRepository;
-import clubHub.repositories.PhotoDataRepository;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import java.util.HashSet;
-import javax.servlet.http.HttpSession;
-import java.util.Date;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.Random;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import org.apache.commons.codec.binary.Base64;
-import java.awt.image.BufferedImage;
-import java.awt.Image;
-import javax.mail.*;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
+import java.lang.Object.*;
 
+import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -43,10 +24,35 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import clubHub.repositories.ChatDataRepository;
+import clubHub.repositories.CoachDataRepository;
+import clubHub.repositories.PhotoDataRepository;
+import clubHub.repositories.PostDataRepository;
+import clubHub.repositories.SchoolDataRepository;
+
+import java.util.UUID;
+import javax.net.ssl.SSLEngineResult.Status;
 
 @Controller
 @SpringBootApplication
@@ -69,9 +75,9 @@ public class clubController {
 	public class JavaMailSample {
 //	  private static final Logger log = LoggerFactory.getLogger(JavaMailSample.class);
 
-	  public void send(String subject, String content) {
+	  public void send(String subject, String content,String address) {
 
-	    final String to = "iichan.hiro@gmail.com";
+	    final String to = address;
 	    final String from = "clubhub.h@gmail.com";
 
 	    // Google account mail address
@@ -138,8 +144,6 @@ public class clubController {
 	  }
 
 	}
-	
-	
 	
 	public ModelAndView required(ModelAndView mav) {
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
@@ -219,18 +223,31 @@ public class clubController {
 
 	}
 	
-	
 	@RequestMapping("/mail")
 	public ModelAndView mail(ModelAndView mav) {
 		mav.setViewName("result");
 		mav.addObject("msg","メールを送信しました！！");
 	    JavaMailSample mailSend = new JavaMailSample();
-	    mailSend.send("JavaMail テストメール", "テストメールの本文");
+	    mailSend.send("JavaMail テストメール", "テストメールの本文","iichan.hiro@gmail.com");
 	    return mav;
 	}
-	
-	
-	
+
+    @RequestMapping("/validate/{id}")
+    public ModelAndView validate(ModelAndView mav, @PathVariable("id") String id) throws Exception {
+		List<CoachData> cdata = coachrepository.findByUuid(id);
+		
+        if(cdata.size() != 0) {
+        	cdata.get(0).setAuthentication(true);
+        	mav.addObject("msg","登録完了！");
+        	mav.addObject("cdata",cdata.get(0));
+        	coachrepository.saveAndFlush(cdata.get(0));
+        }else {
+        	mav.addObject("msg","エラーです。メールのURLを確認するか\nお手数ですが再度ご登録ください。");
+        }
+        mav.setViewName("validate");
+         return mav;
+    }
+		
 	@RequestMapping(value = "/demo", method = RequestMethod.GET)
 	public ModelAndView demo(ModelAndView mav) {
 		mav.setViewName("demo");
@@ -304,6 +321,7 @@ public class clubController {
 			for (int i = 0; i < coachList.size(); i++) {
 				if (coachdata.getMail().equals(coachList.get(i).getMail())) { // コーチメールアドレス一致確認
 					if (coachdata.getPassword().equals(coachList.get(i).getPassword())) { // パス確認
+						if(coachList.get(i).isAuthentication()) {
 						session.setAttribute("sessionAccountName", coachList.get(i).getLastName()); // セッションにスクールネーム保存
 						session.setAttribute("sessionCid", coachList.get(i).getId());
 						session.setAttribute("sessionCdata", coachList.get(i));
@@ -313,14 +331,18 @@ public class clubController {
 						mov.setViewName("result");
 						res = mov;
 						break;
-					} else {
-						mov.addObject("msg", "パスワードが違います。");
+					}else {
+							mov.addObject("msg", "メール認証が出来ていません。");
+							mov.setViewName("login");
+							res = mov;
+							break;
+					}}else {
+						mov.addObject("msg", "パスワードが違います");
 						mov.setViewName("login");
 						res = mov;
 						break;
-					}
-				} else {
-					mov.addObject("msg", "メールアドレスが存在しません");
+					}} else {
+					mov.addObject("msg", "メールアドレスが存在しません。");
 					mov.setViewName("login");
 					res = mov;
 				}
@@ -378,12 +400,31 @@ public class clubController {
 			ModelAndView mav) throws Exception {
 		ModelAndView res = null;
 		if (!result.hasErrors()) {
+			String mail = coachdata.getMail();
+			List<CoachData> cdata = coachrepository.findByMail(mail);
+			List<SchoolData> sdata = schoolrepository.findByMail(mail);
 			
-			String image = imageConversion(file,150);
-			coachdata.setImage(image);
-			
-			coachrepository.saveAndFlush(coachdata);
-			res = new ModelAndView("redirect:/coach");
+			if(cdata.size()==0 && sdata.size()==0) {		// 登録アドレスがDBに存在しない場合
+				UUID uuid = UUID.randomUUID();		// uuid発行
+				String vali = uuid.toString();		// uuid Stringに
+	            String URL = "localhost:8080/validate/"+uuid;
+	        	List<SchoolData> slist = schoolrepository.findAll();
+	    		JavaMailSample mailSend = new JavaMailSample();
+	    		mailSend.send("clubHub メール認証", "アクセスしてアカウント認証を完了してください"+"\n"+URL+"\n", coachdata.getMail());
+	    		coachdata.setUuid(vali);
+	    		coachdata.setAuthentication(false);
+	    		String image = imageConversion(file,150);
+	    		coachdata.setImage(image);
+	    		coachrepository.saveAndFlush(coachdata);
+	    		res = new ModelAndView("redirect:/coach");
+			}else {
+				mav.setViewName("coach");
+				mav.addObject("msg","メールアドレスがすでに使われています。");
+				Iterable<CoachData> clist = coachrepository.findAll();
+				mav.addObject("cdatalist", clist);
+				res = mav;
+			}
+								
 		} else {
 			mav.setViewName("coach");
 			Iterable<CoachData> clist = coachrepository.findAll();
@@ -551,6 +592,13 @@ public class clubController {
 		ch.setSchoolId(sid);
 		ch.setSender(false);
 		ch.setDate(new Date());
+
+		List<CoachData> clist = coachrepository.findAll();
+		String mail = clist.get(cid-1).getMail();
+		String content = clist.get(cid-1).getLastName() + "様から"+"\n チャットが投稿されました。\nログインして返信しましょう！";
+		JavaMailSample mailSend = new JavaMailSample();
+	    mailSend.send("clubHub チャットが投稿されました", content,mail);
+		
 		chatrepository.saveAndFlush(ch);
 		mav.setViewName("redirect:/chat/school/" + sid + "/coach/" + cid);
 		return mav;
@@ -602,8 +650,12 @@ public class clubController {
 		ch.setSender(true);
 		ch.setDate(new Date());
 		chatrepository.saveAndFlush(ch);
-//		mail.send("test", "content");
-//		mails.send("test2", "content2");
+
+		List<SchoolData> slist = schoolrepository.findAll();
+		String mail = slist.get(sid-1).getMail();
+		String content = slist.get(sid-1).getLastName() + "様"+"\n チャットが投稿されました。\nログインして返信しましょう！";
+		JavaMailSample mailSend = new JavaMailSample();
+	    mailSend.send("clubHub チャットが投稿されました", content,mail);
 		
 		mav.setViewName("redirect:/chat/coach/" + cid + "/school/" + sid);
 		return mav;
@@ -837,7 +889,7 @@ public class clubController {
 		s1.setCategory("高校");
 		s1.setLastName("なら");
 		s1.setFirstName("しかまる");
-		s1.setMail("n@n");
+		s1.setMail("iichan.hiro@gmail.com");
 		s1.setPassword("0000");
 		s1.setAddress("奈良町");
 		s1.setTel("000-0000");
@@ -858,6 +910,7 @@ public class clubController {
 		schoolrepository.saveAndFlush(s2);
 
 		CoachData c1 = new CoachData();
+		c1.setAuthentication(true);
 		c1.setLastName("山田");
 		c1.setFirstName("太郎");
 		c1.setJob("公務員");
@@ -872,6 +925,7 @@ public class clubController {
 		coachrepository.saveAndFlush(c1);
 
 		CoachData c2 = new CoachData();
+		c2.setAuthentication(false);
 		c2.setLastName("鈴木");
 		c2.setFirstName("花子");
 		c2.setJob("会社員");

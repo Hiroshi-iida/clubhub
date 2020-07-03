@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ログイン|clubHub</title>
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/result.css}" rel="stylesheet" type="text/css">
+<style>
+.err {
+	color: red;
+}
+</style>
+<style th:include="header :: head_style"></style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header th:include="header :: frag_header"></header>
+
+		<div class="search">
+			<p th:if="${msg}" th:text="${msg}"></p>
+		</div>
+		<ul th:if="${cdata}" th:object="${cdata}">
+			<li th:text=*{id}></li>
+			<li th:text=*{mail}></li>
+			<li th:if=*{authentication}>true</li>
+			<li th:unless=*{authentication}>false</li>
+			<li th:text=*{lastName}></li>
+			<li th:text=*{password}></li>
+		</ul>
+		<a class="button" th:href="@{/}">ホームに戻る</a>
+
+	</div>
+</body>
+
+</html>

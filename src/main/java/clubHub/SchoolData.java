@@ -62,6 +62,15 @@ public class SchoolData {
 	@Column(length=100000)
 	private String image;
 	
+	@Column
+	private String uuid;
+	
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 	public int getId() {
 		return id;
 	}
