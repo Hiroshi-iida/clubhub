@@ -69,9 +69,10 @@
 							<div class="content1" placeholder="メールアドレス">
 								<li>メールアドレス</li> <input type="text" name="mail"
 									th:value="*{mail}">
-								<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
-									th:errorclass="err"></div>
 								<p class="err" th:if="${msg}" th:text="${msg}"></p>
+								<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
+									th:errorclass="err">
+									</div>
 							</div>
 					</div>
 					</label>
