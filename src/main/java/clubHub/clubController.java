@@ -652,9 +652,6 @@ public class clubController  {
 		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
 		List<PostData> plist = postrepository.findAll();
 		mav.addObject("pdatalist", plist.get(Id));
-		if(plist.get(Id).getImage() == null) {
-		mav.addObject("photo","");
-		}
 		required(mav);
 		return mav;
 	}

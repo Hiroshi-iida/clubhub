@@ -45,8 +45,8 @@
 						<h2 th:text="*{schoolName}">学校名</h2>
 						<h3 th:text="*{title}">「タイトル」</h3>
 <!-- 						<img th:src="@{/img/図5.svg}"> -->
-						<img th:unless="${pdatalist.image}" th:src="@{/img/noimage.jpg}">
-						<img th:if="${pdatalist.image}" th:src="|data:image/jpeg;base64,${pdata.image}|">
+						<img th:unless="*{image}" th:src="@{/img/noimage.jpg}">
+						<img th:if="*{image}" th:src="|data:image/jpeg;base64,*{image}|">
 						</div>
 				</div>
 			</section>
