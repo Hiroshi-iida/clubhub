@@ -65,6 +65,15 @@ public class SchoolData {
 	@Column
 	private String uuid;
 	
+	@Column
+	private boolean authentication;
+	
+	public boolean isAuthentication() {
+		return authentication;
+	}
+	public void setAuthentication(boolean authentication) {
+		this.authentication = authentication;
+	}
 	public String getUuid() {
 		return uuid;
 	}

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ログイン|clubHub</title>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
-<link th:href="@{/css/result.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/validate.css}" rel="stylesheet" type="text/css">
 <style>
 .err {
 	color: red;
@@ -21,14 +21,83 @@
 		<div class="search">
 			<p th:if="${msg}" th:text="${msg}"></p>
 		</div>
-		<ul th:if="${cdata}" th:object="${cdata}">
-			<li th:text=*{id}></li>
-			<li th:text=*{mail}></li>
-			<li th:if=*{authentication}>true</li>
-			<li th:unless=*{authentication}>false</li>
-			<li th:text=*{lastName}></li>
-			<li th:text=*{password}></li>
-		</ul>
+		
+		<table class="data" th:if="${cdata}" th:object="${cdata}">
+			<tr>
+				<th>名前</th>
+				<td th:text="*{lastName}+' '+*{firstName}"></td>
+			</tr>
+			<tr>
+				<th>職業</th>
+				<td th:text="*{job}"></td>
+				
+			</tr>
+			<tr>
+				<th>エリア</th>
+				<td th:text="*{area}"></td>
+				
+			</tr>
+			<tr>
+				<th>ご住所</th>
+				<td th:text="*{address}"></td>
+				
+			</tr>
+			<tr>
+				<th>メールアドレス</th>
+				<td th:text="*{mail}"></td>
+				
+			</tr>
+			<tr>
+				<th>ご連絡先</th>
+				<td th:text="*{tel}"></td>
+				
+			</tr>
+			<tr>
+				<th>経験や実績</th>
+				<td th:text="*{experience}"></td>
+				
+			</tr>
+			<tr>
+				<th>メッセージ</th>
+				<td th:text="*{message}"></td>
+				
+			</tr>
+		
+		</table>
+		
+		<table class="data" th:if="${sdata}" th:object="${sdata}">
+		
+			<tr>
+				<th>学校名</th>
+				<td th:text="*{schoolName}"></td>
+			</tr>
+			<tr>
+				<th>区分</th>
+				<td th:text="*{category}"></td>
+			</tr>
+			
+			<tr>
+				<th>担当者名</th>
+				<td th:text="*{lastName}+' '+*{firstName}"></td>
+			</tr>
+			<tr>
+				<th>エリア</th>
+				<td th:text="*{area}"></td>
+			</tr>
+			<tr>
+				<th>住所</th>
+				<td th:text="*{address}"></td>
+			</tr>
+			<tr>
+				<th>メールアドレス</th>
+				<td th:text="*{mail}"></td>
+			</tr>
+			<tr>
+				<th>電話番号</th>
+				<td th:text="*{tel}"></td>
+			</tr>
+		</table>
+		
 		<a class="button" th:href="@{/}">ホームに戻る</a>
 
 	</div>
