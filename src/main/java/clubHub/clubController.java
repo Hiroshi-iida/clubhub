@@ -591,20 +591,20 @@ public class clubController  {
 	            String pass = DigestUtils.sha1Hex(schooldata.getPassword());		// ハッシュ化
 	    		schooldata.setPassword(pass);	            // ハッシュ化したパスワードをDBに代入
 	    		
-	    		schoolrepository.saveAndFlush(schooldata);
 
 	    		// メール認証
 	    		schooldata.setUuid(vali);
 	    		schooldata.setAuthentication(false);	    					
 			
-			schoolrepository.saveAndFlush(schooldata);
 			if(file != null) {
 				String image = imageConversion(file,150);
 				schooldata.setImage(image);				
 			}
+			schoolrepository.saveAndFlush(schooldata);
 			
-			res.addObject("msg","メールをご確認ください");
-			res.setViewName("result");
+			mav.addObject("msg","メールをご確認ください");
+			mav.setViewName("result");
+			res = mav;
 		}else {		// メールアドレス重複
 			mav.setViewName("school");
 			mav.addObject("msg","メールアドレスがすでに使われています。");
