@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -23,6 +24,7 @@ public class SchoolData {
 	
 	@Column(nullable = false)
 	@NotEmpty(message="空白NG")
+	@Length(max = 30, message = "30文字以下で設定してください")
 	private String schoolName;
 	
 	@Column(nullable = false)
@@ -31,10 +33,12 @@ public class SchoolData {
 	
 	@Column(nullable = false)
 	@NotEmpty(message="空白NG")
+	@Length(max = 10, message = "10文字以下で設定してください")
 	private String lastName;
 	
 	@Column(nullable = false)
 	@NotEmpty(message="空白NG")
+	@Length(max = 10, message = "10文字以下で設定してください")
 	private String firstName;
 	
 	@Column(nullable = false)

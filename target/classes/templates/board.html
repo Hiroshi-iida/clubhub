@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>検索結果</title>
+<title>clubHub|検索結果</title>
+<link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/board.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
+<style th:include="footer :: foot_style"></style>
 </head>
 <body>
 	<div class="wrapper">
@@ -20,6 +22,7 @@
 			<p th:if="${area}" th:text="'≫        '+${area}"></p>
 			<p th:if="${category}" th:text="'≫        '+${category}"></p>
 			<p th:if="${type}" th:text="'≫        '+${type}"></p>
+			<p th:if="${all}" th:text="'≫        '+${all}"></p>
 
 		</div>
 		<div th:if="${msg}" class="nothing">
@@ -128,6 +131,7 @@
 		</div>
 	</div>
 		<a class="return" href="">トップに戻る</a>
+	<footer th:include="footer :: frag_footer"></footer>
 </body>
 </html>
 <script th:src="@{/js/post.js}"></script>

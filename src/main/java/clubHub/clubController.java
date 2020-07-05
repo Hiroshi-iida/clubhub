@@ -409,14 +409,38 @@ public class clubController  {
 		mav.addObject("msg","ログアウトされました");
 		return mav;
 	}
-
+	
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
+	public ModelAndView info(ModelAndView mav) {
+		mav.setViewName("info");
+		required(mav);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/info", method = RequestMethod.POST)
+	public ModelAndView info(
+			@RequestParam("name")String name,
+			@RequestParam("title")String title,
+			@RequestParam("content")String content,
+			@RequestParam("mail")String mail,
+			ModelAndView mav) {
+		String mails = "iichan.hiro@gmail.com";
+		String contents = name + "様から"+"\n お問い合わせが投稿されました。\n【件名】"+title+ "\n【内容】\n"+content+"\n【アドレス】\n"+mail;
+		JavaMailSample mailSend = new JavaMailSample();
+	    mailSend.send("clubHubお問い合わせを受信しました", contents,mails);
+		mav.setViewName("result");
+		mav.addObject("msg","お問い合わせが送信されました");
+		required(mav);
+		return mav;
+	}
+	
 	@RequestMapping(value = "/board", method = RequestMethod.GET)
 	public ModelAndView board(ModelAndView mav) {
 		mav.setViewName("board");
 		List<PostData> plist = postrepository.findAll();
 		mav.addObject("pdatalist", plist);
 		mav.addObject("size", plist.size());
-		
+		mav.addObject("all","すべてを表示");
 		required(mav);
 		return mav;
 	}
@@ -455,7 +479,8 @@ public class clubController  {
 			mav.addObject("type",type);	
 		}else{ 		// 入力なしの場合
 			plist = postrepository.findAll();			
-			mav.addObject("size",plist.size());				
+			mav.addObject("size",plist.size());		
+			mav.addObject("all","すべてを表示");
 		}
 		
 		if(plist.size() == 0) { // 入力はしたけど抽出されなかったとき
@@ -470,8 +495,8 @@ public class clubController  {
 	public ModelAndView coach(@ModelAttribute("formModel") CoachData coachdata, ModelAndView mav) {
 		mav.setViewName("coach");
 		mav.addObject("formModel", coachdata);
-		Iterable<CoachData> clist = coachrepository.findAll();
-		mav.addObject("cdatalist", clist);
+//		Iterable<CoachData> clist = coachrepository.findAll();
+//		mav.addObject("cdatalist", clist);
 		required(mav);
 		return mav;
 	}
@@ -534,11 +559,9 @@ public class clubController  {
 	public ModelAndView school(@ModelAttribute("formModel") SchoolData schooldata, ModelAndView mav) {
 		mav.setViewName("school");
 		mav.addObject("formModel", schooldata);
-		Iterable<SchoolData> slist = schoolrepository.findAll();
-		mav.addObject("sdatalist", slist);
-		mav.addObject("AccountName", session.getAttribute("sessionAccountName"));
-		mav.addObject("sdata", session.getAttribute("sessionSdata"));
-		mav.addObject("cdata", session.getAttribute("sessionCdata"));
+//		Iterable<SchoolData> slist = schoolrepository.findAll();
+//		mav.addObject("sdatalist", slist);
+		required(mav);
 		return mav;
 	}
 
@@ -879,6 +902,9 @@ public class clubController  {
 				}else {
 					coachdata.setImage(image);													
 				}	
+				
+			String pass = DigestUtils.sha1Hex(coachdata.getPassword());		// ハッシュ化
+    		coachdata.setPassword(pass);	            // ハッシュ化したパスワードをDBに代入
 			
 			coachrepository.saveAndFlush(coachdata);
 			mav.setViewName("result");
@@ -894,6 +920,7 @@ public class clubController  {
 		return mav;
 	}
 
+	
 	@RequestMapping("/mypage/school/{Id}")
 	public ModelAndView schoolMypage(@PathVariable int Id, ModelAndView mav) {
 		mav.setViewName("schoolMypage");
@@ -914,6 +941,7 @@ public class clubController  {
 		return mav;
 	}
 
+	
 	@RequestMapping("/mailbox/school/{Id}")
 	public ModelAndView schoolMailbox(@PathVariable int Id, ModelAndView mav) {
 		mav.setViewName("schoolMailbox");
@@ -949,6 +977,7 @@ public class clubController  {
 		return mav;
 	}
 
+	
 	@RequestMapping(value = "/edit/school/{Id}", method = RequestMethod.GET)
 	public ModelAndView schooledit(@ModelAttribute("formModel") SchoolData schooldata, @PathVariable int Id,
 			ModelAndView mav) {
@@ -974,6 +1003,7 @@ public class clubController  {
 		return mav;
 	}
 
+	
 	@RequestMapping(value = "/edit/school/{Id}", method = RequestMethod.POST)
 	@Transactional(readOnly = false)
 	public ModelAndView schooledit(@ModelAttribute("formModel") @Validated SchoolData schooldata, BindingResult result,
@@ -989,6 +1019,8 @@ public class clubController  {
 			}else {
 				schooldata.setImage(image);													
 			}	
+			String pass = DigestUtils.sha1Hex(schooldata.getPassword());		// ハッシュ化
+			schooldata.setPassword(pass);	            // ハッシュ化したパスワードをDBに代入
 			schoolrepository.saveAndFlush(schooldata);
 			mav.setViewName("result");
 			mav.addObject("msg", "修正が完了しました");

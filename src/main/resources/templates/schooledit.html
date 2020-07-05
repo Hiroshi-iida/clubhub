@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>clubHub|アカウント修正＜学校用＞</title>
+<link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/school.css}" rel="stylesheet" type="text/css">
+<style th:include="header :: head_style"></style>
+<style th:include="footer :: foot_style"></style>
 <style>
 .err {
 	color: red;
 }
 </style>
-<style th:include="header :: head_style"></style>
 </head>
 
 <body>
@@ -19,7 +21,8 @@
 		<header th:include="header :: frag_header"></header>
 		<main>
 			<h1 class="pageTitle">◆会員登録修正＜学校用＞</h1>
-			<form method="post" th:action="${path}" enctype="multipart/form-data" th:object="${formModel}">
+			<form method="post" th:action="${path}" enctype="multipart/form-data"
+				th:object="${formModel}">
 
 				<ul>
 					<div class="content">
@@ -49,8 +52,8 @@
 								<div th:if="${#fields.hasErrors('category')}"
 									th:errors="*{category}" th:errorclass="err"></div>
 							</div>
+						</label>
 					</div>
-					</label>
 					<div>
 						<label>
 							<div class="content1">
@@ -79,8 +82,8 @@
 								<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
 									th:errorclass="err"></div>
 							</div>
+						</label>
 					</div>
-					</label>
 
 					<div class="content">
 						<label>
@@ -90,8 +93,8 @@
 								<div th:if="${#fields.hasErrors('password')}"
 									th:errors="*{password}" th:errorclass="err"></div>
 							</div>
+						</label>
 					</div>
-					</label>
 
 					<div class="content">
 						<label>
@@ -150,8 +153,8 @@
 								<div th:if="${#fields.hasErrors('area')}" th:errors="*{area}"
 									th:errorclass="err"></div>
 							</div>
+						</label>
 					</div>
-					</label>
 
 					<div class="content">
 						<label>
@@ -161,8 +164,8 @@
 								<div th:if="${#fields.hasErrors('address')}"
 									th:errors="*{address}" th:errorclass="err"></div>
 							</div>
+						</label>
 					</div>
-					</label>
 
 					<div class="content">
 						<label>
@@ -171,24 +174,24 @@
 								<div th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}"
 									th:errorclass="err"></div>
 							</div>
+						</label>
 					</div>
-					</label>
 					<div class="content">
 						<div class="content1">
-							<li>写真</li>
-						<input type="file" name="uploadfile" id="photo">
-						<input type="hidden" name="image" th:value="${formModel.image}">
-						<img th:if="${base64data}" th:src="${base64data}" />
+							<li>写真</li> <input type="file" name="uploadfile" id="photo">
+							<input type="hidden" name="image" th:value="${formModel.image}">
+							<img th:if="${base64data}" th:src="${base64data}" />
 						</div>
 					</div>
 				</ul>
 				<div class="button1">
-				 <input	class="button" type="submit" value="内容確認に進む">
+					<input class="button" type="submit" value="修正する">
 				</div>
 			</form>
 
 		</main>
 	</div>
+		<footer th:include="footer :: frag_footer"></footer>
 </body>
 
 </html>

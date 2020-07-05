@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>clubHub|コーチ登録</title>
+<link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/coach.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
+<style th:include="footer :: foot_style"></style>
 <style>
 .err {
 	color: red;
@@ -71,8 +73,7 @@
 									th:value="*{mail}">
 								<p class="err" th:if="${msg}" th:text="${msg}"></p>
 								<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
-									th:errorclass="err">
-									</div>
+									th:errorclass="err"></div>
 							</div>
 					</div>
 					</label>
@@ -91,8 +92,7 @@
 					<div class="content">
 						<label>
 							<div class="content1">
-								<li>エリア</li>
-								<select name="area" th:value="*{area}">
+								<li>エリア</li> <select name="area" th:value="*{area}">
 									<option value="">選択してください</option>
 									<option value="北海道">北海道</option>
 									<option value="青森県">青森県</option>
@@ -173,8 +173,8 @@
 						<label>
 							<div class="content1">
 								<li>経験や実績</li>
-								<textarea name="experience" th:value="*{experience}" th:text="*{experience}"
-									id="experience" cols="50" rows="5"
+								<textarea name="experience" th:value="*{experience}"
+									th:text="*{experience}" id="experience" cols="50" rows="5"
 									placeholder="競技の経験歴や大会出場の実績などをご記入ください"></textarea>
 								<div th:if="${#fields.hasErrors('experience')}"
 									th:errors="*{experience}" th:errorclass="err"></div>
@@ -186,13 +186,14 @@
 						<label>
 							<div class="content1">
 								<li>メッセージ</li>
-								<textarea name="message" th:value="*{message}" th:text="*{message}" id="message"
-									cols="50" rows="5" placeholder="フリースペースです。プロフィールに記載されます。"></textarea>
+								<textarea name="message" th:value="*{message}"
+									th:text="*{message}" id="message" cols="50" rows="5"
+									placeholder="フリースペースです。プロフィールに記載されます。"></textarea>
 								<div th:if="${#fields.hasErrors('message')}"
 									th:errors="*{message}" th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<div class="content1">
@@ -201,55 +202,21 @@
 						</div>
 					</div>
 					<div class="consent">
-						<input name="consent" type="checkbox"><p><a th:href="@{/}">利用規約</a>と<a th:href="@{/}">プライバシーポリシー</a>に同意する</p>
+						<input name="consent" type="checkbox">
+						<p>
+							<a th:href="@{/file/利用規約.pdf}">利用規約</a>と
+				<a th:href="@{/file/プライバシーポリシー.pdf}">プライバシーポリシー</a>に同意する
+						</p>
 					</div>
-						<p th:if="${consent}" class="err" th:text="${consent}"></p>
+					<p th:if="${consent}" class="err" th:text="${consent}"></p>
 				</ul>
-				<div class="button1">
-					<input class="button" type="submit" value="登録する">
-				</div>
+
+				<input class="button" type="submit" value="登録する">
+
 			</form>
-
-
-			<table>
-				<tr>
-					<th>ID</th>
-					<th>担当者名[姓]</th>
-					<th>担当者名[名]</th>
-					<th>職業</th>
-					<th>メールアドレス</th>
-					<th>エリア</th>
-					<th>住所</th>
-					<th>電話番号</th>
-					<th>経験</th>
-					<th>メッセ</th>
-					<th>パスワード</th>
-				</tr>
-				<tr th:each="obj : ${cdatalist}">
-					<td th:text="${obj.id}"></td>
-					<td th:text="${obj.lastName}"></td>
-					<td th:text="${obj.firstName}"></td>
-					<td th:text="${obj.job}"></td>
-					<td th:text="${obj.mail}"></td>
-					<td th:text="${obj.area}"></td>
-					<td th:text="${obj.address}"></td>
-					<td th:text="${obj.tel}"></td>
-					<td th:text="${obj.experience}"></td>
-					<td th:text="${obj.message}"></td>
-					<td th:text="${obj.password}"></td>
-					<td th:text="${obj.image}"></td>
-				</tr>
-
-				<!-- 			<ul> -->
-				<!-- 				<li th:each="file : ${files}"> -->
-				<!-- 					<a th:href="${file}" th:text="${file}"></a> -->
-				<!-- 				</li> -->
-				<!-- 			</ul> -->
-
-
-			</table>
 		</main>
 
 	</div>
+		<footer th:include="footer :: frag_footer"></footer>
 </body>
 </html>

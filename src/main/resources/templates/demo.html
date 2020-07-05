@@ -7,6 +7,7 @@
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/post.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
+<style th:include="footer :: foot_style"></style>
 <style>
 .err {
 	color: red;
@@ -40,6 +41,6 @@
 
 		</main>
 	</div>
-
+	<footer th:include="footer :: frag_footer"></footer>
 </body>
 </html>

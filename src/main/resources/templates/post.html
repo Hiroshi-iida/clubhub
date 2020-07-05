@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>clubHub|部活動登録</title>
+<link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
-<link th:href="@{/css/post.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/CSS/post.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
+<style th:include="footer :: foot_style"></style>
 <style>
 .err {
 	color: red;
@@ -179,33 +181,9 @@
 
 			</form>
 
-			<table>
-				<tr>
-					<th>ID</th>
-					<th>担当者名[姓]</th>
-					<th>担当者名[名]</th>
-					<th>職業</th>
-					<th>メールアドレス</th>
-				</tr>
-				<tr th:each="obj : ${pdatalist}">
-					<td th:text="${obj.id}"></td>
-					<td th:text="${obj.title}"></td>
-					<td th:text="${obj.content}"></td>
-					<td th:text="${obj.categoryDetails}"></td>
-					<td th:text="${obj.reword}"></td>
-					<td th:text="${obj.rewordDetails}"></td>
-					<td th:text="${obj.want}"></td>
-					<td th:text="${obj.situation}"></td>
-					<td th:text="${obj.wantDate}"></td>
-					<td th:text="${obj.category}"></td>
-					<td th:text="${obj.type}"></td>
-					<td th:text="${obj.schoolName}"></td>
-				</tr>
-			</table>
-
 		</main>
 	</div>
-
+	<footer th:include="footer :: frag_footer"></footer>
 </body>
 
 </html>

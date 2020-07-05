@@ -34,27 +34,22 @@ main li {
 	color: #525050;
 }
 
-input, textarea {
+.content input{
 	width: 500px;
 	border-radius: 10px;
 	border: 1px solid #5a5a5a;
+	padding-left:10px;
 }
 select{
 	border-radius: 10px;
 }
-input[type=file] {
+.content1 input[type=file] {
     height: 2em;
     width: auto;
     margin-right: 30px;
     border: none;
+  	border-radius: 0;
 }
-
-.button1 {
-	width: 150px;
-	margin: 10px auto;
-	border-radius: 20px;
-}
-
 .button {
 	display: block;
 	background-color: #2c85b6;
@@ -67,4 +62,14 @@ input[type=file] {
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 	border-radius: 20px;
 	margin: 50px auto;
+}
+.consent{
+	text-align:center;
+	margin:30px auto;
+}
+.consent input{
+	width:20px;
+}
+.consent p{
+	display:inline;
 }

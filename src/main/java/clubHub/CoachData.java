@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table
@@ -21,11 +22,13 @@ public class CoachData {
 	private int id;
 
 	@Column(nullable = false)
+	@Length(max = 10, message = "10文字以下で設定してください")
 	@NotEmpty(message = "空白NG")
 	private String lastName;
 
 	@Column(nullable = false)
 	@NotEmpty(message = "空白NG")
+	@Length(max = 10, message = "10文字以下で設定してください")
 	private String firstName;
 
 	@Column(nullable = false)
@@ -38,8 +41,7 @@ public class CoachData {
 	private String mail;
 
 	@Column(nullable = false)
-	@Pass
-	@NotEmpty
+	@NotEmpty(message = "空白NG")
 	private String password;
 
 	@Column(nullable = false)
@@ -53,9 +55,11 @@ public class CoachData {
 	private String tel;
 
 	@Column(nullable = true)
+	@Length(max = 400, message = "400文字以下で設定してください")
 	private String experience;
 
 	@Column(nullable = true)
+	@Length(max = 400, message = "400文字以下で設定してください")
 	private String message;
 
 	@Column(length=100000)

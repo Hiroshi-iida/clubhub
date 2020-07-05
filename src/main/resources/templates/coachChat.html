@@ -4,10 +4,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>チャット|clubHub</title>
+<title>clubHub|チャット</title>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/chat.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
+<style th:include="footer :: foot_style"></style>
 </head>
 
 <body>
@@ -62,7 +63,7 @@
 			</form>
 		</div>
 	</div>
-
+	<footer th:include="footer :: frag_footer"></footer>
 </body>
 
 </html>

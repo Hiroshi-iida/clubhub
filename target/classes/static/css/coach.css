@@ -36,8 +36,14 @@ input, textarea {
 	width: 500px;
 	border-radius: 10px;
 	border: 1px solid #5a5a5a;
+}
+.content textarea{
 	padding:10px;
 }
+.content input{
+	padding-left:10px;
+}
+
 select{
 	border-radius: 10px;
 }
@@ -47,15 +53,10 @@ input[type=file] {
     width: auto;
     margin-right: 30px;
     border: none;
+    border-radius: 0; 
 }
-
-.button1 {
-	width: 150px;
-	margin: 10px auto;
-	border-radius: 20px;
-}
-
-.button {
+.button{
+	padding:0 ; 
 	display: block;
 	background-color: #2c85b6;
 	color: #fff;
@@ -78,8 +79,6 @@ input[type=file] {
 .consent p{
 	display:inline;
 }
-
-
 .photoup {
 	border: none;
 	padding: 3px;

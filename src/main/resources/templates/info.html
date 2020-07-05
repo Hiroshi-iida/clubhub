@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>clubHub|</title>
+<link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}" />
+<link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/result.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/coach.css}" rel="stylesheet" type="text/css">
+
+<style th:include="footer :: foot_style"></style>
+<style th:include="footer :: foot_style"></style>
+<style>
+.err {
+	color: red;
+}
+
+.search {
+	margin-bottom: 100px;
+}
+.content p{
+text-align: right;
+}
+</style>
+<style th:include="header :: head_style"></style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header th:include="header :: frag_header"></header>
+		<main>
+			<div class="search">
+				<p>お問い合わせ</p>
+			</div>
+
+			<form method="post" action="/info" th:object="${formModel}">
+
+				<div class="content">
+					<label>
+						<div class="content1">
+							<li class="list">お名前</li> <input type="text" name="name">
+						</div>
+					</label>
+				</div>
+				<div class="content">
+					<label>
+						<div class="content1">
+							<li class="list">問い合わせの件名</li> <input type="text" name="title">
+						</div>
+					</label>
+				</div>
+
+				<div class="content">
+					<label>
+						<div class="content1">
+							<li class="list">問い合わせの内容</li>
+							<textarea name="content" cols="50" rows="5"></textarea>
+
+						</div>
+					</label>
+				</div>
+
+				<div class="content">
+					<label>
+						<div class="content1">
+							<li class="list">メールアドレス</li> <input type="text" name="mail">
+						</div>
+					</label>
+					<p>※メールアドレスは正しく入力されていないと、返信を受け取れません。         </p>
+				</div>
+
+				<input class="button" type="submit" value="送信する">
+
+			</form>
+		</main>
+	</div>
+	<footer th:include="footer :: frag_footer"></footer>
+</body>
+
+</html>

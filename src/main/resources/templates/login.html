@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ログイン|clubHub</title>
+<title>clubHub|ログイン</title>
+<link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/login.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
+<style th:include="footer :: foot_style"></style>
 <style>
 .err {
 	color: red;
@@ -49,6 +51,7 @@
 			</div>
 		</form>
 	</div>
+		<footer th:include="footer :: frag_footer"></footer>
 </body>
 
 </html>

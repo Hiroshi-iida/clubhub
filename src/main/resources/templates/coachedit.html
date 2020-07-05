@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>clubHub|アカウント修正＜コーチ用＞</title>
+<link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/coach.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
+<style th:include="footer :: foot_style"></style>
 <style>
 .err {
 	color: red;
@@ -65,8 +67,8 @@
 								<div th:if="${#fields.hasErrors('job')}" th:errors="*{job}"
 									th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -76,8 +78,8 @@
 								<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
 									th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -87,8 +89,8 @@
 								<div th:if="${#fields.hasErrors('password')}"
 									th:errors="*{password}" th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -148,8 +150,8 @@
 								<div th:if="${#fields.hasErrors('area')}" th:errors="*{area}"
 									th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -159,8 +161,8 @@
 								<div th:if="${#fields.hasErrors('address')}"
 									th:errors="*{address}" th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -169,8 +171,8 @@
 								<div th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}"
 									th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -182,8 +184,8 @@
 								<div th:if="${#fields.hasErrors('experience')}"
 									th:errors="*{experience}" th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -211,5 +213,6 @@
 		</main>
 
 	</div>
+		<footer th:include="footer :: frag_footer"></footer>
 </body>
 </html>

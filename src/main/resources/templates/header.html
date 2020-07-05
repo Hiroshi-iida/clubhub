@@ -6,7 +6,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
 	rel="stylesheet">
-<title>ログイン|clubHub</title>
+
 
 <style th:fragment="head_style">
 body {
@@ -92,9 +92,7 @@ nav ul {
 			<ul>
 				<div class="nav">
 					<a th:href="@{/board}"><li>部活動を探す</li></a>
-					<li>使い方</li>
-					<li>コンタクト</li>
-					<li>利用者の声</li>
+					<a th:href="@{/info}"><li>コンタクト</li></a>
 				</div>
 				<a th:unless="${AccountName}" th:href="@{/login}"><li
 					class="login">ログイン</li></a>

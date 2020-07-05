@@ -4,15 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>clubHub|学校登録</title>
-
+<link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/school.css}" rel="stylesheet" type="text/css">
+<style th:include="header :: head_style"></style>
+<style th:include="footer :: foot_style"></style>
 <style>
 .err {
 	color: red;
 }
 </style>
-<style th:include="header :: head_style"></style>
 </head>
 
 <body>
@@ -21,15 +22,15 @@
 		<header th:include="header :: frag_header"></header>
 		<main>
 			<h1 class="pageTitle">◆会員登録＜学校用＞</h1>
-			<form method="post" enctype="multipart/form-data" action="/school" th:object="${formModel}">
+			<form method="post" enctype="multipart/form-data" action="/school"
+				th:object="${formModel}">
 
 				<ul>
 					<div class="content">
 						<label>
 							<div class="content1">
 								<li class="list">学校名</li> <input type="text" name="schoolName"
-									th:value="*{schoolName}" th:errorclass="err"
-									placeholder="〇〇県立△高校">
+									th:value="*{schoolName}" placeholder="〇〇県立△高校">
 								<div th:if="${#fields.hasErrors('schoolName')}"
 									th:errors="*{schoolName}" th:errorclass="err"></div>
 							</div>
@@ -50,9 +51,9 @@
 								<div th:if="${#fields.hasErrors('category')}"
 									th:errors="*{category}" th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
-					<div>
+					</div>
+					<div class="content">
 						<label>
 							<div class="content1">
 								<li class="list">担当者[姓]</li> <input type="text" name="lastName"
@@ -62,7 +63,7 @@
 							</div>
 						</label>
 					</div>
-					<div>
+					<div class="content">
 						<label>
 							<div class="content1">
 								<li class="list">担当者[名]</li> <input type="text" name="firstName"
@@ -77,12 +78,12 @@
 							<div class="content1" placeholder="メールアドレス">
 								<li>メールアドレス</li> <input type="text" name="mail"
 									th:value="*{mail}">
-									<p class="err" th:if="${msg}" th:text="${msg}"></p>
+								<p class="err" th:if="${msg}" th:text="${msg}"></p>
 								<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
 									th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -92,8 +93,8 @@
 								<div th:if="${#fields.hasErrors('password')}"
 									th:errors="*{password}" th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -151,8 +152,8 @@
 								<div th:if="${#fields.hasErrors('area')}" th:errors="*{area}"
 									th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -162,8 +163,8 @@
 								<div th:if="${#fields.hasErrors('address')}"
 									th:errors="*{address}" th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -172,49 +173,28 @@
 								<div th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}"
 									th:errorclass="err"></div>
 							</div>
-					</div>
 					</label>
-					<div class="content">
-						<div class="content1">
-							<li>写真</li> <input type="file" name="uploadfile" id="photo">
-							<!-- 						<input class="photoup" type="file" name="coachphoto" > -->
-						</div>
 					</div>
+
+					<div class="content1">
+						<li>写真</li> <input type="file" name="uploadfile" id="photo">
+					</div>
+					<div class="consent">
+						<input name="consent" type="checkbox">
+						<span>
+							<a th:href="@{/file/利用規約.pdf}">利用規約</a>と
+				<a th:href="@{/file/プライバシーポリシー.pdf}">プライバシーポリシー</a>に同意する
+						</span>
+					</div>
+					<p th:if="${consent}" class="err" th:text="${consent}"></p>
 				</ul>
-				<div class="button1">
-					<input class="button" type="submit" value="内容確認に進む">
-				</div>
+
+				<input class="button" type="submit" value="登録する">
+
 			</form>
-
-
-			<table>
-				<tr>
-					<th>ID</th>
-					<th>区分</th>
-					<th>学校名</th>
-					<th>担当者名[姓]</th>
-					<th>担当者名[名]</th>
-					<th>メールアドレス</th>
-					<th>エリア</th>
-					<th>住所</th>
-					<th>電話番号</th>
-					<th>パスワード</th>
-				</tr>
-				<tr th:each="obj : ${sdatalist}">
-					<td th:text="${obj.id}"></td>
-					<td th:text="${obj.category}"></td>
-					<td th:text="${obj.schoolName}"></td>
-					<td th:text="${obj.lastName}"></td>
-					<td th:text="${obj.firstName}"></td>
-					<td th:text="${obj.mail}"></td>
-					<td th:text="${obj.area}"></td>
-					<td th:text="${obj.address}"></td>
-					<td th:text="${obj.tel}"></td>
-					<td th:text="${obj.password}"></td>
-				</tr>
-			</table>
 		</main>
 	</div>
+		<footer th:include="footer :: frag_footer"></footer>
 </body>
 
 </html>

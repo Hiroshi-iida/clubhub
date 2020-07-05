@@ -5,13 +5,13 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0,minimum-scale=1.0">
 <title>clubHub|トップページ</title>
+<link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<style th:include="footer :: foot_style"></style>
 </head>
 <body>
 
@@ -24,9 +24,7 @@
 					<ul>
 						<div class="nav">
 							<a th:href="@{/board}"><li>部活動を探す</li></a>
-							<li>使い方</li>
-							<li>コンタクト</li>
-							<li>利用者の声</li>
+							<a th:href="@{/info}"><li>コンタクト</li></a>
 						</div>
 						<a th:unless="${AccountName}" th:href="@{/login}"><li
 							class="login">ログイン</li></a>
@@ -39,12 +37,16 @@
 								class="login"></li>
 							</a>
 						</div>
-						<div th:if="${sdata}" th:object="${sdata}">
-							<a th:href="@{/mypage/school/{id}(id=${sdata.id})}">
+
+<!-- 						<div class="schoolLogin" th:if="${sdata}" th:object="${sdata}"> -->
+							<a th:if="${sdata}" th:href="@{/mypage/school/{id}(id=${sdata.id})}">
 								<li th:if="${AccountName}" th:text="${AccountName}+' 様'"
 								class="login"></li>
 							</a>
-						</div>
+							<a th:if="${sdata}" th:href="@{/post}">
+								<li th:if="${AccountName}" class="entry">部活登録</li>
+							</a>
+<!-- 						</div> -->
 					</ul>
 				</nav>
 				<h1>部活動と外部コーチをつなぐ</h1>
@@ -105,17 +107,13 @@
 							<option value="宮崎県">宮崎県</option>
 							<option value="鹿児島県">鹿児島県</option>
 							<option value="沖縄県">沖縄県</option>
-						</select> 
-						
-								 <select name="category" onchange="createMenu(this.value)">
-									<option disabled selected>カテゴリー</option>
-									<option value="sports">運動部</option>
-									<option value="art">文化部</option>
-								</select>
-								 <select name="type" id="type" disabled>
-									<option disabled selected>部活動を選択</option>
-								</select>
-						<input class="search" type="submit" value="検索する">
+						</select> <select name="category" onchange="createMenu(this.value)">
+							<option disabled selected>カテゴリー</option>
+							<option value="運動部">運動部</option>
+							<option value="文化部">文化部</option>
+						</select> <select name="type" id="type" disabled>
+							<option disabled selected>部活動を選択</option>
+						</select> <input class="search" type="submit" value="検索する">
 					</form>
 				</div>
 			</header>
@@ -209,11 +207,11 @@
 			<ol>
 				<div class="method1">
 					<li>1</li>
-					<p class="method2">興味を持った部活動にメールで応募をする</p>
+					<p class="method2">興味を持った部活動にチャットを送る</p>
 				</div>
 				<div class="method1">
 					<li>2</li>
-					<p class="method2">メールでやりとりをして「面談日」を決める</p>
+					<p class="method2">チャットで「面談日」を決める</p>
 				</div>
 				<div class="method1">
 					<li>3</li>
@@ -221,13 +219,8 @@
 				</div>
 			</ol>
 		</section>
-		<footer>
-			<div class="footer">
-				<p>©clubHub</p>
-				<p>利用規約</p>
-				<p>プライバシーポリシー</p>
-			</div>
-		</footer>
+		</div>
+	<footer th:include="footer :: frag_footer"></footer>
 </body>
 </html>
 <script th:src="@{/js/post.js}"></script>

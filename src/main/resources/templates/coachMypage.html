@@ -5,9 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>clubHub|マイページ</title>
+<link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/coachmypage.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
+<style th:include="footer :: foot_style"></style>
 <style>
 .err {
 	color: red;
@@ -24,10 +26,7 @@
 			<p th:if="${error}" th:text="${error}"></p>
 			<div th:if="${cdatalist}" th:object="${cdatalist}">
 				<ul>
-					<div class="content1">
-						<li class="list">ID</li>
-						<p th:text="*{id}"></p>
-					</div>
+		
 					<div class="content1">
 						<li class="list">姓</li>
 						<p th:text="*{lastName}"></p>
@@ -44,10 +43,7 @@
 						<li class="list">メールアドレス</li>
 						<p th:text="*{mail}"></p>
 					</div>
-					<div class="content1">
-						<li class="list">パスワード</li>
-						<p th:text="*{password}"></p>
-					</div>
+		
 					<div class="content1">
 						<li class="list">エリア</li>
 						<p th:text="*{area}"></p>
@@ -88,5 +84,6 @@
 			</div>
 		</main>
 	</div>
+		<footer th:include="footer :: frag_footer"></footer>
 </body>
 </html>
