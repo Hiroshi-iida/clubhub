@@ -516,7 +516,7 @@ public class clubController  {
 			if(cdata.size()==0 && sdata.size()==0) {		// 登録アドレスがDBに存在しない場合
 				UUID uuid = UUID.randomUUID();		// uuid発行
 				String vali = uuid.toString();		// uuid Stringに
-	            String URL = "localhost:8080/validate/"+uuid;
+	            String URL = "https://clubhub-h.herokuapp.com//validate/"+uuid;
 	        	List<SchoolData> slist = schoolrepository.findAll();
 	        	// メール
 	    		JavaMailSample mailSend = new JavaMailSample();
@@ -580,7 +580,7 @@ public class clubController  {
 			if(cdata.size()==0 && sdata.size()==0) {		// 登録アドレスがDBに存在しない場合
 				UUID uuid = UUID.randomUUID();		// uuid発行
 				String vali = uuid.toString();		// uuid Stringに
-	            String URL = "localhost:8080/validate/"+uuid;
+	            String URL = "https://clubhub-h.herokuapp.com//validate/"+uuid;
 	        	// メール
 	    		JavaMailSample mailSend = new JavaMailSample();
 	    		mailSend.send("clubHub メール認証", "アクセスしてアカウント認証を完了してください"+"\n"+URL+"\n", schooldata.getMail());
