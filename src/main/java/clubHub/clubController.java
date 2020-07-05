@@ -525,15 +525,19 @@ public class clubController  {
 	    		coachdata.setUuid(vali);
 	    		coachdata.setAuthentication(false);
 	    		
-	    		String image = imageConversion(file,150);
-	    		coachdata.setImage(image);
+	    		if(file != null) {
+					String image = imageConversion(file,150);
+					coachdata.setImage(image);				
+				}
 	    		
 	            String pass = DigestUtils.sha1Hex(coachdata.getPassword());		// ハッシュ化
 	    		coachdata.setPassword(pass);	            // ハッシュ化したパスワードをDBに代入
 	    		
 	    		coachrepository.saveAndFlush(coachdata);
 	    		       
-	    		res = new ModelAndView("redirect:/coach");
+	    		mav.setViewName("result");
+	    		mav.addObject("msg","メールをご確認ください");
+	    		res = mav;
 			}else {
 				mav.setViewName("coach");
 				mav.addObject("msg","メールアドレスがすでに使われています。");
@@ -545,8 +549,6 @@ public class clubController  {
 		} else {
 			mav.setViewName("coach");
 			mav.addObject("consent","ご登録には同意が必須です。");
-			Iterable<CoachData> clist = coachrepository.findAll();
-			mav.addObject("cdatalist", clist);
 			res = mav;
 		}
 
@@ -569,10 +571,11 @@ public class clubController  {
 	@Transactional(readOnly = false)
 	public ModelAndView school(@ModelAttribute("formModel") @Validated SchoolData schooldata, BindingResult result,
 			@RequestParam("uploadfile") MultipartFile file,
+			@RequestParam(value = "consent", required=false) boolean consent,
 			ModelAndView mav) throws Exception{
 		ModelAndView res = null;
 		String mail = schooldata.getMail();
-		if (!result.hasErrors()) {
+		if (!result.hasErrors() && consent) {
 			
 			List<CoachData> cdata = coachrepository.findByMail(mail);
 			List<SchoolData> sdata = schoolrepository.findByMail(mail);
@@ -590,7 +593,6 @@ public class clubController  {
 	    		
 	            String pass = DigestUtils.sha1Hex(schooldata.getPassword());		// ハッシュ化
 	    		schooldata.setPassword(pass);	            // ハッシュ化したパスワードをDBに代入
-	    		
 
 	    		// メール認証
 	    		schooldata.setUuid(vali);
@@ -613,8 +615,7 @@ public class clubController  {
 			res = mav;
 		}} else {	// エラーを持ってるとき
 			mav.setViewName("school");
-			Iterable<SchoolData> slist = schoolrepository.findAll();
-			mav.addObject("sdatalist", slist);
+			mav.addObject("consent","ご登録には同意が必須です。");
 			res = mav;
 		}
 		required(res);
