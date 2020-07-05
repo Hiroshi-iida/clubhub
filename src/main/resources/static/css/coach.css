@@ -42,6 +42,13 @@ select{
 	border-radius: 10ps;
 }
 
+input[type=file] {
+    height: 2em;
+    width: auto;
+    margin-right: 30px;
+    border: none;
+}
+
 .button1 {
 	width: 150px;
 	margin: 10px auto;
