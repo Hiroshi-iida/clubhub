@@ -39,7 +39,9 @@ input, textarea {
 	border-radius: 10px;
 	border: 1px solid #5a5a5a;
 }
-
+select{
+	border-radius: 10px;
+}
 .button1 {
 	width: 150px;
 	margin: 10px auto;
