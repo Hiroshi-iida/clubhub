@@ -67,7 +67,7 @@ select{
 	text-align:center;
 	margin:30px auto;
 }
-.consent input{
+.consent input[type=checkbox]{
 	width:20px;
 }
 .consent p{
