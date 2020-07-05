@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>clubHub|コーチ登録</title>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
-<link th:href="@{/css/coach.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/CSS/coach.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
 <style>
 .err {
@@ -200,6 +200,10 @@
 							<!-- 						<input class="photoup" type="file" name="coachphoto" > -->
 						</div>
 					</div>
+					<div class="consent">
+						<input name="consent" type="checkbox"><p><a th:href="@{/}">利用規約</a>と<a th:href="@{/}">プライバシーポリシー</a>に同意する</p>
+					</div>
+						<p th:if="${consent}" class="err" th:text="${consent}"></p>
 				</ul>
 				<div class="button1">
 					<input class="button" type="submit" value="登録する">

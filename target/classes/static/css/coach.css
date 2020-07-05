@@ -58,10 +58,17 @@ input, textarea {
 	border-radius: 20px;
 	margin: 50px auto;
 }
-
-input[type=radio] {
-	width: 30px;
+.consent{
+	text-align:center;
+	margin:30px auto;
 }
+.consent input{
+	width:20px;
+}
+.consent p{
+	display:inline;
+}
+
 
 .photoup {
 	border: none;

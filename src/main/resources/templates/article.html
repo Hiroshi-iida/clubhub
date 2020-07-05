@@ -8,11 +8,11 @@
 <link th:href="@{/css/article.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
 <style>
-.guide{
-	color:red;
+.guide {
+	color: red;
 	margin: 50px;
-	text-align:center;
-	font-size:24px;
+	text-align: center;
+	font-size: 24px;
 }
 </style>
 </head>
@@ -44,10 +44,10 @@
 						</ul>
 						<h2 th:text="*{schoolName}">学校名</h2>
 						<h3 th:text="*{title}">「タイトル」</h3>
-<!-- 						<img th:src="@{/img/図5.svg}"> -->
-						<img th:unless="*{image}" th:src="@{/img/noimage.jpg}">
-						<img th:if="*{image}" th:src="|data:image/jpeg;base64,*{image}|">
-						</div>
+						<!-- 						<img th:src="@{/img/図5.svg}"> -->
+						<img th:src="${base64data}">
+<!-- 						<img th:unless="${pdatalist.image}" th:src="@{/img/noimage.jpg}"> -->
+					</div>
 				</div>
 			</section>
 			<section class="content">
@@ -75,12 +75,14 @@
 					<li>その他</li>
 					<p th:if="*{otherText}" th:text="*{otherText}"></p>
 				</ul>
-				<h2 class="guide" th:unless="${cdata}" th:text="コーチとしてログイン（登録）すればメッセージが送れます"></h2>
+				<h2 class="guide" th:unless="${cdata}"
+					th:text="コーチとしてログイン（登録）すればメッセージが送れます"></h2>
 			</section>
 
 		</div>
-		
-		<form method="post" th:action="|/chat/coach/${cdata.getId()}/school/${pdatalist.schoolId+1}|">
+
+		<form method="post"
+			th:action="|/chat/coach/${cdata.getId()}/school/${pdatalist.schoolId+1}|">
 			<textarea name="message" th:value="${message}" id="message" cols="30"
 				rows="10" placeholder="気になることがあればコメントで聞いてみましょう！"></textarea>
 			<p>相手のことを考え丁寧なコメントを心がけましょう。</p>
