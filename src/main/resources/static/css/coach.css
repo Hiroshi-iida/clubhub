@@ -83,3 +83,9 @@ input[type=file] {
 	border: none;
 	padding: 3px;
 }
+
+@media ( max-width : 768px) {
+
+	
+}
+

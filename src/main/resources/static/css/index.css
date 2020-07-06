@@ -349,18 +349,15 @@ i {
 	margin: auto 50px;
 	margin-right: 100px;
 }
-
-@media ( max-width : 768px) {
-	
-	nav li {
-	    font-size: 6px;
-	    margin: 3px;
-	    padding: 5px;
-	    width: 36px;
-	    height: 18px;
-	    text-align: center;
-	    vertical-align: text-top;
-	}
+nav li {
+    font-size: 2vw;
+    margin: 3px;
+    padding: 5px;
+    width: 12vw;
+    height: 6vw;
+    text-align: center;
+    vertical-align: text-top;
+}
 	.nav li{
 		border:1px solid #f2f2f2;
 	}
@@ -374,11 +371,11 @@ i {
 	.header h1 {
 		font-size: 5vw;
 		left:40px;
-		top:160px;
+		top:140px;
 	}
 	.header p {
 		left:40px;
-		top:240px;
+		top:220px;
 		font-size: 3vw;
 		padding-right: 20px;
 	}
@@ -438,14 +435,17 @@ i {
 	section{
 	margin:50px 0; 
 	}	
+
 }
 @media ( max-width : 480px) {
 		.header h1{
+			top:100px;
 			left:20px;
 			font-size:7vw;
 		}
 		.header p{
-			font-size:5vw;
+			top:140px;
+			font-size:4.5vw;
 		}
 		
 	

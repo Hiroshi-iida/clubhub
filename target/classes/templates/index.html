@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport"
@@ -12,6 +12,14 @@
 	href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
 	rel="stylesheet">
 <style th:include="footer :: foot_style"></style>
+<style>
+@media ( max-width : 480px) {
+	.content{
+		margin:0;
+	}
+	}
+
+</style>
 </head>
 <body>
 
