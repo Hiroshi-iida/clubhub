@@ -22,26 +22,41 @@ body {
 	margin-bottom: 150px;
 	font-weight: bold;
 }
-.receive{
-	display:flex;
-	margin-left:100px;
+
+.receive {
+	display: flex;
+	margin-left: 100px;
 }
-.receive1{
+
+.receive1 {
 	margin: auto 30px;
 }
-.receive1 p{
-	padding:5px;
+
+.receive1 p {
+	padding: 5px;
 }
-.receive2{
-	margin:30px;
-	padding:30px;
+
+.receive2 {
+	margin: 30px;
+	padding: 30px;
 	border-bottom: 1px dashed #5a5a5a;
 }
-.receive img{
-	width:100px;
-	heith:auto;
+
+.receive img {
+	width: 100px;
+	height: auto;
 }
-.border{
+
+.border {
 	border-bottom: 1px dashed #5a5a5a;
-	margin:30px;
+	margin: 30px;
+}
+
+@media ( max-width : 768px) {
+	.receive {
+		margin: 0;
+	}
+	.receive img {
+		width: 60px;
+	}
 }

@@ -62,7 +62,7 @@ input[type=text]{
   border-radius: 20px;
   margin:50px auto;
 }
-input[type=radio]{
+.radio input[type=radio]{
   width:30px;
 }
 input[type=file] {
@@ -84,4 +84,11 @@ input[type=file] {
 }
 .content2 p{
   font-size:14px;
+}
+
+@media ( max-width : 768px) {
+	.content2{
+	width:auto;
+	}	
+	
 }

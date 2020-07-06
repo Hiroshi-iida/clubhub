@@ -26,18 +26,64 @@
 	display: block;
 	font-size: 18px;
 	margin: auto 20px;
-	border-bottom:1px solid #f2f2f2;
+	border-bottom: 1px solid #f2f2f2;
 	color: #f2f2f2;
 }
-.footer img{
-	height:40px;
+
+.footer img {
+	height: 40px;
 }
-#twitter{
-	border:none;
+
+#twitter {
+	border: none;
 }
+
 .center {
 	margin: 0 auto;
 	display: flex;
+}
+
+@media ( max-width : 768px) {
+	.footer p, .footer a {
+		width: auto;
+		font-size: 12px;
+		margin: auto 5px;
+	}
+	.content1 {
+		display: block;
+	}
+	.content {
+		margin: 40px 20px;
+	}
+	input, textarea, .content input {
+		width: 70vw;
+		height: 8vw;
+		margin-left: 20px;
+	}
+	.content input[type=radio]{
+  width:30px;
+}
+	.search {
+		margin-bottom: 50px;
+	}
+	select {
+		height: 8vw;
+		margin-left: 20px;
+		margin-bottom:5px;
+		
+	}
+	.button {
+		height: auto;
+	}
+	.search p{
+		font-size:16px;
+	}
+	.receive {
+		margin: 0;
+	}
+	.receive img {
+		width: 60px;
+	}
 }
 </style>
 
@@ -49,12 +95,12 @@
 	<footer th:fragment="frag_footer">
 		<div class="footer">
 			<div class="center">
-				<a id="twitter" th:href="@{https://twitter.com/clubHub_h}" target=”_blank”>
-				<img th:src="@{/img/Twitter.png}">
+				<a id="twitter" th:href="@{https://twitter.com/clubHub_h}"
+					target=”_blank”> <img th:src="@{/img/Twitter.png}">
 				</a>
 				<p>©clubHub</p>
-				<a th:href="@{/file/利用規約.pdf}" target=”_blank”>利用規約</a>
-				<a th:href="@{/file/プライバシーポリシー.pdf}" target=”_blank”>プライバシーポリシー</a>
+				<a th:href="@{/file/利用規約.pdf}" target=”_blank”>利用規約</a> <a
+					th:href="@{/file/プライバシーポリシー.pdf}" target=”_blank”>プライバシーポリシー</a>
 			</div>
 		</div>
 	</footer>

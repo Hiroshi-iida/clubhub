@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import clubHub.repositories.ChatDataRepository;
 import clubHub.repositories.CoachDataRepository;
 import clubHub.repositories.PhotoDataRepository;
@@ -274,12 +274,26 @@ public class clubController  {
          return mav;
     }
 		
+    @RequestMapping(value = "getTestData", method = RequestMethod.GET)
+    @ResponseBody
+    public String[] getTestData() {
+     
+//        logger.info("call getTestData");
+        String[] datas = {"test1", "test2", "test3"};
+     
+        return datas;
+    }
 	@RequestMapping(value = "/demo", method = RequestMethod.GET)
-	public ModelAndView demo(ModelAndView mav) {
+	public ModelAndView Demo(ModelAndView mav) {
 		mav.setViewName("demo");
-		List<PhotoData> list = photorepository.findAll();
-		mav.addObject("photodata", list);
+//		List<PhotoData> list = photorepository.findAll();
+//		mav.addObject("photodata", list);
+//	    logger.info("call getTestData");
+		
+	
 		return mav;
+//	}
+//		return mav;
 	}
 	
 	@RequestMapping(value = "/demo", method = RequestMethod.POST)
@@ -920,7 +934,6 @@ public class clubController  {
 		mav.addObject("cdata", session.getAttribute("sessionCdata"));
 		return mav;
 	}
-
 	
 	@RequestMapping("/mypage/school/{Id}")
 	public ModelAndView schoolMypage(@PathVariable int Id, ModelAndView mav) {
@@ -941,7 +954,6 @@ public class clubController  {
 		}
 		return mav;
 	}
-
 	
 	@RequestMapping("/mailbox/school/{Id}")
 	public ModelAndView schoolMailbox(@PathVariable int Id, ModelAndView mav) {
@@ -977,7 +989,6 @@ public class clubController  {
 		}
 		return mav;
 	}
-
 	
 	@RequestMapping(value = "/edit/school/{Id}", method = RequestMethod.GET)
 	public ModelAndView schooledit(@ModelAttribute("formModel") SchoolData schooldata, @PathVariable int Id,

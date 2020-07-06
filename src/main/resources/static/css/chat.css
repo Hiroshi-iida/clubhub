@@ -135,3 +135,9 @@ body {
 	display: block;
 	text-align: right;
 }
+@media ( max-width : 768px) {
+	.user img{
+	width:40px;
+	}
+	
+	}

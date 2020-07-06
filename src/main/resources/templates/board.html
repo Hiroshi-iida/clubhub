@@ -6,7 +6,7 @@
 <title>clubHub|検索結果</title>
 <link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
-<link th:href="@{/css/board.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/CSS/board.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
 <style th:include="footer :: foot_style"></style>
 </head>
@@ -107,8 +107,6 @@
 			<div th:each="pdata:${pdatalist}">
 				<section class="post">
 					<div class="post1">
-						<img th:unless="${pdata.image}" th:src="@{/img/noimage.jpg}">
-						<img th:if="${pdata.image}" th:src="|data:image/jpeg;base64,${pdata.image}|">
 						<div class="post2">
 							<ul>
 								<li class="area" th:text="${pdata.area}">エリ ア</li>
@@ -118,6 +116,8 @@
 							<h2 th:text="${pdata.schoolName}">学校名</h2>
 							<h3 th:text="${pdata.title}">タイトル</h3>
 						</div>
+						<img th:unless="${pdata.image}" th:src="@{/img/noimage.jpg}">
+						<img th:if="${pdata.image}" th:src="|data:image/jpeg;base64,${pdata.image}|">
 					</div>
 					<div class="post3">
 						<h3>メッセージ</h3>

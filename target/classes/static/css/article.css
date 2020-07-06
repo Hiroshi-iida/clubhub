@@ -132,3 +132,33 @@ form p{
 	display: block;
 	text-align: right;
 }
+
+@media ( max-width : 768px) {
+	
+	.search img{
+		width:20px;
+		margin:0;
+	}
+	.search p{
+		font-size:0.6vw;
+   		margin: auto 3px;
+	}
+	.post li{
+		width:auto;
+		padding:0 5px;
+		font-size:0.6vw;
+		min-width:0;
+		line-height:normal;
+	}
+	.post2 h2{
+		font-size: 5vw;
+	}
+	.post2 h3{
+		font-size: 4vw;
+	}
+	.guide{
+		font-size:18px;
+		margin:20px;
+	}
+	
+}

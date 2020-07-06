@@ -5,7 +5,6 @@ const clubType =
         
       };
 
-
 function createMenu(selectType){
   
   let type = document.getElementById('type');

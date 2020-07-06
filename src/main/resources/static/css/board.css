@@ -157,3 +157,48 @@ display: inline-block;
   display:block;
   margin:50px auto; 
 }
+
+@media ( max-width : 768px) {
+	
+	.search img{
+		width:20px;
+		margin:0;
+	}
+	.search p{
+		font-size:0.6vw;
+   		margin: auto 3px;
+	}
+	.select select{
+		display:block;
+		width:50vw;
+		margin:30px auto;
+	}
+	.post, .result{
+	width:90vw;
+	padding:0;
+	}
+	.post1{
+		display:block;
+	}
+	.result h2, .post h3{
+		text-align:center;
+	}
+	.post2 h2, .post2 h3{
+		margin:15px 0;
+	}
+	.post1 img{
+		width:60vw;
+		height:auto;
+		margin:10px 10vw;
+	}
+	.post1 ul{
+	margin:0;
+	}
+	.post1 li{
+		margin: 10px auto;
+		min-width:auto;
+		line-height:normal;
+		
+	}
+}
+	

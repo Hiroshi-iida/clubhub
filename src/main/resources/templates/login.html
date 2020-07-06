@@ -21,7 +21,7 @@
 		<header th:include="header :: frag_header"></header>
 
 		<div class="search">
-			<p 　th:unless="${AccountName}">ログイン</p>
+			<p th:unless="${AccountName}">ログイン</p>
 			<p th:if="${AccountName}" th:text="${AccountName}+'でログインされています'"></p>
 			<p th:if="${msg}" th:text="${msg}"></p>
 		</div>
@@ -33,8 +33,8 @@
 						<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"
 							th:errorclass="err"></div>
 					</div>
-			</div>
 			</label>
+			</div>
 
 			<div class="content">
 				<label>
@@ -44,11 +44,11 @@
 						<div th:if="${#fields.hasErrors('password')}"
 							th:errors="*{password}" th:errorclass="err"></div>
 					</div>
-			</div>
 			</label>
-			<div class="button1">
-				<input class="button" type="submit" value="ログイン">
 			</div>
+			
+				<input class="button" type="submit" value="ログイン">
+		
 		</form>
 	</div>
 		<footer th:include="footer :: frag_footer"></footer>

@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>clubHub|部活動登録</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/post.css}" rel="stylesheet" type="text/css">
 <style th:include="header :: head_style"></style>
@@ -19,6 +23,10 @@
 	text-align: center;
 	margin: 20px;
 }
+
+.wrapper {
+	height: 800px;
+}
 </style>
 </head>
 
@@ -26,21 +34,21 @@
 	<div class="wrapper">
 		<header th:include="header :: frag_header"></header>
 		<main class="main">
-			<form method="post" action="/demo" enctype="multipart/form-data">
-				<input type="file" name="uploadfile" id="photo"> <input
-					class="button" type="submit" value="内容確認に進む">
-			</form>
-			<p th:if="${image}" th:text="${image}"></p>
-			
-			<div th:if="${photodata}" th:each="img : ${photodata}">
-				<p th:text="${img.id}"></p>
-				<p th:text="${img.image}"></p>
-			</div>
 
-			<img th:if="${base64data}" th:src="${base64data}" />
+			<p>The time on the server is ${serverTime}.</p>
+			<img th:src="@{/img/twitter.png}">
+
+			<div id="ajax_data">
+				<a th:src="@{/getTestData}">
+				<input type="button" id="ajax_btn" value="Ajax通信テスト" /><br />
+				outputData：<span id="output_data"></span>
+				</a>
+				
+			</div>
 
 		</main>
 	</div>
 	<footer th:include="footer :: frag_footer"></footer>
 </body>
 </html>
+<script th:src="@{/js/home.jsp}"></script>

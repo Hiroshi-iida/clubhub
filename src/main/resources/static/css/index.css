@@ -351,11 +351,35 @@ i {
 }
 
 @media ( max-width : 768px) {
+	
+	nav li {
+	    font-size: 6px;
+	    margin: 3px;
+	    padding: 5px;
+	    width: 36px;
+	    height: 18px;
+	    text-align: center;
+	    vertical-align: text-top;
+	}
+	.nav li{
+		border:1px solid #f2f2f2;
+	}
+	.entry, .login{
+		font-size:6px;
+		margin:3px;
+		width:40px;
+		padding:8px 5px 2px;
+	}
+	
 	.header h1 {
-		font-size: 24px;
+		font-size: 5vw;
+		left:40px;
+		top:160px;
 	}
 	.header p {
-		font-size: 16px;
+		left:40px;
+		top:240px;
+		font-size: 3vw;
 		padding-right: 20px;
 	}
 	.select input, .select select {
@@ -364,4 +388,65 @@ i {
 		margin: 10px auto;
 		padding: 0;
 	}
+	.logo{
+		width:20vw;
+		height:8.5vw;
+		margin:8px
+	}
+	.new1{
+		display:block
+	}
+	.school{
+		width:80vw;
+		padding:10vw 3vw;
+		margin:50px 30px;
+		height:auto;
+	}
+	.about1{
+		width:80vw;	
+	}
+	.about li {
+		padding-left:10vw;
+	}
+	
+	.about p{
+		font-size:16px;
+		margin: 0 20px;
+	}
+	.contents{
+		display:block;
+	}
+	.method1{
+		margin-bottom:30px;
+	}
+	.subtitle{
+		font-size:8vw;
+		padding:0 0 30px;
+	}
+	.method li{
+		width: 30px;
+	    height: 30px;
+		line-height:30px;
+		font-size:14px;
+		margin: 0 10px;
+	}
+	.method1 p{
+		font-size:4.5vw;
+		margin:0;
+		padding:0;
+	}
+	section{
+	margin:50px 0; 
+	}	
+}
+@media ( max-width : 480px) {
+		.header h1{
+			left:20px;
+			font-size:7vw;
+		}
+		.header p{
+			font-size:5vw;
+		}
+		
+	
 }

@@ -16,7 +16,7 @@
 
 .error {
 	color: red;
-	font-size: 2vw;
+	font-size: 3vw;
 	text-align: center;
 	margin: 20px;
 }
@@ -36,12 +36,14 @@
 					<div class="content">
 						<label>
 							<div class="content1">
-								<li>カテゴリー</li> <select name="category" id="category"
+								<li>カテゴリー</li>
+								<select name="category" id="category"
 									onchange="createMenu(this.value)">
 									<option disabled selected>カテゴリー</option>
 									<option value="運動部">運動部</option>
 									<option value="文化部">文化部</option>
-								</select> <select name="type" id="type" disabled>
+								</select>
+								<select name="type" id="type" disabled>
 									<option disabled selected>部活動を選択</option>
 								</select>
 								<div class="other">
@@ -63,8 +65,8 @@
 									<p>Ex:バレーボール経験のある教師がいなくて困ってます！</p>
 								</div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -79,8 +81,8 @@
 										月に数回だけでも来てもらえると生徒も喜びます。</p>
 								</div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -89,9 +91,9 @@
 								<li>報酬の有無</li>
 								<div class="content3">
 									<div class="content2">
-										<label> <input type="radio" name="reword"
+										<label> <input class="radio" type="radio" name="reword"
 											th:value="true" id="yes"> 有
-										</label> <label> <input type="radio" name="reword"
+										</label> <label> <input class="radio" type="radio" name="reword"
 											th:value="false" id="no" checked> 無
 										</label>
 									</div>
@@ -101,8 +103,8 @@
 									</label>
 								</div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -116,8 +118,8 @@
 									</p>
 								</div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -132,8 +134,8 @@
 									</p>
 								</div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -148,8 +150,8 @@
 									</p>
 								</div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<label>
@@ -161,8 +163,8 @@
 									<p>その他、メッセージや希望などあればご記入ください。</p>
 								</div>
 							</div>
-					</div>
 					</label>
+					</div>
 
 					<div class="content">
 						<div class="content1">
