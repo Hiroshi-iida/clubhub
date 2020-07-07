@@ -349,15 +349,17 @@ i {
 	margin: auto 50px;
 	margin-right: 100px;
 }
-nav li {
-    font-size: 2vw;
-    margin: 3px;
-    padding: 5px;
-    width: 12vw;
-    height: 6vw;
-    text-align: center;
-    vertical-align: text-top;
-}
+
+@media ( max-width : 768px) {
+	nav li {
+	    font-size: 2vw;
+	    margin: 3px;
+	    padding: 5px;
+	    width: 12vw;
+	    height: 6vw;
+	    text-align: center;
+	    vertical-align: text-top;
+	}
 	.nav li{
 		border:1px solid #f2f2f2;
 	}
