@@ -450,6 +450,8 @@ i {
 			top:150px;
 			font-size:4.5vw;
 		}
-		
+		.topimage{
+			object-position: center;
+		}
 	
 }
