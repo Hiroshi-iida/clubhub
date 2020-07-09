@@ -181,14 +181,14 @@ nav li {
 
 .school img {
 	width: 92%;
-	/* height:fit-content; */
+	height:250px;
+	object-fit: cover;
 	margin: 30px 4% 0;
 	margin-bottom: 20px;
 }
 
 .school h3 {
 	text-align: center;
-	margin-bottom: 20px;
 	font-size: 24px;
 }
 
@@ -445,7 +445,10 @@ i {
 			left:20px;
 			font-size:6.5vw;
 		}
-		
+		.school h3 {
+		    text-align: center;
+		    font-size: 5vw;
+		}
 		.header p{
 			top:150px;
 			font-size:4.5vw;
@@ -453,5 +456,7 @@ i {
 		.topimage{
 			object-position: center;
 		}
-	
+		.school img {
+		height:170px;
+		}
 }

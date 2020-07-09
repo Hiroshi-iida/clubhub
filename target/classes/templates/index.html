@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0,minimum-scale=1.0">
-<title>clubHub|トップページ</title>
+<title>clubHub | 部活動指導者募集サイト</title>
 <link rel="icon" type="image/png" th:href="@{/img/favicon.jpg}"/>
 <link th:href="@{/css/reset.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css">
@@ -131,26 +131,35 @@
 		<section class="new">
 			<h2 class="subtitle">新着情報</h2>
 			<div class="new1">
-				<div class="school">
+			
+				<div class="school" th:object="${pdata1}">
 					<div class="content">
-						<h3>奈良県立鹿高校</h3>
-						<img src="img/team.jpg" alt="">
-						<p>「全国大会出場目指しています！経験者のコーチを募集して指しています！経験者のコーチを募集しています。」「全国大会出場目指しています！経験者のコーチを募集して指しています！経験者のコーチを募集しています。」</p>
+						<h3 th:text="*{schoolName}">奈良県立鹿高校</h3>
+						<img th:unless="*{image}" th:src="@{/img/noimage.jpg}">
+						<img th:if="*{image}" th:src="|data:image/jpeg;base64,*{image}|">
+						<h3 th:text="*{title}">タイトル</h3>
+						<p th:text="*{content}">投稿内容</p>
 						<div class="button1">
-							<a class="button" href="">詳しく見る</a>
+							<a class="button" th:href="@{/article/{id}(id=*{id-1})}">詳しく見る</a>
 						</div>
 					</div>
 				</div>
-				<div class="school">
+			
+				<div class="school" th:object="${pdata2}">
 					<div class="content">
-						<h3>奈良県立鹿高校</h3>
-						<img src="img/team.jpg" alt="">
-						<p>「全国大会出場目指しています！経験者のコーチを募集して指しています！経験者のコーチを募集しています。」「全国大会出場目指しています！経験者のコーチを募集して指しています！経験者のコーチを募集しています。」</p>
+						<h3 th:text="*{schoolName}">奈良県立鹿高校</h3>
+						<img th:unless="*{image}" th:src="@{/img/noimage.jpg}">
+						<img th:if="*{image}" th:src="|data:image/jpeg;base64,*{image}|">
+						<h3 th:text="*{title}"></h3>
+						<p th:text="*{content}"></p>
+						
 						<div class="button1">
-							<a class="button" href="">詳しく見る</a>
+							<a class="button" th:href="@{/article/{id}(id=*{id-1})}">詳しく見る</a>
 						</div>
 					</div>
 				</div>
+				
+	
 			</div>
 
 		</section>

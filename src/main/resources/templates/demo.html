@@ -34,21 +34,14 @@
 	<div class="wrapper">
 		<header th:include="header :: frag_header"></header>
 		<main class="main">
-
-			<p>The time on the server is ${serverTime}.</p>
-			<img th:src="@{/img/twitter.png}">
-
-			<div id="ajax_data">
-				<a th:src="@{/getTestData}">
-				<input type="button" id="ajax_btn" value="Ajax通信テスト" /><br />
-				outputData：<span id="output_data"></span>
-				</a>
-				
-			</div>
+		<form method="post" action="/demo" enctype="multipart/form-data">
+			<input type="file" name="file">
+			<input type="submit" value="変換">
+		</form>
+		<p th:if="${image}" th:text="${image}"></p>
 
 		</main>
 	</div>
 	<footer th:include="footer :: frag_footer"></footer>
 </body>
 </html>
-<script th:src="@{/js/home.jsp}"></script>
